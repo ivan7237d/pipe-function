@@ -1,11 +1,11 @@
 {
-  "name": "utils",
+  "name": "@obvibase/utils",
   "version": "1.0.0",
   "description": "Utils for writing TS code in functional style with named parameters",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
-  "repository": "https://github.com/ivan7237d/utils",
+  "repository": "https://github.com/obvibase/utils.git",
   "license": "MIT",
   "keywords": [],
   "scripts": {
