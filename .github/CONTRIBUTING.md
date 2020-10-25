@@ -2,7 +2,7 @@
 
 ## Commits
 
-This project uses [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) format. Run `yarn run commit` to call Commitizen which simplifies creating such commits.
+This project uses [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) format. Run `yarn commit` to call Commitizen which simplifies creating such commits.
 
 ## JS/TS Style Guide
 
