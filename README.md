@@ -11,3 +11,7 @@ lodash-like utilities.
 - Fully tree-shakeable.
 
 - Includes TypeScript type definitions.
+
+---
+
+[Contributing guidelines](https://github.com/obvibase/utils/blob/master/.github/CONTRIBUTING.md)
