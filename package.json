@@ -6,6 +6,7 @@
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
   "repository": "https://github.com/obvibase/utils.git",
+  "homepage": "https://obvibase.github.io/utils/",
   "license": "MIT",
   "keywords": [],
   "scripts": {
