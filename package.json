@@ -86,11 +86,5 @@
   "prettier": {
     "trailingComma": "all",
     "singleQuote": true
-  },
-  "nyc": {
-    "extends": "@istanbuljs/nyc-config-typescript",
-    "exclude": [
-      "**/*.spec.js"
-    ]
   }
 }
