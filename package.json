@@ -88,6 +88,7 @@
     }
   },
   "prettier": {
+    "trailingComma": "all",
     "singleQuote": true
   },
   "nyc": {
