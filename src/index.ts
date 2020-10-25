@@ -1,1 +1,1 @@
-export * from './lib/number';
+export { applyPipe } from './lib/applyPipe';
