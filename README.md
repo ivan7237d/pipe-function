@@ -8,7 +8,7 @@ lodash-like utilities.
 
 - Fully tree-shakeable.
 
-- Includes TypeScript type definitions.
+- Includes TypeScript type definitions and designed with an eye to efficient type inference.
 
 ---
 
