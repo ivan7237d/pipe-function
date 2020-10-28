@@ -29,6 +29,7 @@
       "error",
       { "ignoreDeclarationSort": true, "ignoreCase": true }
     ],
-    "eqeqeq": "error"
+    "eqeqeq": "error",
+    "curly": "error"
   }
 }
