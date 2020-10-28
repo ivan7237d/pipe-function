@@ -4,7 +4,7 @@ lodash-like utilities.
 
 - Intended for functional-style code, specifically for use with the included pipeline operator polyfill (the `applyPipe` function).
 
-- Function names do not clash with RxJS operators such as `map`.
+- Includes functions for working with native `Iterable`s that match equivalent functions for working with observables in RxJS, but are named `mapIterable`, `reduceIterable` etc. to avoid clashes.
 
 - Fully tree-shakeable.
 
