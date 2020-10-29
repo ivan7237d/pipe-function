@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://github.com/obvibase/utils/compare/v1.3.0...v1.3.1) (2020-10-29)
+
+
+### Bug Fixes
+
+* **array:** add exports to index.ts ([1318428](https://github.com/obvibase/utils/commit/13184282c3144839c6455d437242d9b049b02893))
+
 ## [1.3.0](https://github.com/obvibase/utils/compare/v1.2.1...v1.3.0) (2020-10-29)
 
 
