@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/obvibase/utils/compare/v1.3.1...v1.4.0) (2020-10-30)
+
+
+### Features
+
+* functions for working with objects ([46e821b](https://github.com/obvibase/utils/commit/46e821b58107798568970533c86e673b55f34aa9))
+* identity function ([ee0b1f0](https://github.com/obvibase/utils/commit/ee0b1f0f7da34e61f1f86fd0f18649defb22eb6c))
+
 ### [1.3.1](https://github.com/obvibase/utils/compare/v1.3.0...v1.3.1) (2020-10-29)
 
 
