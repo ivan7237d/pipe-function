@@ -3,7 +3,7 @@
  * values, in order, of each of the input iterables. If no arguments are
  * provided, returns an empty iterable.
  */
-export const zipIterable = function* <T extends unknown[]>(
+export const zipIterables = function* <T extends unknown[]>(
   ...iterables: { [Key in keyof T]: Iterable<T[Key]> }
 ): Iterable<T> {
   if (iterables.length === 0) {

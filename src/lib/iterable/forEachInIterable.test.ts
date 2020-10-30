@@ -1,11 +1,11 @@
 import { applyPipe } from '../applyPipe';
-import { forEachIterable } from './forEachIterable';
+import { forEachInIterable } from './forEachInIterable';
 
 it('works', () => {
   const array: number[] = [];
   applyPipe(
     [0, 1],
-    forEachIterable((value) => {
+    forEachInIterable((value) => {
       array.push(value);
     }),
   );

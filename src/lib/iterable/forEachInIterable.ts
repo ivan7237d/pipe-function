@@ -1,4 +1,4 @@
-export const forEachIterable = <T>(sideEffect: (value: T) => void) => (
+export const forEachInIterable = <T>(sideEffect: (value: T) => void) => (
   source: Iterable<T>,
 ): void => {
   for (const value of source) {

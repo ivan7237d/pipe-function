@@ -1,9 +1,9 @@
 import { applyPipe } from '../applyPipe';
 import { rangeIterable } from './rangeIterable';
-import { zipIterable } from './zipIterable';
+import { zipIterables } from './zipIterables';
 
 it('works', () => {
-  expect(applyPipe(zipIterable([1, 2], ['a', 'b']), (source) => [...source]))
+  expect(applyPipe(zipIterables([1, 2], ['a', 'b']), (source) => [...source]))
     .toMatchInlineSnapshot(`
     Array [
       Array [
@@ -17,7 +17,7 @@ it('works', () => {
     ]
   `);
 
-  expect(applyPipe(zipIterable([1, 2]), (source) => [...source]))
+  expect(applyPipe(zipIterables([1, 2]), (source) => [...source]))
     .toMatchInlineSnapshot(`
     Array [
       Array [
@@ -30,7 +30,7 @@ it('works', () => {
   `);
 
   expect(
-    applyPipe(zipIterable(rangeIterable(), ['a', 'b']), (source) => [
+    applyPipe(zipIterables(rangeIterable(), ['a', 'b']), (source) => [
       ...source,
     ]),
   ).toMatchInlineSnapshot(`
@@ -47,6 +47,6 @@ it('works', () => {
   `);
 
   expect(
-    applyPipe(zipIterable(), (source) => [...source]),
+    applyPipe(zipIterables(), (source) => [...source]),
   ).toMatchInlineSnapshot(`Array []`);
 });
