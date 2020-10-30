@@ -11,7 +11,10 @@ export const diffObjects = function* <T>(
   equalFunction: EqualFunction<T> = (from, to) => from === to,
 ): Iterable<[
   key: string,
-  values: [from: T, to: T] | [from: T, to: undefined] | [from: undefined, to: T],
+  values:
+    | [from: T, to: T]
+    | [from: T, to: undefined]
+    | [from: undefined, to: T],
 ]> {
   for (const key in to) {
     if (!(key in from) || !equalFunction(from[key], to[key])) {
