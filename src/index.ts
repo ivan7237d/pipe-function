@@ -1,9 +1,7 @@
 export { sortArray } from './lib/array/sortArray';
 export { iterableToArray } from './lib/array/iterableToArray';
 export { reverseArray } from './lib/array/reverseArray';
-export { reverseArrayIterable } from './lib/array/reverseArrayIterable';
 export { sliceArray } from './lib/array/sliceArray';
-export { sliceArrayIterable } from './lib/array/sliceArrayIterable';
 export { booleanCompare } from './lib/compare/booleanCompare';
 export { lexicographicCompare } from './lib/compare/lexicographicCompare';
 export { numberCompare } from './lib/compare/numberCompare';
