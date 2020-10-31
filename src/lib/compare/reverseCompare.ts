@@ -1,4 +1,4 @@
-import { CompareFunction } from '../types';
+import { CompareFunction } from '../types/types';
 
 /**
  * Reverses a compare function.

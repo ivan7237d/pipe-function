@@ -1,4 +1,4 @@
-import { Reducer } from '../types';
+import { Reducer } from '../types/types';
 
 export const reduceIterable = <Accumulator, Value>(
   reducer: Reducer<Accumulator, Value>,

@@ -1,4 +1,4 @@
-import { EqualFunction } from '../types';
+import { EqualFunction } from '../types/types';
 
 /**
  * For each key that the two objects do not have equal values for, yields that

@@ -1,4 +1,4 @@
-import { CompareFunction } from '../types';
+import { CompareFunction } from '../types/types';
 
 /**
  * Compares strings using `String`'s `localeCompare` method.

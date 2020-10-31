@@ -1,4 +1,4 @@
-import { CompareFunction } from '../types';
+import { CompareFunction } from '../types/types';
 
 /**
  * Compares using multiple compare functions, so that any function that comes

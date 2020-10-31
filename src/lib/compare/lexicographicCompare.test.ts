@@ -1,7 +1,7 @@
 import { applyPipe } from '../applyPipe';
 import { sortArray } from '../array/sortArray';
 import { mapTuple } from '../tuple/mapTuple';
-import { CompareFunction } from '../types';
+import { CompareFunction } from '../types/types';
 import { lexicographicCompare } from './lexicographicCompare';
 import { stringCompare } from './stringCompare';
 

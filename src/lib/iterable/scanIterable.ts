@@ -1,4 +1,4 @@
-import { Reducer } from '../types';
+import { Reducer } from '../types/types';
 
 /**
  * Performs the same computation as `reduce`, but emits the value of the

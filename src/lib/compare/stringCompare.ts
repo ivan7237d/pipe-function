@@ -1,4 +1,4 @@
-import { CompareFunction } from '../types';
+import { CompareFunction } from '../types/types';
 
 /**
  * Compares string using inequality operator. See also `stringLocaleCompare`.

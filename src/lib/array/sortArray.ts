@@ -1,4 +1,4 @@
-import { CompareFunction } from '../types';
+import { CompareFunction } from '../types/types';
 
 export const sortArray = <T>(compareFunction: CompareFunction<T>) => (
   arr: T[],
