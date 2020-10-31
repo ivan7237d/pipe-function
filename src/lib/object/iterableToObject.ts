@@ -1,15 +1,12 @@
 /**
- * Converts an iterable of key-value pairs to an object, throwing away undefined
- * values.
+ * Converts an iterable of key-value pairs to an object.
  */
 export const iterableToObject = <Value>(
-  source: Iterable<[key: string, value: Value | undefined]>,
+  source: Iterable<[key: string, value: Value]>,
 ): { [key: string]: Value } => {
   const result: { [key: string]: Value } = {};
   for (const [key, value] of source) {
-    if (value !== undefined) {
-      result[key] = value;
-    }
+    result[key] = value;
   }
   return result;
 };
