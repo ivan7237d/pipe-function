@@ -1,6 +1,4 @@
 import { applyPipe } from '../applyPipe';
-import { identity } from '../identity';
-import { asView } from '../types/asView';
 import { identityView } from './identityView';
 import { valueInView } from './valueInView';
 
