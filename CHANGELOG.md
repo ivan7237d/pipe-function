@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/obvibase/utils/compare/v2.0.0...v3.0.0) (2020-11-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* **object:** iterableToObject no longer discards undefined values
+
+### Features
+
+* optics ([c5a491b](https://github.com/obvibase/utils/commit/c5a491b144db8067741deb136ec06a46e18f5ee2))
+* **object:** add objectValues ([15c310d](https://github.com/obvibase/utils/commit/15c310d0e01d5f62e6df4b2c93759ef877aaf371))
+* **object:** functions to work with properties ([e41b2d1](https://github.com/obvibase/utils/commit/e41b2d13bc2322d35173e337d63f96a4e74a54fe))
+* **object:** make iterableToObject consistent with Object.fromEntries ([0cf528c](https://github.com/obvibase/utils/commit/0cf528c56a00f1aa7ac007d80e7e2686316b1b84))
+
+
+### Bug Fixes
+
+* fix exports ([f9afc9d](https://github.com/obvibase/utils/commit/f9afc9d563f4ac78308fbb494d2ffe6939164456))
+* fix exports ([c77c7c0](https://github.com/obvibase/utils/commit/c77c7c01a339f045fefc329e2ec10374e7b0ea6a))
+
 ## [2.0.0](https://github.com/obvibase/utils/compare/v1.4.0...v2.0.0) (2020-10-30)
 
 
