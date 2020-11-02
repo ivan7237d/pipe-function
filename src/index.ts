@@ -62,7 +62,6 @@ export { Reducer } from './lib/types/types';
 export { View } from './lib/types/types';
 export { StateView } from './lib/types/types';
 export { Lens } from './lib/types/types';
-export { identityView } from './lib/view/identityView';
 export { mapInView } from './lib/view/mapInView';
 export { setInView } from './lib/view/setInView';
 export { valueInView } from './lib/view/valueInView';

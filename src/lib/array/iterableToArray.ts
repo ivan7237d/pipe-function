@@ -1,1 +1,1 @@
-export const iterableToArray = <T>(source: Iterable<T>): T[] => [...source];
+export const iterableToArray = <T>(source: Iterable<T>): readonly T[] => [...source];

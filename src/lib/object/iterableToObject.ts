@@ -3,7 +3,7 @@
  */
 export const iterableToObject = <Value>(
   source: Iterable<[key: string, value: Value]>,
-): { [key: string]: Value } => {
+): Readonly<{ [key: string]: Value }> => {
   const result: { [key: string]: Value } = {};
   for (const [key, value] of source) {
     result[key] = value;

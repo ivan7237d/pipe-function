@@ -6,7 +6,7 @@ export const deleteFromObject = <
   Key extends keyof T
 >(
   key: Key,
-) => (obj: T & { key?: T[Key] }): Pick<T, Exclude<keyof T, Key>> => {
+) => (obj: T & { key?: T[Key] }): Readonly<Pick<T, Exclude<keyof T, Key>>> => {
   const { [key]: value, ...copy } = obj;
   return copy;
 };

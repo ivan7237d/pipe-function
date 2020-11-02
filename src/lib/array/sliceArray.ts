@@ -5,7 +5,7 @@
  * method in that negative values of parameters have no special meaning.
  */
 export const sliceArray = (from?: number, to?: number) =>
-  function* <T>(source: T[]): Iterable<T> {
+  function* <T>(source: readonly T[]): Iterable<T> {
     const toLocal =
       to === undefined ? source.length : Math.min(to, source.length);
     for (

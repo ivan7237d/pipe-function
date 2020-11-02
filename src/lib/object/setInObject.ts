@@ -7,4 +7,4 @@ export const setInObject = <
 >(
   key: Key,
   value: T[Key],
-) => (obj: T): T => ({ ...obj, [key]: value });
+) => (obj: T): Readonly<T> => ({ ...obj, [key]: value });

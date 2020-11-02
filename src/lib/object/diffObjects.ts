@@ -9,13 +9,15 @@ export const diffObjects = function* <T>(
   from: { [key: string]: T },
   to: { [key: string]: T },
   equalFunction: EqualFunction<T> = (from, to) => from === to,
-): Iterable<[
-  key: string,
-  values:
-    | [from: T, to: T]
-    | [from: T, to: undefined]
-    | [from: undefined, to: T],
-]> {
+): Iterable<
+  readonly [
+    key: string,
+    values:
+      | readonly [from: T, to: T]
+      | readonly [from: T, to: undefined]
+      | readonly [from: undefined, to: T],
+  ]
+> {
   for (const key in to) {
     if (!(key in from) || !equalFunction(from[key], to[key])) {
       yield [key, [from[key], to[key]]];

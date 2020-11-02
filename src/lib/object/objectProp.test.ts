@@ -1,8 +1,8 @@
 import { applyPipe } from '../applyPipe';
+import { identity } from '../identity';
 import { anyInIterable } from '../iterable/anyInIterable';
 import { mapIterable } from '../iterable/mapIterable';
 import { asView } from '../types/asView';
-import { identityView } from '../view/identityView';
 import { mapInView } from '../view/mapInView';
 import { setInView } from '../view/setInView';
 import { objectProp } from './objectProp';
@@ -13,8 +13,7 @@ it('works with non-optional properties', () => {
   const state: State = { a: { b: 1, c: 2 }, d: 3 };
   expect(
     applyPipe(
-      state,
-      identityView,
+      asView([state, identity]),
       objectProp('a'),
       objectProp('b'),
       setInView(4),
@@ -33,7 +32,7 @@ it('works with non-optional properties', () => {
 it('works with optional properties', () => {
   type State = { a?: { b?: number; c?: number }; d: number };
   const state: State = { a: { b: 1 }, d: 3 };
-  const [value, set] = applyPipe(state, identityView, objectProp('a'));
+  const [value, set] = applyPipe(asView([state, identity]), objectProp('a'));
   const aView = asView([
     value ?? {},
     (value) =>

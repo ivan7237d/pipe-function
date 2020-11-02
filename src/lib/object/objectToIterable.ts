@@ -3,7 +3,7 @@
  */
 export const objectToIterable = function* <Value>(source: {
   [key: string]: Value;
-}): Iterable<[string, Value]> {
+}): Iterable<readonly [string, Value]> {
   for (const key in source) {
     yield [key, source[key]];
   }

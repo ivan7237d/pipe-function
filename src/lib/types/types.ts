@@ -4,6 +4,6 @@ export type Reducer<Accumulator, Element> = (
   accumulator: Accumulator,
   element: Element,
 ) => Accumulator;
-export type View<S, A> = [value: A, set: (value: A) => S];
+export type View<S, A> = readonly [value: A, set: (value: A) => S];
 export type StateView<A> = View<void, A>;
 export type Lens<S, A, B> = (source: View<S, A>) => View<S, B>;
