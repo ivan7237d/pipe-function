@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://github.com/obvibase/utils/compare/v3.0.0...v4.0.0) (2020-11-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* identityView was removed, readonly flag was added to functions that take arrays or
+return arrays or objects.
+
+### Features
+
+* better types ([13a68a0](https://github.com/obvibase/utils/commit/13a68a0e38e22c4c6f9dbbc127ce053ca8deb75a))
+* **object:** add assertion to isObject ([b7f07c0](https://github.com/obvibase/utils/commit/b7f07c0ffa9c3183c3dbd0062a5f00fe6bb77310))
+* equality functions ([f78fde4](https://github.com/obvibase/utils/commit/f78fde47bc7c78f1dc381609f20e2b1f1ba7cc4a))
+* functions for working with maps and sets ([961d5f8](https://github.com/obvibase/utils/commit/961d5f82b576013056f7f1d6124fb525bcb96d8d))
+
+
+### Bug Fixes
+
+* **iterable:** fix type of everyInIterable ([0d99cbe](https://github.com/obvibase/utils/commit/0d99cbe79b12781ac099526bbf892eb25c203250))
+* fix exports ([4f003a2](https://github.com/obvibase/utils/commit/4f003a240b0a220785aecb2e42ee7638254c73f1))
+
 ## [3.0.0](https://github.com/obvibase/utils/compare/v2.0.0...v3.0.0) (2020-11-01)
 
 
