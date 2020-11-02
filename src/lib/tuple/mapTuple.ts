@@ -4,5 +4,5 @@
  */
 export const mapTuple = <Source extends readonly unknown[], To>(
   project: (value: Source[number]) => To,
-) => (source: Source):  Readonly<{ [Key in keyof Source]: To }> =>
+) => (source: Source): Readonly<{ [Key in keyof Source]: To }> =>
   (source.map(project) as unknown) as { [Key in keyof Source]: To };
