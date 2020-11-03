@@ -4,9 +4,9 @@ Utils for writing functional-style code in TypeScript using a pipeline operator 
 
 - Minimal, easy-to-learn API.
 
-- Includes functions for working with native `Iterable`s that match their counterparts for working with observables in RxJS.
+- Includes [functions for working with native `Iterable`s](#iterables) that match their counterparts for working with observables in RxJS.
 
-- React-friendly lenses.
+- [React-friendly lenses](#lenses).
 
 - Fully tree-shakeable.
 
