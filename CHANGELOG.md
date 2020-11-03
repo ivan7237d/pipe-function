@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.0](https://github.com/obvibase/utils/compare/v4.0.0...v4.1.0) (2020-11-03)
+
+
+### Features
+
+* assertNever function ([172b1ec](https://github.com/obvibase/utils/commit/172b1ec54092a376b72bfe571c867f796fd91440))
+* memoize function ([59a6ea1](https://github.com/obvibase/utils/commit/59a6ea1367ce03f53a048f6c05814b6f569ae769))
+* utilities for using the library with React ([39fee3b](https://github.com/obvibase/utils/commit/39fee3bf06028f27b4bc52c386441e54148f7c38))
+
 ## [4.0.0](https://github.com/obvibase/utils/compare/v3.0.0...v4.0.0) (2020-11-02)
 
 
