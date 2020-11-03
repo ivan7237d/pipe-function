@@ -80,3 +80,27 @@ it('works with optional properties', () => {
     }
   `);
 });
+
+it('works with optional parameters, example from README', () => {
+  type State = { a?: { b?: string; c?: string } };
+
+  const sampleReducer = (state: State, action: { payload: string }) => {
+    // View<State, { b?: string; c?: string } | undefined>
+    const [value, set] = applyPipe(asView([state, identity]), objectProp('a'));
+    // View<State, { b?: string; c?: string }>
+    const view = asView([
+      value ?? {},
+      (value) => set(value === undefined ? {} : value),
+    ]);
+    return applyPipe(view, objectProp('b'), setInView(action.payload));
+  };
+  expect(sampleReducer({ a: { b: '', c: '' } }, { payload: 'x' }))
+    .toMatchInlineSnapshot(`
+    Object {
+      "a": Object {
+        "b": "x",
+        "c": "",
+      },
+    }
+  `);
+});
