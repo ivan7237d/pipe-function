@@ -81,7 +81,7 @@ applyPipe(
 
 will be inferred as `[first: string, second: string]` rather than `string[]`.
 
-Tip: if you write ['a', 1] by itself, TypeScript compiler will infer the type as (string | number)[]. To make this a touple (i.e. [string, number]) without having to cast to a specific type, use `['a', 1] as const`.
+Tip: if you write ['a', 1] by itself, TypeScript compiler will infer the type as (string | number)[]. To make this a tuple (i.e. [string, number]) without having to cast to a specific type, use `['a', 1] as const`.
 
 ## Comparison functions
 
@@ -141,7 +141,7 @@ export const StatefulComponent = () => {
 };
 ```
 
-A nice thing is that as we get to a point where we need to type 'a', 'b', or 'c' in the code above, TypeScript Intellisence will show correct suggestions. When binding a checkbox, use `bindingPropsCheckbox` instead of `bindingProps` so that `checked` prop would be used instead of `value`.
+A nice thing is that as we get to a point where we need to type 'a', 'b', or 'c' in the code above, TypeScript Intellisense will show correct suggestions. When binding a checkbox, use `bindingPropsCheckbox` instead of `bindingProps` so that `checked` prop would be used instead of `value`.
 
 We can also use `objectProp` lens in the conventional way to immutably set a property nested within a larger structure, as in the below example of a reducer. In this example we also use helper functions `identity` (`const identity = <T>(value: T) => value`), `asView` (also just an identity function but casts the value as `View` to help type inference: `const asView = <S, A>(value: View<S, A>): View<S, A> => value`), and `setInView` (`applyPipe(view, setInView(value))` is equivalent to `applyPipe(view, ([, set]) => set(value))`).
 
