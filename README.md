@@ -32,7 +32,7 @@ The library includes a function `applyPipe` which takes between 1 and 12 argumen
 
 [Functions for working with iterables](https://github.com/obvibase/utils/tree/master/src/lib/iterable) have signatures that try to stay close to equivalent RxJS operators, but have names like `mapIterable` that do not clash with RxJS.
 
-To keep the API simple, functions like `mapIterable` and `filterIterable` have callbacks that only take the element as an argument, and don't take second and third arguments (element index and source object), in contrast to native array methods and RxJS operators. If you need an index, use `zipIterable(rangeIterable(), yourIterable)` (returns an iterable of `[<element index>, <element>]`), and if you only need a boolean indicating whether the element is the first element, use `zipIterable(firstIterable, yourIterable)` (returns an iterable of `[boolean, <element>]`).
+To keep the API simple, functions like `mapIterable` and `filterIterable` have callbacks that only take the element as an argument, and don't take second and third arguments (element index and source object), in contrast to native array methods and RxJS operators. If you need the index, use `zipIterable(rangeIterable(), yourIterable)` (returns an iterable of `[<element index>, <element>]`), and if you only need a boolean indicating whether the element is the first element, use `zipIterable(firstIterable, yourIterable)` (returns an iterable of `[boolean, <element>]`).
 
 Tip: if filtering an iterable changes the type of the elements, use `flatMapIterable` instead of `filterIterable`: the type of elements in
 
@@ -81,7 +81,7 @@ applyPipe(
 
 will be inferred as `[first: string, second: string]` rather than `string[]`.
 
-Tip: if you write ['a', 1] by itself, TypeScript compiler will infer the type as (string | number)[]. To make this a tuple (i.e. [string, number]) without having to cast to a specific type, use `['a', 1] as const`.
+Tip: if you write `['a', 1]` by itself, TypeScript compiler will infer the type as `(string | number)[]`. To make this a tuple (i.e. `[string, number]`) without having to cast to a specific type, use `['a', 1] as const`.
 
 ## Comparison functions
 
@@ -111,15 +111,13 @@ type View<S, A> = readonly [value: A, set: (value: A) => S];
 type StateView<A> = View<void, A>;
 ```
 
-and we define a `Lens` as a function that transforms a `View` into another `View`. To see how this works, consider an example of `objectProp` lens which zooms in on an object's property. Suppose our state is of type
+and we define a `Lens` as a function that transforms a `View` into another `View`.
+
+To see how this works, consider an example of `objectProp` lens which zooms in on an object's property. We can write a React component as follows, using a `bindingProps` helper function that converts a `StateView` into an object with props `value` and `onChange` that React understands.
 
 ```ts
 type State = { a: { b: string; c: string } };
-```
 
-We can write a React component as follows, using a `bindingProps` helper function that converts a `StateView` into an object with props `value` and `onChange` that React understands.
-
-```ts
 /**
  * A component that encapsulates presentation logic but is agnostic as to how we
  * manage state.
@@ -141,11 +139,13 @@ export const StatefulComponent = () => {
 };
 ```
 
-A nice thing is that as we get to a point where we need to type 'a', 'b', or 'c' in the code above, TypeScript Intellisense will show correct suggestions. When binding a checkbox, use `bindingPropsCheckbox` instead of `bindingProps` so that `checked` prop would be used instead of `value`.
+A nice thing is that as we get to a point where we need to type 'a', 'b', or 'c' in the code above, IntelliSense will show correct suggestions. When binding a checkbox, use `bindingPropsCheckbox` instead of `bindingProps` so that `checked` prop would be used instead of `value`.
 
 We can also use `objectProp` lens in the conventional way to immutably set a property nested within a larger structure, as in the below example of a reducer. In this example we also use helper functions `identity` (`const identity = <T>(value: T) => value`), `asView` (also just an identity function but casts the value as `View` to help type inference: `const asView = <S, A>(value: View<S, A>): View<S, A> => value`), and `setInView` (`applyPipe(view, setInView(value))` is equivalent to `applyPipe(view, ([, set]) => set(value))`).
 
 ```ts
+type State = { a: { b: string; c: string } };
+
 const sampleReducer = (state: State, action: { payload: string }) =>
   applyPipe(
     asView([state, identity]),
