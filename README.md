@@ -32,7 +32,7 @@ The library includes a function `applyPipe` which takes between 1 and 12 argumen
 
 [Functions for working with iterables](https://github.com/obvibase/utils/tree/master/src/lib/iterable) have signatures that try to stay close to equivalent RxJS operators, but have names like `mapIterable` that do not clash with RxJS.
 
-To keep the API simple, functions like `mapIterable` and `filterIterable` have callbacks that only take the element as an argument, and don't take second and third arguments (element index and source object), in contrast to native array methods and RxJS operators. If you need the index, use `zipIterable(rangeIterable(), yourIterable)` (returns an iterable of `[<element index>, <element>]`), and if you only need a boolean indicating whether the element is the first element, use `zipIterable(firstIterable, yourIterable)` (returns an iterable of `[boolean, <element>]`).
+To keep the API simple, functions like `mapIterable` and `filterIterable` have callbacks that only take the element as an argument, and don't take second and third arguments (element index and source object), in contrast to native array methods and RxJS operators. If you need the index, use `zipIterables(rangeIterable(), yourIterable)` (returns an iterable of `[<element index>, <element>]`), and if you only need a boolean indicating whether the element is the first element, use `zipIterables(firstIterable, yourIterable)` (returns an iterable of `[boolean, <element>]`).
 
 Tip: if filtering an iterable changes the type of the elements, use `flatMapIterable` instead of `filterIterable`: the type of elements in
 
@@ -43,7 +43,7 @@ applyPipe(
 );
 ```
 
-will be inferred as `(number | undefined)[]`, while for
+will be inferred as `Iterable<number | undefined>`, while for
 
 ```ts
 applyPipe(
@@ -52,7 +52,7 @@ applyPipe(
 );
 ```
 
-it will be inferred as `number[]`.
+it will be inferred as `Iterable<number>`.
 
 ## Objects, arrays, maps and sets
 
