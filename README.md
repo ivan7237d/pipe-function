@@ -163,7 +163,7 @@ export const StatefulComponent = () => {
 
 A nice thing is that as we get to a point where we need to type 'a', 'b', or 'c' in the code above, IntelliSense will show correct suggestions. When binding a checkbox, use [`bindingPropsCheckbox`](https://github.com/obvibase/utils/blob/master/src/lib/react/bindingPropsCheckbox.ts) instead of `bindingProps` so that `checked` prop would be used instead of `value`.
 
-In the above example, we used `objectProp` lens to transform a `StateView` into another `StateView`, but like other lenses, it also works on a `View` (a supertype of `StateView`). Thanks to that, we can also use `objectProp` in the conventional way to immutably set a property nested within a larger structure, as in the below example of a reducer. We're going to use the following helper functions:
+In the above example, we used `objectProp` lens to transform a `StateView` into another `StateView`, but like other lenses, it also works on a `View` (a supertype of `StateView`). Thanks to that, we can use `objectProp` in the conventional way to immutably set a property nested within a larger structure, as in the below example of a reducer. We're going to use the following helper functions:
 
 - [`identity`](https://github.com/obvibase/utils/blob/master/src/lib/identity.ts): `const identity = <T>(value: T) => value`.
 
@@ -171,7 +171,7 @@ In the above example, we used `objectProp` lens to transform a `StateView` into 
 
 - [`setInView`](https://github.com/obvibase/utils/blob/master/src/lib/view/setInView.ts): `applyPipe(view, setInView(value))` is equivalent to `applyPipe(view, ([, set]) => set(value))`.
 
-And we would write a reducer as follows:
+A reducer would look as follows:
 
 ```ts
 type State = { a: { b: string; c: string } };
