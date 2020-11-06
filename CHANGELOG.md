@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.0](https://github.com/obvibase/utils/compare/v4.1.0...v5.0.0) (2020-11-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* **map:** setInMap now deletes a key if the passed value is undefined
+
+### Features
+
+* **map:** make setInMap consistent with mapProp ([04dc255](https://github.com/obvibase/utils/commit/04dc2551219dfa63f1baf2860ed5309ac0977054))
+* broaden the signatures of map and set lenses ([6e4a023](https://github.com/obvibase/utils/commit/6e4a02353713e2468df41535393b46f79ed4dade))
+
+
+### Bug Fixes
+
+* **array:** broaden signature of reverseArray ([8020398](https://github.com/obvibase/utils/commit/8020398a5c38c93c04908e1b8c7d7181e6221818))
+
 ## [4.1.0](https://github.com/obvibase/utils/compare/v4.0.0...v4.1.0) (2020-11-03)
 
 
