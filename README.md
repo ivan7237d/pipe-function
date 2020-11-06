@@ -126,7 +126,7 @@ When building React components, it's convenient to work with a type which we'll 
 type StateView<A> = readonly [value: A, set: (value: A) => void];
 ```
 
-It is a subtype of the type returned by React's `setState` hook, and it is also what you would want to pass to an input element such as a textbox to create a two-way binding. We actually define `StateView` as a subtype of another type called `View`:
+It is a subtype of the type returned by React's `setState` hook, and it is also what you would want to pass to an input element such as a textbox to create a two-way binding. In this library we actually define `StateView` as a subtype of another type called `View`:
 
 ```ts
 type View<S, A> = readonly [value: A, set: (value: A) => S];
@@ -135,7 +135,19 @@ type StateView<A> = View<void, A>;
 
 and we define a `Lens` as a function that transforms a `View` into another `View`.
 
-To see how this works, consider an example of [`objectProp`](https://github.com/obvibase/utils/blob/master/src/lib/object/objectProp.ts) lens which zooms in on an object's property. We can write a React component as follows, using a [`bindingProps`](https://github.com/obvibase/utils/blob/master/src/lib/react/bindingProps.ts) helper function that converts a `StateView` into an object with props `value` and `onChange` that React understands.
+To see how this works, consider [`objectProp`](https://github.com/obvibase/utils/blob/master/src/lib/object/objectProp.ts) lens which zooms in on an object's property: e.g. `objectProp('a')` would transform
+
+```ts
+const a: StateView<{ a: number }> = [{ a: 1 }, someSetter];
+```
+
+into an equivalent of
+
+```ts
+const b: StateView<number> = [1, (value) => someSetter({ a: value })];
+```
+
+We can write a React component as follows, using a [`bindingProps`](https://github.com/obvibase/utils/blob/master/src/lib/react/bindingProps.ts) helper function that converts a `StateView` like `[1, set]` into an object that React understands like `{ value: 1, onChange: ({ currentTarget: { value } }) => set(value) }`.
 
 ```ts
 type State = { a: { b: string; c: string } };
@@ -163,7 +175,7 @@ export const StatefulComponent = () => {
 
 A nice thing is that as we get to a point where we need to type 'a', 'b', or 'c' in the code above, IntelliSense will show correct suggestions. When binding a checkbox, use [`bindingPropsCheckbox`](https://github.com/obvibase/utils/blob/master/src/lib/react/bindingPropsCheckbox.ts) instead of `bindingProps` so that `checked` prop would be used instead of `value`.
 
-In the above example, we used `objectProp` lens to transform a `StateView` into another `StateView`, but like other lenses, it also works on a `View` (a supertype of `StateView`). Thanks to that, we can use `objectProp` in the conventional way to immutably set a property nested within a larger structure, as in the below example of a reducer. We're going to use the following helper functions:
+In the above example, we used `objectProp` lens to transform a `StateView` into another `StateView`, but like other lenses, it also works on `StateView`'s supertype `View`. Thanks to that, we can use `objectProp` in the conventional way to immutably set a property nested within a larger structure, as in the below example of a reducer. We're going to use the following helper functions:
 
 - [`identity`](https://github.com/obvibase/utils/blob/master/src/lib/identity.ts): `const identity = <T>(value: T) => value`.
 
@@ -171,7 +183,7 @@ In the above example, we used `objectProp` lens to transform a `StateView` into 
 
 - [`setInView`](https://github.com/obvibase/utils/blob/master/src/lib/view/setInView.ts): `applyPipe(view, setInView(value))` is equivalent to `applyPipe(view, ([, set]) => set(value))`.
 
-A reducer would look as follows:
+A reducer would look like this:
 
 ```ts
 type State = { a: { b: string; c: string } };
@@ -201,7 +213,7 @@ const sampleReducer = (state: State, action: { payload: string }) => {
 };
 ```
 
-The library also includes the following functions in addition to those already mentioned:
+The library also includes the following lens-related functions in addition to those already mentioned:
 
 - [`valueInView`](https://github.com/obvibase/utils/blob/master/src/lib/view/valueInView.ts): `applyPipe(view, valueInView)` is equivalent to `applyPipe(view, ([value]) => value)`.
 
