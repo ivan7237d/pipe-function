@@ -4,8 +4,8 @@ import { asView } from '../types/asView';
 import { setInView } from '../view/setInView';
 import { mapProp } from './mapProp';
 
-it('works', () => {
-  const state: ReadonlyMap<string, ReadonlyMap<string, number>> = new Map([
+it('works for non-readonly maps', () => {
+  const state = new Map([
     ['a', new Map([['b', 0]])],
     ['c', new Map([['d', 1]])],
   ]);
@@ -24,4 +24,12 @@ it('works', () => {
       },
     }
   `);
+});
+
+it('works for readonly maps', () => {
+  const state: ReadonlyMap<string, ReadonlyMap<string, number>> = new Map([
+    ['a', new Map([['b', 0]])],
+    ['c', new Map([['d', 1]])],
+  ]);
+  applyPipe(asView([state, identity]), mapProp('a'));
 });
