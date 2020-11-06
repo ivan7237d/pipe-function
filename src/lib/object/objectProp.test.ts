@@ -88,10 +88,7 @@ it('works with optional parameters, example from README', () => {
     // View<State, { b?: string; c?: string } | undefined>
     const [value, set] = applyPipe(asView([state, identity]), objectProp('a'));
     // View<State, { b?: string; c?: string }>
-    const view = asView([
-      value ?? {},
-      (value) => set(value === undefined ? {} : value),
-    ]);
+    const view = asView([value ?? {}, set]);
     return applyPipe(view, objectProp('b'), setInView(action.payload));
   };
   expect(sampleReducer({ a: { b: '', c: '' } }, { payload: 'x' }))
