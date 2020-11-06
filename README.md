@@ -66,7 +66,7 @@ applyPipe(
 );
 ```
 
-A tuple is a concept which is absent in JavaScript but exists in TypeScript. We provide a single tuple-related function `mapTuple` which maps an array into another array while retaining information on its length and names of its elements in the returned type, so that the type of
+As for tuple (a TypeScript concept), we provide a single tuple-related function [`mapTuple`](https://github.com/obvibase/utils/blob/master/src/lib/tuple/mapTuple.ts) which maps an array into another array while retaining information on its length and names of its elements, so that the type of
 
 ```ts
 applyPipe(
@@ -79,7 +79,7 @@ will be inferred as `[first: string, second: string]` rather than `string[]`.
 
 Tip: if you write `['a', 1]` by itself, TypeScript compiler will infer the type as `(string | number)[]`. To make this a tuple `[string, number]` without having to cast to a specific type, use `['a', 1] as const`. For example, you would write `applyPipe([['a', 1]] as const, iterableToMap)` - if you omit `as const`, this will cause a typechecking error.
 
-A performance-related note on functions `reverseArray` and `sliceArray`: these functions can in principle be implemented either using iteration or using native array methods, and one can conceive of cases where each approach has significantly better performance. Since implementing both approaches would only create clutter for the majority of use-cases where the difference doesn't matter, we only use the first one, and leave it to the developer to fall back to native methods when necessary.
+A performance-related note on functions `reverseArray` and `sliceArray`: these functions can be implemented either using iteration or using native array methods, and one can think up use-cases where each approach has significantly better performance than the other. Since implementing both approaches would only create clutter for the majority of use-cases where the difference doesn't matter, we only use the first one (iteration), and leave it to the developer to fall back to native array methods when necessary.
 
 ## Objects and maps
 
