@@ -54,21 +54,17 @@ applyPipe(
 
 it will be inferred as `Iterable<number>`.
 
-## Objects, arrays, maps and sets
+## Arrays and tuples
 
-The library provides functions for immutably working with [objects](https://github.com/obvibase/utils/tree/master/src/lib/object), [arrays](https://github.com/obvibase/utils/tree/master/src/lib/array), [maps](https://github.com/obvibase/utils/tree/master/src/lib/map) and [sets](https://github.com/obvibase/utils/tree/master/src/lib/set). Where necessary, functions to convert to/from an iterable are provided, but we do not duplicate for arrays, maps etc. those functions that are applicable to any iterable, so to map an array into another array you would write
+The library includes [certain non-mutating functions for working with arrays](https://github.com/obvibase/utils/tree/master/src/lib/array), but we do not duplicate for arrays, `Map`s etc. those functions that are applicable to any iterable, so to filter an array into another array you would write
 
 ```ts
 applyPipe(
   [1, 2],
-  mapIterable((value) => value * 2),
+  filterIterable((value) => value > 1),
   iterableToArray,
 );
 ```
-
-A performance-related note on functions `reverseArray` and `sliceArray`: these functions can in principle be implemented either using iteration or using native array methods, and one can conceive of cases where each approach has significantly better performance. Since implementing both approaches would only create clutter for the majority of use-cases where the difference doesn't matter, we only use the first one, and leave it to the developer to fall back to native methods when necessary.
-
-## Tuples
 
 A tuple is a concept which is absent in JavaScript but exists in TypeScript. We provide a single tuple-related function `mapTuple` which maps an array into another array while retaining information on its length and names of its elements in the returned type, so that the type of
 
@@ -81,7 +77,33 @@ applyPipe(
 
 will be inferred as `[first: string, second: string]` rather than `string[]`.
 
-Tip: if you write `['a', 1]` by itself, TypeScript compiler will infer the type as `(string | number)[]`. To make this a tuple (i.e. `[string, number]`) without having to cast to a specific type, use `['a', 1] as const`.
+Tip: if you write `['a', 1]` by itself, TypeScript compiler will infer the type as `(string | number)[]`. To make this a tuple `[string, number]` without having to cast to a specific type, use `['a', 1] as const`. For example, you would write `applyPipe([['a', 1]] as const, iterableToMap)` - if you omit `as const`, this will cause a typechecking error.
+
+A performance-related note on functions `reverseArray` and `sliceArray`: these functions can in principle be implemented either using iteration or using native array methods, and one can conceive of cases where each approach has significantly better performance. Since implementing both approaches would only create clutter for the majority of use-cases where the difference doesn't matter, we only use the first one, and leave it to the developer to fall back to native methods when necessary.
+
+## Objects and maps
+
+The library includes non-mutating functions for working with [objects](https://github.com/obvibase/utils/tree/master/src/lib/object) and [maps](https://github.com/obvibase/utils/tree/master/src/lib/map).
+
+JavaScript/TypeScript have the following footguns:
+
+- If an object has a string index signature (meaning `{ [key: string]: T}` as opposed to `{a: string, b: string}`) and you access its property, TypeScript compiler will implicitly assert that the property is present (`myObject['any string']` will be typed as `T` instead of `T | undefined`).
+
+- There is no distinction between optional properties of type `T` and optional properties of type `T | undefined`: as far as TypeScript is concerned, `{a?: number}` is the same as `{a?: number | undefined}`.
+
+- `get` and `set` methods of a `Map` are not consistent with each other as to whether `undefined` represents a value not present in the map (for `get` it does, for `set` it doesn't).
+
+In this context, to get maximum type safety we recommend following these two rules:
+
+- Use `Map`s in place of objects with `{ [key: string]: T}` string signatures (this way, an object is to a `Map` what a tuple is to an array).
+
+- `Map`s shouldn't contain `undefined` values.
+
+This approach isn't forced upon you by the library, but it informs signatures of functions `setInObject` and `setInMap`: if you set a value to `undefined`, `setInObject` will update the object normally, while `setInMap` will delete the key-value pair if present.
+
+## Sets
+
+The library includes [non-mutating functions for working with sets](https://github.com/obvibase/utils/tree/master/src/lib/set).
 
 ## Comparison functions
 
