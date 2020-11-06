@@ -5,11 +5,10 @@ import { setInMap } from './setInMap';
 it('works', () => {
   expect(
     applyPipe(
-      [
+      iterableToMap([
         ['a', 0],
         ['b', 1],
-      ] as const,
-      iterableToMap,
+      ]),
       setInMap('a', 2),
     ),
   ).toMatchInlineSnapshot(`
@@ -18,16 +17,42 @@ it('works', () => {
       "b" => 1,
     }
   `);
+
   expect(
     applyPipe(
-      [['a', undefined]] as const,
-      iterableToMap,
-      setInMap('b', undefined),
+      iterableToMap([
+        ['a', 0],
+        ['b', 1],
+      ]),
+      setInMap('a', undefined),
     ),
   ).toMatchInlineSnapshot(`
     Map {
-      "a" => undefined,
-      "b" => undefined,
+      "b" => 1,
+    }
+  `);
+
+  expect(
+    applyPipe(
+      [
+        ['a', 0],
+        ['b', 1],
+      ] as const,
+      iterableToMap,
+      setInMap('a', 1),
+    ),
+  ).toMatchInlineSnapshot(`
+    Map {
+      "a" => 1,
+      "b" => 1,
+    }
+  `);
+
+  expect(
+    applyPipe(new Map([['a', 1]]), iterableToMap, setInMap('b', undefined)),
+  ).toMatchInlineSnapshot(`
+    Map {
+      "a" => 1,
     }
   `);
 });
