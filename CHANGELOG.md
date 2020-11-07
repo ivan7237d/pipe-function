@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.0](https://github.com/obvibase/utils/compare/v5.0.1...v6.0.0) (2020-11-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* **object:** setInObject has new behavior consistent with object lens and setInMap
+
+### Features
+
+* **object:** better types ([da1ff2b](https://github.com/obvibase/utils/commit/da1ff2b0ce7c60bc695c780441b1fedafacbd9b2))
+
 ### [5.0.1](https://github.com/obvibase/utils/compare/v5.0.0...v5.0.1) (2020-11-06)
 
 ## [5.0.0](https://github.com/obvibase/utils/compare/v4.1.0...v5.0.0) (2020-11-06)

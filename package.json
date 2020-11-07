@@ -1,6 +1,6 @@
 {
   "name": "@obvibase/utils",
-  "version": "5.0.1",
+  "version": "6.0.0",
   "description": "Utils for writing functional-style code in TypeScript using a pipeline operator polyfill",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
