@@ -68,6 +68,8 @@ applyPipe(
 
 Functions that set a value in an object (`setInObject`) or a map (`setInMap`) will delete the key if you pass to them the value of `undefined`. Because of this, avoid object types with required properties that can be equal to `undefined` (so instead of `{a: string | undefined}`, use `{a?: string}`) - otherwise trying to use `setInObject` will produce a typechecking error.
 
+Tip: make sure you enable strictly checked indexed access using [`--noUncheckedIndexedAccess` compiler flag](https://devblogs.microsoft.com/typescript/announcing-typescript-4-1-rc/#no-unchecked-indexed-access).
+
 A performance-related note on functions `reverseArray` and `sliceArray`: these functions can be implemented either using iteration or using native array methods, and one can think up use-cases where each approach has significantly better performance than the other. Since implementing both approaches would only create clutter for the majority of use-cases where the difference doesn't matter, we only use the first one (iteration), and leave it to the developer to fall back to native array methods when necessary.
 
 ## Tuples
