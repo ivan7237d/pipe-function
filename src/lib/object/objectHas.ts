@@ -1,5 +1,5 @@
 export const objectHas = <
-  T extends { [key: string]: unknown },
+  T,
   A extends keyof T
 >(
   key: A,

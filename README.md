@@ -54,9 +54,9 @@ applyPipe(
 
 it will be inferred as `Iterable<number>`.
 
-## Arrays and tuples
+## Objects, arrays, maps and sets
 
-The library includes [certain non-mutating functions for working with arrays](https://github.com/obvibase/utils/tree/master/src/lib/array), but we do not duplicate for arrays, `Map`s etc. those functions that are applicable to any iterable, so to filter an array into another array you would write
+The library includes non-mutating functions for working with [objects](https://github.com/obvibase/utils/tree/master/src/lib/object), [arrays](https://github.com/obvibase/utils/tree/master/src/lib/array), [maps](https://github.com/obvibase/utils/tree/master/src/lib/map), and [sets](https://github.com/obvibase/utils/tree/master/src/lib/set), but we do not duplicate for arrays, maps etc. those functions that are applicable to any iterable, so to filter an array into another array you would write
 
 ```ts
 applyPipe(
@@ -66,7 +66,13 @@ applyPipe(
 );
 ```
 
-As for tuple (a TypeScript concept), we provide a single tuple-related function [`mapTuple`](https://github.com/obvibase/utils/blob/master/src/lib/tuple/mapTuple.ts) which maps an array into another array while retaining information on its length and names of its elements, so that the type of
+Functions that set a value in an object (`setInObject`) or a map (`setInMap`) will delete the key if you pass to them the value of `undefined`. Because of this, avoid object types with required properties that can be equal to `undefined` (so instead of `{a: string | undefined}`, use `{a?: string}`) - otherwise trying to use `setInObject` will produce a typechecking error.
+
+A performance-related note on functions `reverseArray` and `sliceArray`: these functions can be implemented either using iteration or using native array methods, and one can think up use-cases where each approach has significantly better performance than the other. Since implementing both approaches would only create clutter for the majority of use-cases where the difference doesn't matter, we only use the first one (iteration), and leave it to the developer to fall back to native array methods when necessary.
+
+## Tuples
+
+For tuples (a TypeScript concept) we provide a single function [`mapTuple`](https://github.com/obvibase/utils/blob/master/src/lib/tuple/mapTuple.ts) which maps an array into another array while retaining information on its length and names of its elements, so that the type of
 
 ```ts
 applyPipe(
@@ -78,32 +84,6 @@ applyPipe(
 will be inferred as `[first: string, second: string]` rather than `string[]`.
 
 Tip: if you write `['a', 1]` by itself, TypeScript compiler will infer the type as `(string | number)[]`. To make this a tuple `[string, number]` without having to cast to a specific type, use `['a', 1] as const`. For example, you would write `applyPipe([['a', 1]] as const, iterableToMap)` - if you omit `as const`, this will cause a typechecking error.
-
-A performance-related note on functions `reverseArray` and `sliceArray`: these functions can be implemented either using iteration or using native array methods, and one can think up use-cases where each approach has significantly better performance than the other. Since implementing both approaches would only create clutter for the majority of use-cases where the difference doesn't matter, we only use the first one (iteration), and leave it to the developer to fall back to native array methods when necessary.
-
-## Objects and maps
-
-The library includes non-mutating functions for working with [objects](https://github.com/obvibase/utils/tree/master/src/lib/object) and [maps](https://github.com/obvibase/utils/tree/master/src/lib/map).
-
-JavaScript/TypeScript have the following footguns:
-
-- If an object has a string index signature (meaning `{ [key: string]: T}` as opposed to `{a: string, b: string}`) and you access its property, TypeScript compiler will implicitly assert that the property is present (`myObject['any string']` will be typed as `T` instead of `T | undefined`).
-
-- There is no distinction between optional properties of type `T` and optional properties of type `T | undefined`: as far as TypeScript is concerned, `{a?: number}` is the same as `{a?: number | undefined}`.
-
-- `get` and `set` methods of a `Map` are not consistent with each other as to whether `undefined` represents a value not present in the map (for `get` it does, for `set` it doesn't).
-
-In this context, to get maximum type safety we recommend following these two rules:
-
-- Use `Map`s in place of objects with `{ [key: string]: T}` string signatures (this way, an object is to a `Map` what a tuple is to an array).
-
-- `Map`s shouldn't contain `undefined` values.
-
-This approach isn't forced upon you by the library, but it informs signatures of functions `setInObject` and `setInMap`: if you set a value to `undefined`, `setInObject` will update the object normally, while `setInMap` will delete the key-value pair if present.
-
-## Sets
-
-The library includes [non-mutating functions for working with sets](https://github.com/obvibase/utils/tree/master/src/lib/set).
 
 ## Comparison functions
 
@@ -202,15 +182,19 @@ So for example `sampleReducer({ a: { b: '', c: '' } }, { payload: 'x' })` would 
 If the properties in the `State` were optional, we could write our code as follows to have type safety without explicitly specifying types:
 
 ```ts
-type State = { a?: { b?: string; c?: string } };
+type State = { a?: { b: string; c: string } };
 
 const sampleReducer = (state: State, action: { payload: string }) => {
-  // View<State, { b?: string; c?: string } | undefined>
+  // `View<State, { b: string; c: string } | undefined>`
   const [value, set] = applyPipe(asView([state, identity]), objectProp('a'));
-  // View<State, { b?: string; c?: string }>
-  const view = asView([value ?? {}, set]);
+  // `View<State, { b: string; c: string }>`
+  const view = asView([value ?? { b: '', c: '' }, set]);
   return applyPipe(view, objectProp('b'), setInView(action.payload));
 };
+
+expect(sampleReducer({}, { payload: 'x' })).toEqual({
+  a: { b: 'x', c: '' },
+});
 ```
 
 The library also includes the following lens-related functions in addition to those already mentioned:

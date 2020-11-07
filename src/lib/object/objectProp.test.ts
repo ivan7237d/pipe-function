@@ -1,12 +1,11 @@
 import { applyPipe } from '../applyPipe';
 import { identity } from '../identity';
-import { anyInIterable } from '../iterable/anyInIterable';
-import { mapIterable } from '../iterable/mapIterable';
+import { isEmptyIterable } from '../iterable/isEmptyIterable';
 import { asView } from '../types/asView';
 import { mapInView } from '../view/mapInView';
 import { setInView } from '../view/setInView';
+import { objectKeys } from './objectKeys';
 import { objectProp } from './objectProp';
-import { objectValues } from './objectValues';
 
 it('works with non-optional properties', () => {
   type State = { a: { b: number; c: number }; d: number };
@@ -27,6 +26,18 @@ it('works with non-optional properties', () => {
       "d": 3,
     }
   `);
+  const symbol = Symbol();
+  expect(
+    applyPipe(
+      asView([{ [symbol]: 1 } as { [symbol]: number }, identity]),
+      objectProp(symbol),
+      setInView(2),
+    ),
+  ).toMatchInlineSnapshot(`
+    Object {
+      Symbol(): 2,
+    }
+  `);
 });
 
 it('works with optional properties', () => {
@@ -37,17 +48,17 @@ it('works with optional properties', () => {
     value ?? {},
     (value) =>
       set(
-        value !== undefined &&
-          applyPipe(
-            value,
-            objectValues,
-            mapIterable((value) => value !== undefined),
-            anyInIterable,
-          )
-          ? value
-          : undefined,
+        value === undefined || applyPipe(value, objectKeys, isEmptyIterable)
+          ? undefined
+          : value,
       ),
   ]);
+  expect(applyPipe(aView, objectProp('b'), setInView(undefined)))
+    .toMatchInlineSnapshot(`
+    Object {
+      "d": 3,
+    }
+  `);
   expect(applyPipe(aView, objectProp('c'), setInView(4)))
     .toMatchInlineSnapshot(`
     Object {
@@ -61,7 +72,6 @@ it('works with optional properties', () => {
   expect(applyPipe(aView, objectProp('b'), ([, set]) => set(undefined)))
     .toMatchInlineSnapshot(`
     Object {
-      "a": undefined,
       "d": 3,
     }
   `);
@@ -81,23 +91,44 @@ it('works with optional properties', () => {
   `);
 });
 
-it('works with optional parameters, example from README', () => {
-  type State = { a?: { b?: string; c?: string } };
-
-  const sampleReducer = (state: State, action: { payload: string }) => {
-    // View<State, { b?: string; c?: string } | undefined>
-    const [value, set] = applyPipe(asView([state, identity]), objectProp('a'));
-    // View<State, { b?: string; c?: string }>
-    const view = asView([value ?? {}, set]);
-    return applyPipe(view, objectProp('b'), setInView(action.payload));
-  };
-  expect(sampleReducer({ a: { b: '', c: '' } }, { payload: 'x' }))
-    .toMatchInlineSnapshot(`
+it('works with index signatures', () => {
+  expect(
+    applyPipe(
+      asView([{ a: 1, b: 2 } as { [key: string]: number }, identity]),
+      objectProp('a'),
+      setInView(undefined),
+    ),
+  ).toMatchInlineSnapshot(`
     Object {
-      "a": Object {
-        "b": "x",
-        "c": "",
-      },
+      "b": 2,
     }
   `);
+  expect(
+    applyPipe(
+      asView([{ a: 1, b: 2 } as { [key: string]: number }, identity]),
+      objectProp('a'),
+      setInView(3),
+    ),
+  ).toMatchInlineSnapshot(`
+    Object {
+      "a": 3,
+      "b": 2,
+    }
+  `);
+});
+
+it('works with optional parameters, example from README', () => {
+  type State = { a?: { b: string; c: string } };
+
+  const sampleReducer = (state: State, action: { payload: string }) => {
+    // `View<State, { b: string; c: string } | undefined>`
+    const [value, set] = applyPipe(asView([state, identity]), objectProp('a'));
+    // `View<State, { b: string; c: string }>`
+    const view = asView([value ?? { b: '', c: '' }, set]);
+    return applyPipe(view, objectProp('b'), setInView(action.payload));
+  };
+
+  expect(sampleReducer({}, { payload: 'x' })).toEqual({
+    a: { b: 'x', c: '' },
+  });
 });

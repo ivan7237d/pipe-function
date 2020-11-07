@@ -1,6 +1,4 @@
-export const objectKeys = function* (source: {
-  [key: string]: unknown;
-}): Iterable<string> {
+export const objectKeys = function* <T>(source: T): Iterable<keyof T> {
   for (const key in source) {
     yield key;
   }

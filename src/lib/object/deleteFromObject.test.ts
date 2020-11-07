@@ -3,21 +3,31 @@ import { identity } from '../identity';
 import { deleteFromObject } from './deleteFromObject';
 
 it('works', () => {
-  expect(applyPipe({ a: 0, b: 1 }, deleteFromObject('a')))
-    .toMatchInlineSnapshot(`
+  expect(
+    applyPipe(
+      identity<{ a?: number; b: number }>({ a: 0, b: 1 }),
+      deleteFromObject('a'),
+    ),
+  ).toMatchInlineSnapshot(`
     Object {
       "b": 1,
     }
   `);
   expect(
     applyPipe(
-      identity<{ [key: string]: number }>({ a: 0, b: 1 }),
-      deleteFromObject('c'),
+      identity<{ [key: number]: number }>({ '1': 0, '2': 1 }),
+      deleteFromObject(1),
     ),
   ).toMatchInlineSnapshot(`
     Object {
-      "a": 0,
-      "b": 1,
+      "2": 1,
     }
   `);
+  const symbol = Symbol();
+  expect(
+    applyPipe(
+      { [symbol]: 'value' } as { [symbol]?: string },
+      deleteFromObject(symbol),
+    ),
+  ).toMatchInlineSnapshot(`Object {}`);
 });

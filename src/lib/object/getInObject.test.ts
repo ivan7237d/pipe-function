@@ -15,4 +15,8 @@ it('works', () => {
   expect(
     applyPipe(identity<{ [key: string]: number }>({}), getInObject('a')),
   ).toMatchInlineSnapshot(`undefined`);
+  const symbol = Symbol();
+  expect(
+    applyPipe({ [symbol]: 'value' }, getInObject(symbol)),
+  ).toMatchInlineSnapshot(`"value"`);
 });

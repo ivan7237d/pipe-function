@@ -6,16 +6,16 @@ import { EqualFunction } from '../types/types';
  * is represented by `undefined`).
  */
 export const diffObjects = function* <T>(
-  from: { [key: string]: T },
-  to: { [key: string]: T },
-  equalFunction: EqualFunction<T> = (from, to) => from === to,
+  from: T,
+  to: T,
+  equalFunction: EqualFunction<T[keyof T]> = (from, to) => from === to,
 ): Iterable<
   readonly [
-    key: string,
+    key: keyof T,
     values:
-      | readonly [from: T, to: T]
-      | readonly [from: T, to: undefined]
-      | readonly [from: undefined, to: T],
+      | readonly [from: T[keyof T], to: T[keyof T]]
+      | readonly [from: T[keyof T], to: undefined]
+      | readonly [from: undefined, to: T[keyof T]],
   ]
 > {
   for (const key in to) {
