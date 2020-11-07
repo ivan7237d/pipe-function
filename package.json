@@ -28,7 +28,9 @@
     "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d build/docs",
     "version": "standard-version",
     "reset-hard": "git clean -dfx && git reset --hard && yarn",
-    "prepare-release": "run-s test doc:html version doc:publish",
+    "release:prepare": "run-s test doc:html version doc:publish",
+    "release:publish": "git push --follow-tags origin master && npm publish",
+    "release": "run-s release:prepare release:publish",
     "commit": "cz"
   },
   "engines": {
