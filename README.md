@@ -160,7 +160,7 @@ export const StatefulComponent = () => {
 
 A nice thing is that as we get to a point where we need to type 'a', 'b', or 'c' in the code above, IntelliSense will show correct suggestions. When binding a checkbox, use [`bindingPropsCheckbox`](https://github.com/obvibase/utils/blob/master/src/lib/react/bindingPropsCheckbox.ts) instead of `bindingProps` so that `checked` prop would be used instead of `value`.
 
-In the above example, we used `objectProp` lens to transform a `StateView` into another `StateView`, but like other lenses, it also works on `StateView`'s supertype `View`. Thanks to that, we can use `objectProp` in the conventional way to immutably set a property nested within a larger structure, as in the following example of a reducer:
+In the above example, we used `objectProp` lens to transform a `StateView` into another `StateView`, but like other lenses, it also works on `StateView`'s supertype `View`. Thanks to that, we can use `objectProp` in the conventional way to immutably set a property nested within a larger structure, as in the following example of a reducer that sets the value of `b` in `{ a: { b: string; c: string } }`:
 
 ```ts
 type State = { a: { b: string; c: string } };
@@ -182,7 +182,7 @@ We can use some helper functions to make the above code more readable:
 
 - [`identity`](https://github.com/obvibase/utils/blob/master/src/lib/identity.ts): identity function, `const identity = <T>(value: T) => value`.
 
-- [`asView`](https://github.com/obvibase/utils/blob/master/src/lib/types/asView.ts): also just an identity function but downcasts the value to `View` to help TypeScript compiler's type inference: `const asView = <S, A>(value: View<S, A>): View<S, A> => value`).
+- [`asView`](https://github.com/obvibase/utils/blob/master/src/lib/types/asView.ts): also just an identity function but downcasts the value to `View` to help TypeScript compiler's type inference: `const asView = <S, A>(value: View<S, A>): View<S, A> => value`.
 
 - [`setInView`](https://github.com/obvibase/utils/blob/master/src/lib/view/setInView.ts): `applyPipe(view, setInView(value))` is equivalent to `applyPipe(view, ([, set]) => set(value))`.
 
@@ -202,7 +202,7 @@ const sampleReducer = (state: State, action: { payload: string }) =>
   );
 ```
 
-If the properties in the `State` were optional, we could write our reducer as follows to have type safety without explicitly specifying types:
+If the property `a` in the `State` is optional (`type State = { a?: { b: string; c: string } }`), and as before our reducer has to update `b`, simply chaining lenses will cause a typechecking error. Instead, we would write the reducer as follows:
 
 ```ts
 type State = { a?: { b: string; c: string } };
