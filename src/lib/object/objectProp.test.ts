@@ -117,7 +117,41 @@ it('works with index signatures', () => {
   `);
 });
 
-it('works with optional parameters, example from README', () => {
+it('works in example 1 from README', () => {
+  type State = { a: { b: string; c: string } };
+
+  const sampleReducer = (state: State, action: { payload: string }) =>
+    applyPipe(
+      [state, (value: State) => value] as const,
+      objectProp('a'),
+      objectProp('b'),
+      ([, set]) => set(action.payload),
+    );
+
+  expect(sampleReducer({ a: { b: '', c: '' } }, { payload: 'x' })).toEqual({
+    a: { b: 'x', c: '' },
+  });
+});
+
+it('works in example 2 from README', () => {
+  type State = { a: { b: string; c: string } };
+
+  const sampleReducer = (state: State, action: { payload: string }) =>
+    applyPipe(
+      // Was `[state, (value: State) => value] as const`.
+      asView([state, identity]),
+      objectProp('a'),
+      objectProp('b'),
+      // Was `([, set]) => set(action.payload)`.
+      setInView(action.payload),
+    );
+
+  expect(sampleReducer({ a: { b: '', c: '' } }, { payload: 'x' })).toEqual({
+    a: { b: 'x', c: '' },
+  });
+});
+
+it('works in example 3 from README', () => {
   type State = { a?: { b: string; c: string } };
 
   const sampleReducer = (state: State, action: { payload: string }) => {
