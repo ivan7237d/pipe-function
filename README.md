@@ -66,6 +66,8 @@ applyPipe(
 );
 ```
 
+The functions accept both plain and read-only versions of data structures as arguments, and return read-only versions (`readonly []`, `{ readonly a: number; }`, `ReadonlyMap`, `ReadonlySet` - all TypeScript-only concepts).
+
 Functions that set a value in an object (`setInObject`) or a map (`setInMap`) will delete the key if you pass to them the value of `undefined`. Because of this, avoid object types with required properties that can be equal to `undefined` (so instead of `{a: string | undefined}`, use `{a?: string}`) - otherwise trying to use `setInObject` will produce a typechecking error.
 
 Tip: make sure you enable strictly checked indexed access using [`--noUncheckedIndexedAccess` compiler flag](https://devblogs.microsoft.com/typescript/announcing-typescript-4-1-rc/#no-unchecked-indexed-access).
