@@ -36,9 +36,11 @@ The library intentionally doesn't include a `pipe` function that would compose f
 
 [Functions for working with iterables](https://github.com/obvibase/utils/tree/master/src/lib/iterable) have signatures that try to stay close to equivalent RxJS operators, but have names like `mapIterable` that do not clash with RxJS.
 
-Tip: to keep the API simple, functions like `mapIterable` and `filterIterable` have callbacks that only take the element as an argument, and don't take second and third arguments (element index and source object), in contrast to native array methods and RxJS operators. If you need the index, use `zipIterables(rangeIterable(), yourIterable)` (returns an iterable of `[<element index>, <element>]`), and if you only need a boolean indicating whether the element is the first element, use `zipIterables(firstIterable, yourIterable)` (returns an iterable of `[boolean, <element>]`).
+> :bulb: **Tip**
+>
+> To keep the API simple, functions like `mapIterable` and `filterIterable` have callbacks that only take the element as an argument, and don't take second and third arguments (element index and source object), in contrast to native array methods and RxJS operators. If you need the index, use `zipIterables(rangeIterable(), yourIterable)` (returns an iterable of `[<element index>, <element>]`), and if you only need a boolean indicating whether the element is the first element, use `zipIterables(firstIterable, yourIterable)` (returns an iterable of `[boolean, <element>]`).
 
-> :bulb:**Tip**
+> :bulb: **Tip**
 >
 > If filtering an iterable changes the type of the elements, use `flatMapIterable` instead of `filterIterable`: the type of elements in
 >
