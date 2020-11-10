@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.0.0](https://github.com/obvibase/utils/compare/v7.0.1...v8.0.0) (2020-11-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* **object:** objectToIterable is now objectEntries, iterableToObject is now objectFromEntries
+
+### Features
+
+* **object:** better names for some functions ([ad9c6a5](https://github.com/obvibase/utils/commit/ad9c6a5112cadaff9024b52edf25f17fc5a3e27a))
+
+
+### Bug Fixes
+
+* **object:** fix type for functions that iterate over object keys ([476b2d6](https://github.com/obvibase/utils/commit/476b2d6515c27963fd0467e8b01e26e9448403eb))
+
 ### [7.0.1](https://github.com/obvibase/utils/compare/v7.0.0...v7.0.1) (2020-11-10)
 
 
