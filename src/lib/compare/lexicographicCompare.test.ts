@@ -1,6 +1,5 @@
 import { applyPipe } from '../applyPipe';
 import { sortArray } from '../array/sortArray';
-import { mapTuple } from '../tuple/mapTuple';
 import { CompareFunction } from '../types/types';
 import { lexicographicCompare } from './lexicographicCompare';
 import { stringCompare } from './stringCompare';
@@ -33,8 +32,7 @@ it('works for 1+ arguments', () => {
     ...values
   ) =>
     applyPipe(
-      values,
-      mapTuple((value) => value[index]),
+      values.map((value) => value[index]) as [string, string],
       (values) => stringCompare(...values),
     );
   const sortedNatively = applyPipe(randomStrings, sortArray(stringCompare));

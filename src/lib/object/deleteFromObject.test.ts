@@ -1,11 +1,10 @@
 import { applyPipe } from '../applyPipe';
-import { identity } from '../identity';
 import { deleteFromObject } from './deleteFromObject';
 
 it('works', () => {
   expect(
     applyPipe(
-      identity<{ a?: number; b: number }>({ a: 0, b: 1 }),
+      { a: 0, b: 1 } as { a?: number; b: number },
       deleteFromObject('a'),
     ),
   ).toMatchInlineSnapshot(`
@@ -15,7 +14,7 @@ it('works', () => {
   `);
   expect(
     applyPipe(
-      identity<{ [key: number]: number }>({ '1': 0, '2': 1 }),
+      { '1': 0, '2': 1 } as { [key: number]: number },
       deleteFromObject(1),
     ),
   ).toMatchInlineSnapshot(`

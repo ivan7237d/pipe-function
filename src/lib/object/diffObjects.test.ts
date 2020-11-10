@@ -1,18 +1,16 @@
 import { applyPipe } from '../applyPipe';
-import { iterableToArray } from '../array/iterableToArray';
 import { diffObjects } from './diffObjects';
 
 it('works without equal function provided', () => {
-  expect(
-    applyPipe(
+  expect([
+    ...applyPipe(
       diffObjects(
         { a: 0, b: 1, c: 2 } as { [key: string]: number },
         { a: 0, b: 3, d: 4 } as { [key: string]: number },
         (from, to) => from === to,
       ),
-      iterableToArray,
     ),
-  ).toMatchInlineSnapshot(`
+  ]).toMatchInlineSnapshot(`
     Array [
       Array [
         "b",
@@ -40,16 +38,15 @@ it('works without equal function provided', () => {
 });
 
 it('works with equal function provided', () => {
-  expect(
-    applyPipe(
+  expect([
+    ...applyPipe(
       diffObjects(
         { a: [0], b: [1], c: [2] } as { [key: string]: [number] },
         { a: [0], b: [3], d: [4] } as { [key: string]: [number] },
         ([from], [to]) => from === to,
       ),
-      iterableToArray,
     ),
-  ).toMatchInlineSnapshot(`
+  ]).toMatchInlineSnapshot(`
     Array [
       Array [
         "b",

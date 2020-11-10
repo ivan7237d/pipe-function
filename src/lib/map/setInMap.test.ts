@@ -1,11 +1,10 @@
 import { applyPipe } from '../applyPipe';
-import { iterableToMap } from './iterableToMap';
 import { setInMap } from './setInMap';
 
 it('works', () => {
   expect(
     applyPipe(
-      iterableToMap([
+      new Map([
         ['a', 0],
         ['b', 1],
       ]),
@@ -20,7 +19,7 @@ it('works', () => {
 
   expect(
     applyPipe(
-      iterableToMap([
+      new Map([
         ['a', 0],
         ['b', 1],
       ]),
@@ -38,7 +37,7 @@ it('works', () => {
         ['a', 0],
         ['b', 1],
       ] as const,
-      iterableToMap,
+      (value) => new Map(value),
       setInMap('a', 1),
     ),
   ).toMatchInlineSnapshot(`
@@ -49,7 +48,11 @@ it('works', () => {
   `);
 
   expect(
-    applyPipe(new Map([['a', 1]]), iterableToMap, setInMap('b', undefined)),
+    applyPipe(
+      new Map([['a', 1]]),
+      (value) => new Map(value),
+      setInMap('b', undefined),
+    ),
   ).toMatchInlineSnapshot(`
     Map {
       "a" => 1,

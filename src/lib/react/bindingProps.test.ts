@@ -1,16 +1,16 @@
 import { applyPipe } from '../applyPipe';
-import { asStateView } from '../types/asStateView';
+import { StateView } from '../types/types';
 import { bindingProps } from './bindingProps';
 
 it('works', () => {
   const state = { value: 'a' };
   const { value, onChange } = applyPipe(
-    asStateView([
+    [
       state.value,
       (value) => {
         state.value = value;
       },
-    ]),
+    ] as StateView<string>,
     bindingProps,
   );
   expect(value).toEqual('a');

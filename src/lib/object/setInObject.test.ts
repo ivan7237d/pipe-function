@@ -1,5 +1,4 @@
 import { applyPipe } from '../applyPipe';
-import { identity } from '../identity';
 import { setInObject } from './setInObject';
 
 it('works', () => {
@@ -9,12 +8,8 @@ it('works', () => {
       "b": 1,
     }
   `);
-  expect(
-    applyPipe(
-      identity<{ a: number; b?: number }>({ a: 0 }),
-      setInObject('b', 1),
-    ),
-  ).toMatchInlineSnapshot(`
+  expect(applyPipe({ a: 0 } as { a: number; b?: number }, setInObject('b', 1)))
+    .toMatchInlineSnapshot(`
     Object {
       "a": 0,
       "b": 1,
@@ -22,7 +17,7 @@ it('works', () => {
   `);
   expect(
     applyPipe(
-      identity<{ a: number; b?: number }>({ a: 0, b: 1 }),
+      { a: 0, b: 1 } as { a: number; b?: number },
       setInObject('b', undefined),
     ),
   ).toMatchInlineSnapshot(`
@@ -30,16 +25,15 @@ it('works', () => {
       "a": 0,
     }
   `);
-  expect(
-    applyPipe(identity<{ [key: string]: number }>({}), setInObject('a', 0)),
-  ).toMatchInlineSnapshot(`
+  expect(applyPipe({} as { [key: string]: number }, setInObject('a', 0)))
+    .toMatchInlineSnapshot(`
     Object {
       "a": 0,
     }
   `);
   expect(
     applyPipe(
-      identity<{ [key: string]: number }>({ a: 0, b: 1 }),
+      { a: 0, b: 1 } as { [key: string]: number },
       setInObject('a', undefined),
     ),
   ).toMatchInlineSnapshot(`

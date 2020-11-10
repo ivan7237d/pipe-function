@@ -1,7 +1,6 @@
 import { applyPipe } from '../applyPipe';
-import { identity } from '../identity';
-import { asView } from '../types/asView';
-import { setInView } from '../view/setInView';
+import { View } from '../types/types';
+import { rootView } from '../view/rootView';
 import { mapProp } from './mapProp';
 
 it('works for non-readonly maps', () => {
@@ -9,12 +8,17 @@ it('works for non-readonly maps', () => {
     ['a', new Map([['b', 0]])],
     ['c', new Map([['d', 1]])],
   ]);
-  const [value, set] = applyPipe(asView([state, identity]), mapProp('a'));
+  const [value, set] = applyPipe(rootView(state), mapProp('a'));
   if (value === undefined) {
     throw undefined;
   }
-  expect(applyPipe(asView([value, set]), mapProp('b'), setInView(4)))
-    .toMatchInlineSnapshot(`
+  expect(
+    applyPipe(
+      [value, set] as View<typeof state, typeof value>,
+      mapProp('b'),
+      ([, set]) => set(4),
+    ),
+  ).toMatchInlineSnapshot(`
     Map {
       "a" => Map {
         "b" => 4,
@@ -31,5 +35,5 @@ it('works for readonly maps', () => {
     ['a', new Map([['b', 0]])],
     ['c', new Map([['d', 1]])],
   ]);
-  applyPipe(asView([state, identity]), mapProp('a'));
+  applyPipe(rootView(state), mapProp('a'));
 });

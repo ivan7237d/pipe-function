@@ -1,14 +1,13 @@
 import { applyPipe } from '../applyPipe';
 import { objectToIterable } from '../object/objectToIterable';
 import { deleteFromMap } from './deleteFromMap';
-import { iterableToMap } from './iterableToMap';
 
 it('works', () => {
   expect(
     applyPipe(
       { a: 0, b: 1 },
       objectToIterable,
-      iterableToMap,
+      value => new Map(value),
       deleteFromMap('a'),
     ),
   ).toMatchInlineSnapshot(`

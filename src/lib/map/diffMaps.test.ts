@@ -1,24 +1,21 @@
 import { applyPipe } from '../applyPipe';
-import { iterableToArray } from '../array/iterableToArray';
-import { identity } from '../identity';
 import { objectToIterable } from '../object/objectToIterable';
-import { mapTuple } from '../tuple/mapTuple';
 import { diffMaps } from './diffMaps';
 
 it('works without equal function provided', () => {
-  expect(
-    applyPipe(
+  expect([
+    ...applyPipe(
       [
         { a: 0, b: 1, c: 2 },
         { a: 0, b: 3, d: 4 },
       ] as const,
-      mapTuple((value) =>
-        applyPipe(value, objectToIterable, (source) => new Map(source)),
-      ),
+      (value) =>
+        value.map((value) =>
+          applyPipe(value, objectToIterable, (source) => new Map(source)),
+        ) as [Map<string, number>, Map<string, number>],
       (source) => diffMaps(...source),
-      iterableToArray,
     ),
-  ).toMatchInlineSnapshot(`
+  ]).toMatchInlineSnapshot(`
     Array [
       Array [
         "b",
@@ -47,19 +44,17 @@ it('works without equal function provided', () => {
 
 it('works with equal function provided', () => {
   type T = Record<string, readonly [number]>;
-  expect(
-    applyPipe(
+  expect([
+    ...applyPipe(
       [
-        identity<T>({ a: [0], b: [1], c: [2] }),
-        identity<T>({ a: [0], b: [3], d: [4] }),
-      ] as const,
-      mapTuple((value) =>
+        { a: [0], b: [1], c: [2] } as T,
+        { a: [0], b: [3], d: [4] } as T,
+      ].map((value) =>
         applyPipe(value, objectToIterable, (source) => new Map(source)),
-      ),
+      ) as [Map<string, [number]>, Map<string, [number]>],
       (source) => diffMaps(...source, ([from], [to]) => from === to),
-      iterableToArray,
     ),
-  ).toMatchInlineSnapshot(`
+  ]).toMatchInlineSnapshot(`
     Array [
       Array [
         "b",

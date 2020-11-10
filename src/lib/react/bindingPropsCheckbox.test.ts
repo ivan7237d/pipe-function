@@ -1,16 +1,16 @@
 import { applyPipe } from '../applyPipe';
-import { asStateView } from '../types/asStateView';
+import { StateView } from '../types/types';
 import { bindingPropsCheckbox } from './bindingPropsCheckbox';
 
 it('works', () => {
   const state = { checked: false };
   const { checked, onChange } = applyPipe(
-    asStateView([
+    [
       state.checked,
       (checked) => {
         state.checked = checked;
       },
-    ]),
+    ] as StateView<boolean>,
     bindingPropsCheckbox,
   );
   expect(checked).toEqual(false);

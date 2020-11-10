@@ -1,9 +1,8 @@
 import { applyPipe } from '../applyPipe';
-import { iterableToArray } from '../array/iterableToArray';
 import { objectToIterable } from './objectToIterable';
 
 it('works', () => {
-  expect(applyPipe({ a: 0, b: 1 }, objectToIterable, iterableToArray))
+  expect([...applyPipe({ a: 0, b: 1 }, objectToIterable)])
     .toMatchInlineSnapshot(`
     Array [
       Array [

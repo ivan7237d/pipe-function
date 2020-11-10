@@ -2,9 +2,11 @@
 
 Utils for writing functional-style code in TypeScript using a pipeline operator polyfill.
 
-- Minimal, easy-to-learn API.
+- Minimal API: if something can be easily done with vanilla JavaScript, the library does not provide a utility for that.
 
 - Includes [functions for working with native `Iterable`s](#iterables) that match their counterparts for working with observables in RxJS.
+
+- [Functions for immutably updating objects, arrays, maps, and sets](#objects-arrays-maps-and-sets).
 
 - [React-friendly lenses](#lenses).
 
@@ -28,7 +30,7 @@ npm install @obvibase/utils --save
 
 The library includes a function `applyPipe` which takes between 1 and 12 arguments and works as follows: `applyPipe(x, a, b)` is equivalent to `b(a(x))`, or expressing this using the pipeline operator, `x |> a |> b`. Type inference works well with this function, and eventually, once the pipeline operator reaches stage 3 and starts to be supported in TypeScript, it should be easy to build a codemod that will convert the function to the operator.
 
-The library intentionally doesn't include a `pipe` function that would compose functions without applying the resulting function to an argument, mainly because this would break the "one way to do it" rule.
+The library intentionally doesn't include a `pipe` function that would compose functions without applying the resulting function to an argument, mainly because this would break the "only one way to do it" rule.
 
 ## Iterables
 
@@ -58,38 +60,17 @@ it will be inferred as `Iterable<number>`.
 
 ## Objects, arrays, maps and sets
 
-The library includes non-mutating functions for working with [objects](https://github.com/obvibase/utils/tree/master/src/lib/object), [arrays](https://github.com/obvibase/utils/tree/master/src/lib/array), [maps](https://github.com/obvibase/utils/tree/master/src/lib/map), and [sets](https://github.com/obvibase/utils/tree/master/src/lib/set), but we do not duplicate for arrays, maps etc. those functions that are applicable to any iterable, so to filter an array into another array you would write
-
-```ts
-applyPipe(
-  [1, 2],
-  filterIterable((value) => value > 1),
-  iterableToArray,
-);
-```
-
-The functions accept both plain and read-only versions of data structures as arguments, and return read-only versions (`readonly []`, `{ readonly a: number; }`, `ReadonlyMap`, `ReadonlySet` - all TypeScript-only concepts).
+The library includes non-mutating functions for working with [objects](https://github.com/obvibase/utils/tree/master/src/lib/object), [arrays](https://github.com/obvibase/utils/tree/master/src/lib/array), [maps](https://github.com/obvibase/utils/tree/master/src/lib/map), and [sets](https://github.com/obvibase/utils/tree/master/src/lib/set), but while we provide say a function for immutably setting a value in an object, we do not provide a function to get a value from an object, since that is easily achieved with vanilla JavaScript. Less is more!
 
 Functions that set a value in an object (`setInObject`) or a map (`setInMap`) will delete the key if you pass to them the value of `undefined`. Because of this, avoid object types with required properties that can be equal to `undefined` (so instead of `{a: string | undefined}`, use `{a?: string}`) - otherwise trying to use `setInObject` will produce a typechecking error.
 
-Tip: make sure you enable strictly checked indexed access using [`--noUncheckedIndexedAccess` compiler flag](https://devblogs.microsoft.com/typescript/announcing-typescript-4-1-rc/#no-unchecked-indexed-access).
-
-A performance-related note on functions `reverseArray` and `sliceArray`: these functions can be implemented either using iteration or using native array methods, and one can think up use-cases where each approach has significantly better performance than the other. Since implementing both approaches would only create clutter for the majority of use-cases where the difference doesn't matter, we only use the first one (iteration), and leave it to the developer to fall back to native array methods when necessary.
-
-## Tuples
-
-For tuples (a TypeScript concept) we provide a single function [`mapTuple`](https://github.com/obvibase/utils/blob/master/src/lib/tuple/mapTuple.ts) which maps an array into another array while retaining information on its length and names of its elements, so that the type of
-
-```ts
-applyPipe(
-  [1, 2] as [first: number, second: number],
-  mapTuple((value) => `${value}`),
-);
-```
-
-will be inferred as `[first: string, second: string]` rather than `string[]`.
+The way the native array's `map` method is currently typed in TypeScript, it turns a touple (`[string, string]`) into an array (`string[]`), and this might require extra type casts until the corresponding [issue](https://github.com/microsoft/TypeScript/issues/29841) is fixed.
 
 Tip: if you write `['a', 1]` by itself, TypeScript compiler will infer the type as `(string | number)[]`. To make this a tuple `[string, number]` without having to cast to a specific type, use `['a', 1] as const`. For example, you would write `applyPipe([['a', 1]] as const, iterableToMap)` - if you omit `as const`, this will cause a typechecking error.
+
+Tip: if you use TypeScript 4.1+, make sure you enable strictly checked indexed access using [`--noUncheckedIndexedAccess` compiler flag](https://devblogs.microsoft.com/typescript/announcing-typescript-4-1-rc/#no-unchecked-indexed-access).
+
+A performance-related note on functions `reverseArray` and `sliceArray`: these functions can be implemented either using iteration or using native array methods, and one can think up use-cases where each approach has significantly better performance than the other. Since implementing both approaches would only create clutter for the majority of use-cases where the difference doesn't matter, we only use the first one (iteration), and leave it to the developer to fall back to native array methods when necessary.
 
 ## Comparison functions
 
@@ -169,7 +150,7 @@ type State = { a: { b: string; c: string } };
 
 const sampleReducer = (state: State, action: { payload: string }) =>
   applyPipe(
-    [state, (value: State) => value] as const,
+    [state, (value) => value] as View<State, State>,
     objectProp('a'),
     objectProp('b'),
     ([, set]) => set(action.payload),
@@ -180,41 +161,23 @@ expect(sampleReducer({ a: { b: '', c: '' } }, { payload: 'x' })).toEqual({
 });
 ```
 
-We can use some helper functions to make the above code more readable:
+There is a helper function [`rootView`](https://github.com/obvibase/utils/blob/master/src/lib/view/rootView.ts) which we can use to replace `[state, (value) => value] as View<State, State>` in the code above with just `rootView(state)`.
 
-- [`identity`](https://github.com/obvibase/utils/blob/master/src/lib/identity.ts): identity function, `const identity = <T>(value: T) => value`.
-
-- [`asView`](https://github.com/obvibase/utils/blob/master/src/lib/types/asView.ts): also just an identity function but downcasts the value to `View` to help TypeScript compiler's type inference: `const asView = <S, A>(value: View<S, A>): View<S, A> => value`.
-
-- [`setInView`](https://github.com/obvibase/utils/blob/master/src/lib/view/setInView.ts): `applyPipe(view, setInView(value))` is equivalent to `applyPipe(view, ([, set]) => set(value))`.
-
-With these helpers, the code above becomes
-
-```ts
-type State = { a: { b: string; c: string } };
-
-const sampleReducer = (state: State, action: { payload: string }) =>
-  applyPipe(
-    // Was `[state, (value: State) => value] as const`.
-    asView([state, identity]),
-    objectProp('a'),
-    objectProp('b'),
-    // Was `([, set]) => set(action.payload)`.
-    setInView(action.payload),
-  );
-```
-
-If the property `a` in the `State` is optional (`type State = { a?: { b: string; c: string } }`), and as before our reducer has to update `b`, simply chaining lenses will cause a typechecking error. Instead, we would write the reducer as follows:
+If the property `a` in the `State` is optional, and as before our reducer has to update `b`, simply chaining lenses will cause a typechecking error. Instead, we would write the reducer as follows:
 
 ```ts
 type State = { a?: { b: string; c: string } };
 
 const sampleReducer = (state: State, action: { payload: string }) => {
   // `View<State, { b: string; c: string } | undefined>`
-  const [value, set] = applyPipe(asView([state, identity]), objectProp('a'));
+  const [value, set] = applyPipe(rootView(state), objectProp('a'));
+  const valueOrDefault = value ?? { b: '', c: '' };
   // `View<State, { b: string; c: string }>`
-  const view = asView([value ?? { b: '', c: '' }, set]);
-  return applyPipe(view, objectProp('b'), setInView(action.payload));
+  const view: View<State, typeof valueOrDefault> = [
+    value ?? { b: '', c: '' },
+    set,
+  ];
+  return applyPipe(view, objectProp('b'), ([, set]) => set(action.payload));
 };
 
 expect(sampleReducer({}, { payload: 'x' })).toEqual({
@@ -222,19 +185,11 @@ expect(sampleReducer({}, { payload: 'x' })).toEqual({
 });
 ```
 
-The library includes two other lenses:
+The library also includes two other lenses:
 
 - [`mapProp`](https://github.com/obvibase/utils/blob/master/src/lib/map/mapProp.ts): a lens to zoom in on a value of a `Map`.
 
 - [`setProp`](https://github.com/obvibase/utils/blob/master/src/lib/set/setProp.ts): a lens to zoom in on presence of an element in a `Set`.
-
-It also includes the following helpers in addition to those already mentioned:
-
-- [`valueInView`](https://github.com/obvibase/utils/blob/master/src/lib/view/valueInView.ts): `applyPipe(view, valueInView)` is equivalent to `applyPipe(view, ([value]) => value)`.
-
-- [`mapInView`](https://github.com/obvibase/utils/blob/master/src/lib/view/mapInView.ts): `applyPipe(view, mapInView(value => value + 1))` is equivalent to `applyPipe(view, ([value, set]) => set(value + 1))`.
-
-- [`asStateView`](https://github.com/obvibase/utils/blob/master/src/lib/types/asStateView.ts) - similar to `asView`.
 
 ## Miscellaneous
 
