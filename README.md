@@ -66,7 +66,7 @@ Functions that set a value in an object (`setInObject`) or a map (`setInMap`) wi
 
 The way the native array's `map` method is currently typed in TypeScript, it turns a touple (`[string, string]`) into an array (`string[]`), and this might require extra type casts until the corresponding [issue](https://github.com/microsoft/TypeScript/issues/29841) is fixed.
 
-Tip: if you write `['a', 1]` by itself, TypeScript compiler will infer the type as `(string | number)[]`. To make this a tuple `[string, number]` without having to cast to a specific type, use `['a', 1] as const`. For example, you would write `applyPipe([['a', 1]] as const, iterableToObject)` - if you omit `as const`, this will cause a typechecking error.
+Tip: if you write `['a', 1]` by itself, TypeScript compiler will infer the type as `(string | number)[]`. To make this a tuple `[string, number]` without having to cast to a specific type, use `['a', 1] as const`. For example, you would write `applyPipe([['a', 1]] as const, objectFromEntries)` - if you omit `as const`, this will cause a typechecking error.
 
 Tip: if you use TypeScript 4.1+, make sure you enable strictly checked indexed access using [`--noUncheckedIndexedAccess` compiler flag](https://devblogs.microsoft.com/typescript/announcing-typescript-4-1-rc/#no-unchecked-indexed-access).
 
