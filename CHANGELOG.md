@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.0.0](https://github.com/obvibase/utils/compare/v6.0.0...v7.0.0) (2020-11-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* some utilities have been removed
+
+### Features
+
+* trim API so that it does not duplicate native functionality ([45147f5](https://github.com/obvibase/utils/commit/45147f5f28e6533c94f1cea2bab4a5d692d83f9f))
+* **view:** rootView helper function ([d75f889](https://github.com/obvibase/utils/commit/d75f889999dafcc546e9ba43bc8a2a6fccfcbd2b))
+
 ## [6.0.0](https://github.com/obvibase/utils/compare/v5.0.1...v6.0.0) (2020-11-07)
 
 
