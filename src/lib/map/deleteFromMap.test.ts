@@ -7,7 +7,7 @@ it('works', () => {
     applyPipe(
       { a: 0, b: 1 },
       objectToIterable,
-      value => new Map(value),
+      (value) => new Map(value),
       deleteFromMap('a'),
     ),
   ).toMatchInlineSnapshot(`
