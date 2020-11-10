@@ -29,8 +29,7 @@
     "version": "standard-version",
     "reset-hard": "git clean -dfx && git reset --hard && yarn",
     "release:prepare": "run-s test doc:html version doc:publish",
-    "release:publish": "run-s git push --follow-tags origin master && npm publish",
-    "release": "run-s release:prepare release:publish",
+    "release": "run-s release:prepare",
     "commit": "cz"
   },
   "engines": {
