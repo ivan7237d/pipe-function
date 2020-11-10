@@ -5,7 +5,7 @@ it('works', () => {
   expect(
     applyPipe(
       iterableToObject([
-        ['a', 0],
+        ['a', 0] as const,
         ['b', 1],
         ['c', undefined],
       ]),
