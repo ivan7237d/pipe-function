@@ -4,11 +4,7 @@ import { iterableToObject } from './iterableToObject';
 it('works', () => {
   expect(
     applyPipe(
-      iterableToObject([
-        ['a', 0] as const,
-        ['b', 1],
-        ['c', undefined],
-      ]),
+      iterableToObject([['a', 0] as const, ['b', 1], ['c', undefined]]),
     ),
   ).toMatchInlineSnapshot(`
     Object {
