@@ -2,13 +2,13 @@
 
 Utils for writing functional-style code in TypeScript using a pipeline operator polyfill.
 
-- Minimal API: the library provides a utility only when something can't be easily done with vanilla JavaScript.
+- Minimal API: based on "only one way to do it" principle, the library provides a utility only when something can't be easily done with vanilla JavaScript.
 
-- [Functions for immutably updating objects, arrays, maps, and sets](#objects-arrays-maps-and-sets).
-
-- [React-friendly lenses](#lenses).
+- [Non-mutating functions for working with objects, arrays, maps, and sets](#objects-arrays-maps-and-sets).
 
 - [Functions for working with native `Iterable`s](#iterables) that match their counterparts for working with observables in RxJS.
+
+- [React-friendly lenses](#lenses).
 
 - Fully tree-shakeable.
 
@@ -31,6 +31,22 @@ npm install @obvibase/utils --save
 The library includes a function `applyPipe` which takes between 1 and 12 arguments: `applyPipe(x, a, b)` is equivalent to `b(a(x))`, or using the pipeline operator, `x |> a |> b`. Type inference works well with this function, and eventually once the pipeline operator reaches stage 3 and starts to be supported in TypeScript, it should be easy to build a codemod to convert the function to the operator.
 
 The library intentionally doesn't include a `pipe` function that would compose functions without applying the resulting function to an argument, mainly because this would break the "only one way to do it" rule.
+
+## Objects, arrays, maps and sets
+
+The library includes non-mutating functions for working with [objects](https://github.com/obvibase/utils/tree/master/src/lib/object), [arrays](https://github.com/obvibase/utils/tree/master/src/lib/array), [maps](https://github.com/obvibase/utils/tree/master/src/lib/map), and [sets](https://github.com/obvibase/utils/tree/master/src/lib/set).
+
+> :bulb: **Tip**
+>
+> Functions that set a value in an object (`setInObject`) or a map (`setInMap`) will delete the key if you pass to them the value of `undefined`. Because of this, avoid object types with required properties that can be equal to `undefined` (so instead of `{a: string | undefined}`, use `{a?: string}`) - otherwise trying to use `setInObject` will produce a typechecking error.
+
+> :bulb: **Tip**
+>
+> If you write `['a', 1]` by itself, TypeScript compiler will infer the type as `(string | number)[]`. To make this a tuple `[string, number]` without having to cast to a specific type, use `['a', 1] as const`. For example, you would write `applyPipe([['a', 1]] as const, objectFromEntries)` - if you omit `as const`, this will cause a typechecking error.
+
+> :bulb: **Tip**
+>
+> If you use TypeScript 4.1+, make sure you enable strictly checked indexed access using [`--noUncheckedIndexedAccess` compiler flag](https://devblogs.microsoft.com/typescript/announcing-typescript-4-1-rc/#no-unchecked-indexed-access).
 
 ## Iterables
 
@@ -61,20 +77,6 @@ The library intentionally doesn't include a `pipe` function that would compose f
 > ```
 >
 > it will be inferred as `Iterable<number>`.
-
-## Objects, arrays, maps and sets
-
-The library includes non-mutating functions for working with [objects](https://github.com/obvibase/utils/tree/master/src/lib/object), [arrays](https://github.com/obvibase/utils/tree/master/src/lib/array), [maps](https://github.com/obvibase/utils/tree/master/src/lib/map), and [sets](https://github.com/obvibase/utils/tree/master/src/lib/set), but while we provide say a function for immutably setting a value in an object, we do not provide a function to get a value from an object, since that is easily achieved with vanilla JavaScript. Less is more!
-
-Functions that set a value in an object (`setInObject`) or a map (`setInMap`) will delete the key if you pass to them the value of `undefined`. Because of this, avoid object types with required properties that can be equal to `undefined` (so instead of `{a: string | undefined}`, use `{a?: string}`) - otherwise trying to use `setInObject` will produce a typechecking error.
-
-The way the native array's `map` method is currently typed in TypeScript, it turns a touple (`[string, string]`) into an array (`string[]`), and this might require extra type casts until the corresponding [issue](https://github.com/microsoft/TypeScript/issues/29841) is fixed.
-
-Tip: if you write `['a', 1]` by itself, TypeScript compiler will infer the type as `(string | number)[]`. To make this a tuple `[string, number]` without having to cast to a specific type, use `['a', 1] as const`. For example, you would write `applyPipe([['a', 1]] as const, objectFromEntries)` - if you omit `as const`, this will cause a typechecking error.
-
-Tip: if you use TypeScript 4.1+, make sure you enable strictly checked indexed access using [`--noUncheckedIndexedAccess` compiler flag](https://devblogs.microsoft.com/typescript/announcing-typescript-4-1-rc/#no-unchecked-indexed-access).
-
-A performance-related note on functions `reverseArray` and `sliceArray`: these functions can be implemented either using iteration or using native array methods, and one can think up use-cases where each approach has significantly better performance than the other. Since implementing both approaches would only create clutter for the majority of use-cases where the difference doesn't matter, we only use the first one (iteration), and leave it to the developer to fall back to native array methods when necessary.
 
 ## Comparison functions
 

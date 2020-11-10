@@ -3,6 +3,10 @@
  * Either one of the two parameters can be dropped, in which case the
  * corresponding condition will not be checked. Differs from the native `slice`
  * method in that negative values of parameters have no special meaning.
+ *
+ * If you are working with a very large array and do not need to stop the
+ * iteration early, you may prefer using the native method for better
+ * performance.
  */
 export const sliceArray = (from?: number, to?: number) =>
   function* <T>(source: readonly T[]): Iterable<T> {
