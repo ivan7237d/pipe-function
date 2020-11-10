@@ -1,10 +1,10 @@
 import { applyPipe } from '../applyPipe';
-import { iterableToObject } from './iterableToObject';
+import { objectFromEntries } from './objectFromEntries';
 
 it('works', () => {
   expect(
     applyPipe(
-      iterableToObject([['a', 0] as const, ['b', 1], ['c', undefined]]),
+      objectFromEntries([['a', 0] as const, ['b', 1], ['c', undefined]]),
     ),
   ).toMatchInlineSnapshot(`
     Object {

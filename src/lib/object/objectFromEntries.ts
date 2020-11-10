@@ -1,7 +1,8 @@
 /**
- * Converts an iterable of key-value pairs to an object.
+ * Converts an iterable of key-value pairs to an object. The same as
+ * Object.fromEntries, but is better typed.
  */
-export const iterableToObject = <Key extends string | number | symbol, Value>(
+export const objectFromEntries = <Key extends string | number | symbol, Value>(
   source: Iterable<readonly [key: Key, value: Value]>,
 ): Readonly<Record<Key, Value>> => {
   const result = {} as Record<Key, Value>;

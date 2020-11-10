@@ -1,12 +1,12 @@
 import { applyPipe } from '../applyPipe';
-import { objectToIterable } from '../object/objectToIterable';
+import { objectEntries } from '../object/objectEntries';
 import { deleteFromMap } from './deleteFromMap';
 
 it('works', () => {
   expect(
     applyPipe(
       { a: 0, b: 1 },
-      objectToIterable,
+      objectEntries,
       (value) => new Map(value),
       deleteFromMap('a'),
     ),
@@ -18,7 +18,7 @@ it('works', () => {
   expect(
     applyPipe(
       { a: 0, b: 1 },
-      objectToIterable,
+      objectEntries,
       (source) => new Map(source),
       deleteFromMap('c'),
     ),

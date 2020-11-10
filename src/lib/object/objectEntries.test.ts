@@ -1,9 +1,8 @@
 import { applyPipe } from '../applyPipe';
-import { objectToIterable } from './objectToIterable';
+import { objectEntries } from './objectEntries';
 
 it('works', () => {
-  expect([...applyPipe({ a: 0, b: 1 }, objectToIterable)])
-    .toMatchInlineSnapshot(`
+  expect([...applyPipe({ a: 0, b: 1 }, objectEntries)]).toMatchInlineSnapshot(`
     Array [
       Array [
         "a",
@@ -17,9 +16,7 @@ it('works', () => {
   `);
 
   const symbol = Symbol();
-  const entries = [
-    ...applyPipe({ a: 1 as const, [symbol]: 2 }, objectToIterable),
-  ];
+  const entries = [...applyPipe({ a: 1 as const, [symbol]: 2 }, objectEntries)];
   expect(entries).toMatchInlineSnapshot(`
     Array [
       Array [

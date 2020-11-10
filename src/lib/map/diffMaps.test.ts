@@ -1,5 +1,5 @@
 import { applyPipe } from '../applyPipe';
-import { objectToIterable } from '../object/objectToIterable';
+import { objectEntries } from '../object/objectEntries';
 import { diffMaps } from './diffMaps';
 
 it('works without equal function provided', () => {
@@ -11,7 +11,7 @@ it('works without equal function provided', () => {
       ] as const,
       (value) =>
         value.map((value) =>
-          applyPipe(value, objectToIterable, (source) => new Map(source)),
+          applyPipe(value, objectEntries, (source) => new Map(source)),
         ) as [Map<string, number>, Map<string, number>],
       (source) => diffMaps(...source),
     ),
@@ -50,7 +50,7 @@ it('works with equal function provided', () => {
         { a: [0], b: [1], c: [2] } as T,
         { a: [0], b: [3], d: [4] } as T,
       ].map((value) =>
-        applyPipe(value, objectToIterable, (source) => new Map(source)),
+        applyPipe(value, objectEntries, (source) => new Map(source)),
       ) as [Map<string, [number]>, Map<string, [number]>],
       (source) => diffMaps(...source, ([from], [to]) => from === to),
     ),
