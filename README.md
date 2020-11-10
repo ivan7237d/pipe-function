@@ -2,13 +2,13 @@
 
 Utils for writing functional-style code in TypeScript using a pipeline operator polyfill.
 
-- Minimal API: if something can be easily done with vanilla JavaScript, the library does not provide a utility for that.
-
-- Includes [functions for working with native `Iterable`s](#iterables) that match their counterparts for working with observables in RxJS.
+- Minimal API: the library provides a utility only when something can't be easily done with vanilla JavaScript.
 
 - [Functions for immutably updating objects, arrays, maps, and sets](#objects-arrays-maps-and-sets).
 
 - [React-friendly lenses](#lenses).
+
+- [Functions for working with native `Iterable`s](#iterables) that match their counterparts for working with observables in RxJS.
 
 - Fully tree-shakeable.
 
@@ -28,7 +28,7 @@ npm install @obvibase/utils --save
 
 ## Pipeline operator polyfill
 
-The library includes a function `applyPipe` which takes between 1 and 12 arguments and works as follows: `applyPipe(x, a, b)` is equivalent to `b(a(x))`, or expressing this using the pipeline operator, `x |> a |> b`. Type inference works well with this function, and eventually, once the pipeline operator reaches stage 3 and starts to be supported in TypeScript, it should be easy to build a codemod that will convert the function to the operator.
+The library includes a function `applyPipe` which takes between 1 and 12 arguments: `applyPipe(x, a, b)` is equivalent to `b(a(x))`, or using the pipeline operator, `x |> a |> b`. Type inference works well with this function, and eventually once the pipeline operator reaches stage 3 and starts to be supported in TypeScript, it should be easy to build a codemod to convert the function to the operator.
 
 The library intentionally doesn't include a `pipe` function that would compose functions without applying the resulting function to an argument, mainly because this would break the "only one way to do it" rule.
 
@@ -36,27 +36,29 @@ The library intentionally doesn't include a `pipe` function that would compose f
 
 [Functions for working with iterables](https://github.com/obvibase/utils/tree/master/src/lib/iterable) have signatures that try to stay close to equivalent RxJS operators, but have names like `mapIterable` that do not clash with RxJS.
 
-To keep the API simple, functions like `mapIterable` and `filterIterable` have callbacks that only take the element as an argument, and don't take second and third arguments (element index and source object), in contrast to native array methods and RxJS operators. If you need the index, use `zipIterables(rangeIterable(), yourIterable)` (returns an iterable of `[<element index>, <element>]`), and if you only need a boolean indicating whether the element is the first element, use `zipIterables(firstIterable, yourIterable)` (returns an iterable of `[boolean, <element>]`).
+Tip: to keep the API simple, functions like `mapIterable` and `filterIterable` have callbacks that only take the element as an argument, and don't take second and third arguments (element index and source object), in contrast to native array methods and RxJS operators. If you need the index, use `zipIterables(rangeIterable(), yourIterable)` (returns an iterable of `[<element index>, <element>]`), and if you only need a boolean indicating whether the element is the first element, use `zipIterables(firstIterable, yourIterable)` (returns an iterable of `[boolean, <element>]`).
 
-Tip: if filtering an iterable changes the type of the elements, use `flatMapIterable` instead of `filterIterable`: the type of elements in
-
-```ts
-applyPipe(
-  [1, undefined],
-  filterIterable((value) => value !== undefined),
-);
-```
-
-will be inferred as `Iterable<number | undefined>`, while for
-
-```ts
-applyPipe(
-  [1, undefined],
-  flatMapIterable((value) => (value === undefined ? [] : [value])),
-);
-```
-
-it will be inferred as `Iterable<number>`.
+> :bulb:_Tip_
+>
+> If filtering an iterable changes the type of the elements, use `flatMapIterable` instead of `filterIterable`: the type of elements in
+>
+> ```ts
+> applyPipe(
+>   [1, undefined],
+>   filterIterable((value) => value !== undefined),
+> );
+> ```
+>
+> will be inferred as `Iterable<number | undefined>`, while for
+>
+> ```ts
+> applyPipe(
+>   [1, undefined],
+>   flatMapIterable((value) => (value === undefined ? [] : [value])),
+> );
+> ```
+>
+> it will be inferred as `Iterable<number>`.
 
 ## Objects, arrays, maps and sets
 
