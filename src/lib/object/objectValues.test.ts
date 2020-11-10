@@ -8,4 +8,11 @@ it('works', () => {
       1,
     ]
   `);
+  const symbol = Symbol();
+  const values = [...applyPipe({ a: 1 as const, [symbol]: 2 }, objectValues)];
+  expect(values).toMatchInlineSnapshot(`
+    Array [
+      1,
+    ]
+  `);
 });

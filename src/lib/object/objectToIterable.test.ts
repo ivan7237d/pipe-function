@@ -15,4 +15,17 @@ it('works', () => {
       ],
     ]
   `);
+
+  const symbol = Symbol();
+  const entries = [
+    ...applyPipe({ a: 1 as const, [symbol]: 2 }, objectToIterable),
+  ];
+  expect(entries).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        "a",
+        1,
+      ],
+    ]
+  `);
 });
