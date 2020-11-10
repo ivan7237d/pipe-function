@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.1](https://github.com/obvibase/utils/compare/v7.0.0...v7.0.1) (2020-11-10)
+
+
+### Bug Fixes
+
+* **object:** fix type of iterableToObject ([d337b2a](https://github.com/obvibase/utils/commit/d337b2ad16a28877d66cf278f46868dafce58524))
+
 ## [7.0.0](https://github.com/obvibase/utils/compare/v6.0.0...v7.0.0) (2020-11-10)
 
 
