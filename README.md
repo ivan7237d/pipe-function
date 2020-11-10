@@ -36,29 +36,19 @@ The library intentionally doesn't include a `pipe` function that would compose f
 
 The library includes non-mutating functions for working with [objects](https://github.com/obvibase/utils/tree/master/src/lib/object), [arrays](https://github.com/obvibase/utils/tree/master/src/lib/array), [maps](https://github.com/obvibase/utils/tree/master/src/lib/map), and [sets](https://github.com/obvibase/utils/tree/master/src/lib/set).
 
-> :bulb: **Tip**
->
-> Functions that set a value in an object (`setInObject`) or a map (`setInMap`) will delete the key if you pass to them the value of `undefined`. Because of this, avoid object types with required properties that can be equal to `undefined` (so instead of `{a: string | undefined}`, use `{a?: string}`) - otherwise trying to use `setInObject` will produce a typechecking error.
+> :bulb: Functions that set a value in an object (`setInObject`) or a map (`setInMap`) will delete the key if you pass to them the value of `undefined`. Because of this, avoid object types with required properties that can be equal to `undefined` (so instead of `{a: string | undefined}`, use `{a?: string}`) - otherwise trying to use `setInObject` will produce a typechecking error.
 
-> :bulb: **Tip**
->
-> If you write `['a', 1]` by itself, TypeScript compiler will infer the type as `(string | number)[]`. To make this a tuple `[string, number]` without having to cast to a specific type, use `['a', 1] as const`. For example, you would write `applyPipe([['a', 1]] as const, objectFromEntries)` - if you omit `as const`, this will cause a typechecking error.
+> :bulb: If you write `['a', 1]` by itself, TypeScript compiler will infer the type as `(string | number)[]`. To make this a tuple `[string, number]` without having to cast to a specific type, use `['a', 1] as const`. For example, you would write `applyPipe([['a', 1]] as const, objectFromEntries)` - if you omit `as const`, this will cause a typechecking error.
 
-> :bulb: **Tip**
->
-> If you use TypeScript 4.1+, make sure you enable strictly checked indexed access using [`--noUncheckedIndexedAccess` compiler flag](https://devblogs.microsoft.com/typescript/announcing-typescript-4-1-rc/#no-unchecked-indexed-access).
+> :bulb: If you use TypeScript 4.1+, make sure you enable strictly checked indexed access using [`--noUncheckedIndexedAccess` compiler flag](https://devblogs.microsoft.com/typescript/announcing-typescript-4-1-rc/#no-unchecked-indexed-access).
 
 ## Iterables
 
 [Functions for working with iterables](https://github.com/obvibase/utils/tree/master/src/lib/iterable) have signatures that try to stay close to equivalent RxJS operators, but have names like `mapIterable` that do not clash with RxJS.
 
-> :bulb: **Tip**
->
-> To keep the API simple, functions like `mapIterable` and `filterIterable` have callbacks that only take the element as an argument, and don't take second and third arguments (element index and source object), in contrast to native array methods and RxJS operators. If you need the index, use `zipIterables(rangeIterable(), yourIterable)` (returns an iterable of `[<element index>, <element>]`), and if you only need a boolean indicating whether the element is the first element, use `zipIterables(firstIterable, yourIterable)` (returns an iterable of `[boolean, <element>]`).
+> :bulb: To keep the API simple, functions like `mapIterable` and `filterIterable` have callbacks that only take the element as an argument, and don't take second and third arguments (element index and source object), in contrast to native array methods and RxJS operators. If you need the index, use `zipIterables(rangeIterable(), yourIterable)` (returns an iterable of `[<element index>, <element>]`), and if you only need a boolean indicating whether the element is the first element, use `zipIterables(firstIterable, yourIterable)` (returns an iterable of `[boolean, <element>]`).
 
-> :bulb: **Tip**
->
-> If filtering an iterable changes the type of the elements, use `flatMapIterable` instead of `filterIterable`: the type of elements in
+> :bulb: If filtering an iterable changes the type of the elements, use `flatMapIterable` instead of `filterIterable`: the type of elements in
 >
 > ```ts
 > applyPipe(
