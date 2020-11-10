@@ -149,7 +149,8 @@ it('works in example 3 from README', () => {
     // `View<State, { b: string; c: string } | undefined>`
     const [value, set] = applyPipe(rootView(state), objectProp('a'));
     const valueOrDefault = value ?? { b: '', c: '' };
-    // `View<State, { b: string; c: string }>`
+    // `View<State, { b: string; c: string }>`. Typing `view` should become easier
+    // once the issue https://github.com/microsoft/TypeScript/issues/10571 is fixed.
     const view: View<State, typeof valueOrDefault> = [
       value ?? { b: '', c: '' },
       set,
