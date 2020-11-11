@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.1.0](https://github.com/obvibase/utils/compare/v8.0.0...v8.1.0) (2020-11-11)
+
+
+### Features
+
+* **object:** broaden signature of setInObject ([8761684](https://github.com/obvibase/utils/commit/87616849c5b74c406954419caa1f645f1d84c9c7))
+
 ## [8.0.0](https://github.com/obvibase/utils/compare/v7.0.1...v8.0.0) (2020-11-10)
 
 
