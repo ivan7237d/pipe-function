@@ -2,24 +2,24 @@ import { applyPipe } from '../applyPipe';
 import { Lens } from '../types/types';
 import { setInObject } from './setInObject';
 
-type ObjectValue<Obj, Key extends keyof Obj> = Omit<Obj, Key> extends Obj
-  ? Obj[Key] | undefined
-  : undefined extends Obj[Key]
-  ? never
-  : Obj[Key];
-
 /**
- * A lens for zooming in on an object's property. The setter will
- * remove the key if the value is undefined. The object must not have
- * required properties equal to undefined.
+ * A lens for zooming in on an object's property. The setter will remove the key
+ * if the value is undefined.
  */
-export const objectProp = <
-  S,
-  A extends { [key: string]: unknown },
-  Key extends keyof A
->(
+export const objectProp = <S, A, Key extends keyof A>(
   key: Key,
-): Lens<S, A, ObjectValue<A, Key>> => ([objectValue, set]) => [
-  objectValue[key] as ObjectValue<A, Key>,
-  (propValue) => set(applyPipe(objectValue, setInObject(key, propValue))),
+): Lens<
+  S,
+  A,
+  Omit<A, Key> extends A
+    ? A[Key] | undefined
+    : undefined extends A[Key]
+    ? never
+    : A[Key]
+> => ([objectValue, set]) => [
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  objectValue[key] as any,
+  (propValue) =>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    set(applyPipe(objectValue as any, setInObject(key, propValue))),
 ];
