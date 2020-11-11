@@ -62,7 +62,7 @@ The library includes non-mutating functions for working with [objects](https://g
 > );
 > ```
 >
-> it will be inferred as `Iterable<number>`.
+> it will be inferred as `Iterable<number>`. The same trick works when filtering arrays and observables.
 
 ## Comparison functions
 
