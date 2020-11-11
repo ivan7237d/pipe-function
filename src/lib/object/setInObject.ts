@@ -1,19 +1,18 @@
-type ObjectValue<Obj, Key extends keyof Obj> = Omit<Obj, Key> extends Obj
-  ? Obj[Key] | undefined
-  : undefined extends Obj[Key]
-  ? never
-  : Obj[Key];
-
 /**
  * Sets a property value immutable-style. If the provided value is undefined,
- * deletes the key. The object must not have required properties equal to
- * undefined.
+ * deletes the key.
  */
-export const setInObject = <T, Key extends keyof T>(
+export const setInObject = <
+  T,
+  Key extends keyof T,
+  Value extends T[Key] | undefined
+>(
   key: Key,
-  value: ObjectValue<T, Key>,
-) => (obj: T): Readonly<T> => {
-  const { ...copy } = obj;
+  value: Value,
+) => (
+  obj: Value extends undefined ? (Omit<T, Key> extends T ? T : never) : T,
+): T => {
+  const { ...copy } = obj as T;
   if (value === undefined) {
     delete copy[key];
   } else {
