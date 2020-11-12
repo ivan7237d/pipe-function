@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.0.0](https://github.com/obvibase/utils/compare/v8.1.0...v9.0.0) (2020-11-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* **iterable:** anyInIterable was renamed to someInIterable
+
+### Features
+
+* **iterable:** better name for someInIterable ([e371a1b](https://github.com/obvibase/utils/commit/e371a1befb15b3feaf056019e7ee55d7b12d0ed9))
+* **iterable:** countInIterable ([815b9d9](https://github.com/obvibase/utils/commit/815b9d943d1458b1ff392527ac880e382c0b43fe))
+* broaden type signatures of some functions ([9f421cc](https://github.com/obvibase/utils/commit/9f421cc1946e49cbe1da27f1d62ed9b809bc6a36))
+
 ## [8.1.0](https://github.com/obvibase/utils/compare/v8.0.0...v8.1.0) (2020-11-11)
 
 
