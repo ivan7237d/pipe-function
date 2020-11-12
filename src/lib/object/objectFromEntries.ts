@@ -4,7 +4,7 @@
  */
 export const objectFromEntries = <Key extends string | number | symbol, Value>(
   source: Iterable<readonly [key: Key, value: Value]>,
-): Readonly<Record<Key, Value>> => {
+): Record<Key, Value> => {
   const result = {} as Record<Key, Value>;
   for (const [key, value] of source) {
     result[key] = value;

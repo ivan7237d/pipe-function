@@ -9,15 +9,13 @@ export const diffMaps = function* <Key, Value>(
   from: ReadonlyMap<Key, Value>,
   to: ReadonlyMap<Key, Value>,
   equalFunction: EqualFunction<Value> = (from, to) => from === to,
-): Iterable<
-  readonly [
-    key: Key,
-    values:
-      | readonly [from: Value, to: Value]
-      | readonly [from: Value, to: undefined]
-      | readonly [from: undefined, to: Value],
-  ]
-> {
+): Iterable<[
+  key: Key,
+  values:
+    | [from: Value, to: Value]
+    | [from: Value, to: undefined]
+    | [from: undefined, to: Value],
+]> {
   for (const key of to.keys()) {
     if (
       !from.has(key) ||

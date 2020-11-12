@@ -3,7 +3,7 @@
  */
 export const deleteFromSet = <Value>(value: Value) => (
   set: ReadonlySet<Value>,
-): ReadonlySet<Value> => {
+): Set<Value> => {
   const copy = new Set(set);
   copy.delete(value);
   return copy;

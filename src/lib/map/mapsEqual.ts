@@ -4,7 +4,7 @@ export const mapsEqual = <Key, Value>(
   from: ReadonlyMap<Key, Value>,
   to: ReadonlyMap<Key, Value>,
   equalFunction: EqualFunction<Value> = (from, to) => from === to,
-) => {
+): boolean => {
   for (const [key, value] of to) {
     if (!(from.has(key) && equalFunction(from.get(key) as Value, value))) {
       return false;

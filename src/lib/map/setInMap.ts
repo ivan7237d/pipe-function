@@ -5,7 +5,7 @@
 export const setInMap = <Key, Value, ValueArg extends Value>(
   key: Key,
   value: ValueArg | undefined,
-) => (map: ReadonlyMap<Key, Value>): ReadonlyMap<Key, Value> => {
+) => (map: ReadonlyMap<Key, Value>): Map<Key, Value> => {
   const copy = new Map(map);
   if (value === undefined) {
     copy.delete(key);
