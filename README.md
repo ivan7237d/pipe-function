@@ -42,8 +42,6 @@ The library includes non-mutating functions for working with [objects](https://g
 
 [Functions for working with iterables](https://github.com/obvibase/utils/tree/master/src/lib/iterable) have signatures that try to stay close to equivalent RxJS operators, but have names like `mapIterable` that do not clash with RxJS.
 
-> :bulb: To keep the API simple, functions like `mapIterable` and `filterIterable` have callbacks that only take the element as an argument, and don't take second and third arguments (element index and source object), in contrast to native array methods and RxJS operators. If you need the index, use `zipIterables(rangeIterable(), yourIterable)` (returns an iterable of `[<element index>, <element>]`), and if you only need a boolean indicating whether the element is the first element, use `zipIterables(firstIterable, yourIterable)` (returns an iterable of `[boolean, <element>]`).
-
 > :bulb: If filtering an iterable changes the type of the elements, use `flatMapIterable` instead of `filterIterable`: the type of elements in
 >
 > ```ts
@@ -63,6 +61,14 @@ The library includes non-mutating functions for working with [objects](https://g
 > ```
 >
 > it will be inferred as `Iterable<number>`. The same trick works when filtering arrays and observables.
+
+How-to:
+
+- **Get an element's index:** `zipIterables(rangeIterable(), yourIterable)` (returns an iterable of `[<element index>, <element>]`).
+
+- **Get a flag indicating if the element is the first element:** `zipIterables(firstIterable, yourIterable)` (returns an iterable of `[boolean, <element>]`).
+
+- **Find an element matching a predicate:** `applyPipe(yourIterable, filter(yourPredicate), firstInIterable)`.
 
 ## Comparison functions
 
