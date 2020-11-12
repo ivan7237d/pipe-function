@@ -1,5 +1,3 @@
-import { applyPipe } from '../applyPipe';
-
 /**
  * Deletes a key from an object.
  */
