@@ -1,6 +1,4 @@
-import { applyPipe } from '../applyPipe';
 import { Lens } from '../types/types';
-import { setInObject } from './setInObject';
 
 /**
  * A lens for zooming in on an object's property. The setter will remove the key
@@ -19,7 +17,13 @@ export const objectProp = <S, A, Key extends keyof A>(
 > => ([objectValue, set]) => [
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   objectValue[key] as any,
-  (propValue) =>
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    set(applyPipe(objectValue as any, setInObject(key, propValue))),
+  (propValue) => {
+    const { ...copy } = objectValue;
+    if (propValue === undefined) {
+      delete copy[key];
+    } else {
+      copy[key] = propValue as A[Key];
+    }
+    return set(copy);
+  },
 ];
