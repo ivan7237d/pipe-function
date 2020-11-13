@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.0.0](https://github.com/obvibase/utils/compare/v9.0.0...v10.0.0) (2020-11-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* **object:** setInObject and deleteFromObject have been removed
+
+### Features
+
+* **object:** remove unneeded functions ([cb9cbf3](https://github.com/obvibase/utils/commit/cb9cbf33fb3ce96a5baf31c95af9195ec7eb0f3a))
+
+
+### Bug Fixes
+
+* **object:** update exports ([bd5792e](https://github.com/obvibase/utils/commit/bd5792ea97b6b6f913c0699eb62e4ca5b16917a7))
+
 ## [9.0.0](https://github.com/obvibase/utils/compare/v8.1.0...v9.0.0) (2020-11-12)
 
 
