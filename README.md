@@ -116,26 +116,34 @@ const b: StateView<number> = [1, (value: number) => someSetter({ a: value })];
 We can write a React component as follows, using a [`bindingProps`](https://github.com/obvibase/utils/blob/master/src/lib/react/bindingProps.ts) helper function that converts a `StateView` like `[1, set]` into an object with props that React understands like `{ value: 1, onChange: ({ currentTarget: { value } }) => set(value) }`.
 
 ```ts
-type State = { a: { b: string; c: string } };
+type State = { a: string; b?: { c: string } };
 
 /**
  * A component that encapsulates presentation logic but is agnostic as to how we
  * manage state.
  */
-const StatelessComponent = ({ state }: { state: StateView<State> }) => (
+const StatelessComponent = ({ stateView }: { stateView: StateView<State> }) => (
   <div>
-    <input
-      {...applyPipe(state, objectProp('a'), objectProp('b'), bindingProps)}
-    />
-    <input
-      {...applyPipe(state, objectProp('a'), objectProp('c'), bindingProps)}
-    />
+    {/* An input bound to 'a'. */}
+    <input {...applyPipe(stateView, objectProp('a'), bindingProps)} />
+    {applyPipe(stateView, objectProp('b'), ([value, set]) =>
+      // If 'b' is absent,...
+      value === undefined ? (
+        // a button that adds a default value for 'b',...
+        <button onClick={() => set({ c: '' })}>Add 'b'</button>
+      ) : (
+        // otherwise (if 'b' is present), an input bound to 'c'.
+        <input
+          {...applyPipe([value, set] as const, objectProp('c'), bindingProps)}
+        />
+      ),
+    )}
   </div>
 );
 
 export const StatefulComponent = () => {
-  const state = React.useState<State>({ a: { b: '', c: '' } });
-  return StatelessComponent({ state });
+  const stateView = React.useState<State>({ a: '' });
+  return <StatelessComponent {...{ stateView }} />;
 };
 ```
 
@@ -160,29 +168,6 @@ expect(sampleReducer({ a: { b: '', c: '' } }, { payload: 'x' })).toEqual({
 ```
 
 There is a helper function [`rootView`](https://github.com/obvibase/utils/blob/master/src/lib/view/rootView.ts) which we can use to replace `[state, (value) => value] as View<State, State>` in the code above with just `rootView(state)`.
-
-If the property `a` in the `State` is optional, and as before our reducer has to update `b`, simply chaining lenses will cause a typechecking error. Instead, we would write the reducer as follows:
-
-```ts
-type State = { a?: { b: string; c: string } };
-
-const sampleReducer = (state: State, action: { payload: string }) => {
-  // `View<State, { b: string; c: string } | undefined>`
-  const [value, set] = applyPipe(rootView(state), objectProp('a'));
-  const valueOrDefault = value ?? { b: '', c: '' };
-  // `View<State, { b: string; c: string }>`. Typing `view` should become easier
-  // once the issue https://github.com/microsoft/TypeScript/issues/10571 is fixed.
-  const view: View<State, typeof valueOrDefault> = [
-    value ?? { b: '', c: '' },
-    set,
-  ];
-  return applyPipe(view, objectProp('b'), ([, set]) => set(action.payload));
-};
-
-expect(sampleReducer({}, { payload: 'x' })).toEqual({
-  a: { b: 'x', c: '' },
-});
-```
 
 The library also includes two other lenses:
 
