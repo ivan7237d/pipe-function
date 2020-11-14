@@ -85,20 +85,20 @@ It also provides implementations of `EqualFunction` for objects, iterables, maps
 
 ## Lenses
 
-When building React components, it's convenient to work with a type which we'll call `StateView`:
+First let's talk about how we define a lens. When building React components, it's convenient to work with a type which we'll call `StateView`, a combination of a value and a setter:
 
 ```ts
-type StateView<A> = readonly [value: A, set: (value: A) => void];
+type StateView<A> = [value: A, set: (value: A) => void];
 ```
 
-It is a subtype of the type returned by React's `setState` hook, and it is also what you would want to pass to an input element such as a textbox to create a two-way binding. In this library we actually define `StateView` as a subtype of another type called `View`:
+Values returned by React's `setState` hook can be treated as values of this type, and it is also what you would want to pass to an input element such as a textbox to create a two-way binding. In this library we actually define `StateView` as a subtype of another type called `View` (you'll soon see why):
 
 ```ts
-type View<S, A> = readonly [value: A, set: (value: A) => S];
+type View<S, A> = [value: A, set: (value: A) => S];
 type StateView<A> = View<void, A>;
 ```
 
-and we define a `Lens` as a function that transforms a `View` into another `View`.
+and we define a `Lens` as a function that transforms a view `View<S, A>` into another view `View<S, B>` (it logically follows that a lens will transform a `StateView` into another `StateView`).
 
 To see how this works, consider [`objectProp`](https://github.com/obvibase/utils/blob/master/src/lib/object/objectProp.ts) lens which zooms in on an object's property: e.g. `objectProp('a')` would transform
 
