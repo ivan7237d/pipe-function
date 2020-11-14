@@ -6,7 +6,7 @@ export { lexicographicCompare } from './lib/compare/lexicographicCompare';
 export { numberCompare } from './lib/compare/numberCompare';
 export { reverseCompare } from './lib/compare/reverseCompare';
 export { stringCompare } from './lib/compare/stringCompare';
-export { someInIterable as anyInIterable } from './lib/iterable/someInIterable';
+export { someInIterable } from './lib/iterable/someInIterable';
 export { concatIterables } from './lib/iterable/concatIterables';
 export { everyInIterable } from './lib/iterable/everyInIterable';
 export { filterIterable } from './lib/iterable/filterIterable';
