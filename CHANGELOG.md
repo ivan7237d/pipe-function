@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.0.1](https://github.com/obvibase/utils/compare/v10.0.0...v10.0.1) (2020-11-14)
+
+
+### Bug Fixes
+
+* fix exports ([b4d48b5](https://github.com/obvibase/utils/commit/b4d48b530b8a55f3dcfcd9d38449a1ce4884b089))
+
 ## [10.0.0](https://github.com/obvibase/utils/compare/v9.0.0...v10.0.0) (2020-11-13)
 
 
