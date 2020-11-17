@@ -156,6 +156,7 @@ const sampleReducer = (state: State, action: { payload: string }) =>
     objectProp('a'),
     // Transforms values into `View<State, string>`.
     objectProp('b'),
+    // `set` takes a value for `b` and returns a new `State`.
     ([, set]) => set(action.payload),
   );
 
