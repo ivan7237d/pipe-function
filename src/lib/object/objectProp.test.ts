@@ -115,8 +115,11 @@ it('works in example 1 from README', () => {
   const sampleReducer = (state: State, action: { payload: string }) =>
     applyPipe(
       [state, (value) => value] as View<State, State>,
+      // Transforms values into `View<State, { b: string; c: string }>`.
       objectProp('a'),
+      // Transforms values into `View<State, string>`.
       objectProp('b'),
+      // `set` takes a value for `b` and returns a new `State`.
       ([, set]) => set(action.payload),
     );
 
