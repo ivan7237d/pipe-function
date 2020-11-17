@@ -100,20 +100,13 @@ type StateView<A> = View<void, A>;
 
 and we define a `Lens` as a function that transforms a view `View<S, A>` into another view `View<S, B>` (it logically follows that a lens will transform a `StateView` into another `StateView`).
 
-To see how this works, consider [`objectProp`](https://github.com/obvibase/utils/blob/master/src/lib/object/objectProp.ts) lens which zooms in on an object's property: e.g. `objectProp('a')` would transform
+To see how this works, we'll write a React component using the following two functions provided by the library:
 
-```ts
-// `someSetter` has type `(value: { a: number }) => void`.
-const a: StateView<{ a: number }> = [{ a: 1 }, someSetter];
-```
+- [`objectProp`](https://github.com/obvibase/utils/blob/master/src/lib/object/objectProp.ts): a lens which zooms in on an object's property, e.g. `objectProp('a')` will transform a value of type `StateView<{ a: number }>` into a value of type `StateView<number>`.
 
-into an equivalent of
+- [`bindingProps`](https://github.com/obvibase/utils/blob/master/src/lib/react/bindingProps.ts): a helper function that converts a `StateView` into an object with props that React input components understand, e.g. `['x', set]` would be transformed into `{ value: 'x', onChange: ({ currentTarget: { value } }) => set(value) }`.
 
-```ts
-const b: StateView<number> = [1, (value: number) => someSetter({ a: value })];
-```
-
-We can write a React component as follows, using a [`bindingProps`](https://github.com/obvibase/utils/blob/master/src/lib/react/bindingProps.ts) helper function that converts a `StateView` like `[1, set]` into an object with props that React understands like `{ value: 1, onChange: ({ currentTarget: { value } }) => set(value) }`.
+The component will look as follows:
 
 ```ts
 type State = { a: string; b?: { c: string } };
@@ -129,10 +122,10 @@ const StatelessComponent = ({ stateView }: { stateView: StateView<State> }) => (
     {applyPipe(stateView, objectProp('b'), ([value, set]) =>
       // If 'b' is absent,...
       value === undefined ? (
-        // a button that adds a default value for 'b',...
+        // ...a button that adds a default value for 'b',...
         <button onClick={() => set({ c: '' })}>Add 'b'</button>
       ) : (
-        // otherwise (if 'b' is present), an input bound to 'c'.
+        // ...otherwise (if 'b' is present), an input bound to 'c'.
         <input
           {...applyPipe([value, set] as const, objectProp('c'), bindingProps)}
         />
@@ -147,7 +140,9 @@ export const StatefulComponent = () => {
 };
 ```
 
-A nice thing is that as we get to a point where we need to type 'a', 'b', or 'c' in the code above, IntelliSense will show correct suggestions. When binding a checkbox, use [`bindingPropsCheckbox`](https://github.com/obvibase/utils/blob/master/src/lib/react/bindingPropsCheckbox.ts) instead of `bindingProps` so that `checked` prop would be used instead of `value`.
+In the code above, TypeScript succesfully infers the types, and as we get to a point where we need to type 'a', 'b', or 'c', IntelliSense shows correct suggestions.
+
+When binding a checkbox, use [`bindingPropsCheckbox`](https://github.com/obvibase/utils/blob/master/src/lib/react/bindingPropsCheckbox.ts) instead of `bindingProps` so that `checked` prop would be used instead of `value`.
 
 In the above example, we used `objectProp` lens to transform a `StateView` into another `StateView`, but like other lenses, it also works on `StateView`'s supertype `View`. Thanks to that, we can use `objectProp` in the conventional way to immutably set a property nested within a larger structure, as in the following example of a reducer that sets the value of `b` in `{ a: { b: string; c: string } }`:
 
