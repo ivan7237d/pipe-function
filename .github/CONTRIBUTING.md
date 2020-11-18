@@ -22,6 +22,4 @@ This project uses [Conventional Commits](https://www.conventionalcommits.org/en/
 
 - If a function is a void function, enclose its body in braces even if this isn't strictly necessary, for example `() => { window.location.reload(); }` instead of `() => window.location.reload()`.
 
-- Make sure to JSDoc exported symbols, but do not duplicate in the docstring the information already included in the TS type signature.
-
-- Make sure to explicitly type returned values of exported functions, rather than relying on TS type inference. This makes sure that the returned type is included in the auto-generated docs and prevents unintended changes to type signature when the implementation of the function changes.
+- Do not duplicate in JSDoc the information already included in the symbol name and its TS type signature.
