@@ -34,7 +34,7 @@ The library intentionally doesn't include a `pipe` function that would compose f
 
 ## Minimal API
 
-Speaking of "only one way to do it", this library provides a utility only when something can't be easily done with vanilla JavaScript. For example, we do not provide a function to get an object's property value, so instead of `applyPipe({ a: 1 }, get('a'))` you would just write `applyPipe({ a: 1 }, value => value.a)`. This is because we see the mental overhead of choosing among multiple ways to write a piece of code as a higher cost compared to typing more characters.
+Speaking of "only one way to do it", this library provides a utility only when something can't be easily done with vanilla JavaScript. For example, we do not provide a function to get an object's property value, so instead of `applyPipe({ a: 1 }, get('a'))` you would just write `applyPipe({ a: 1 }, value => value.a)`. This is because we see the mental overhead of choosing among multiple ways to write a piece of code as higher cost compared to typing more characters.
 
 ## Objects, arrays, maps and sets
 
