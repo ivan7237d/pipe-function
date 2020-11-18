@@ -2,7 +2,7 @@
 
 Utils for writing functional-style code in TypeScript using a pipeline operator polyfill.
 
-- Minimal API: based on "only one way to do it" principle, the library provides a utility only when something can't be easily done with vanilla JavaScript.
+- [Minimal API](#minimal-api).
 
 - [Non-mutating functions for working with objects, arrays, maps, and sets](#objects-arrays-maps-and-sets).
 
@@ -31,6 +31,10 @@ npm install @obvibase/utils --save
 The library includes a function `applyPipe` which takes between 1 and 12 arguments: `applyPipe(x, a, b)` is equivalent to `b(a(x))`, or using the pipeline operator, `x |> a |> b`. Type inference works well with this function, and eventually once the pipeline operator reaches stage 3 and starts to be supported in TypeScript, it would be straightforward to build a codemod to convert the function to the operator.
 
 The library intentionally doesn't include a `pipe` function that would compose functions without applying the resulting function to an argument, mainly because this would break the "only one way to do it" rule.
+
+## Minimal API
+
+Speaking of "only one way to do it", this library provides a utility only when something can't be easily done with vanilla JavaScript. For example, we do not provide a function to get an object's property value, so instead of `applyPipe({ a: 1 }, get('a'))` you would just write `applyPipe({ a: 1 }, value => value.a)`. This is because we see the mental overhead of choosing among multiple ways to write a piece of code as a higher cost compared to typing more characters.
 
 ## Objects, arrays, maps and sets
 
@@ -140,7 +144,7 @@ export const StatefulComponent = () => {
 };
 ```
 
-In the code above, TypeScript succesfully infers the types, and as we get to a point where we need to type 'a', 'b', or 'c', IntelliSense shows correct suggestions.
+In the code above, TypeScript successfully infers the types, and as we get to a point where we need to type 'a', 'b', or 'c', IntelliSense shows correct suggestions.
 
 When binding a checkbox, use [`bindingPropsCheckbox`](https://github.com/obvibase/utils/blob/master/src/lib/react/bindingPropsCheckbox.ts) instead of `bindingProps` so that `checked` prop would be used instead of `value`.
 
