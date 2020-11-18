@@ -61,7 +61,7 @@
   "files": [
     "build/main",
     "build/module",
-    "!**/*.spec.*",
+    "!**/*.test.*",
     "!**/*.json",
     "CHANGELOG.md",
     "LICENSE",
