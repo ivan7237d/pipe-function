@@ -148,7 +148,7 @@ In the code above, TypeScript successfully infers the types, and as we get to a 
 
 When binding a checkbox, use [`bindingPropsCheckbox`](https://github.com/obvibase/utils/blob/master/src/lib/react/bindingPropsCheckbox.ts) instead of `bindingProps` so that `checked` prop would be used instead of `value`.
 
-In the above example, we used `objectProp` lens to transform a `StateView` into another `StateView`, but like other lenses, it also works on `StateView`'s supertype `View`. Thanks to that, we can use `objectProp` in the conventional way to immutably set a property nested within a larger structure, as in the following example of a reducer that sets the value of `b` in `{ a: { b: string; c: string } }`:
+In the component example we used `objectProp` lens to transform a `StateView` into another `StateView`, but like other lenses, it also works on `StateView`'s supertype `View`. Thanks to that, we can use `objectProp` in the conventional way to immutably set a property nested within a larger structure, as in the following example of a reducer that sets the value of `b` in `{ a: { b: string; c: string } }`:
 
 ```ts
 type State = { a: { b: string; c: string } };
@@ -169,11 +169,11 @@ expect(sampleReducer({ a: { b: '', c: '' } }, { payload: 'x' })).toEqual({
 });
 ```
 
-There is a helper function [`rootView`](https://github.com/obvibase/utils/blob/master/src/lib/view/rootView.ts) which we can use to replace `[state, (value) => value] as View<State, State>` in the code above with just `rootView(state)`.
+There is a simple helper function [`rootView`](https://github.com/obvibase/utils/blob/master/src/lib/view/rootView.ts) which converts a `value` into a view `[value, <identity function>]` and which we can use to replace the first argument in the `applyPipe` call above, including the type signature, with just `rootView(state)`.
 
-The library also includes two other lenses:
+The only other lens-related APIs that this library provides are as follows:
 
-- [`mapProp`](https://github.com/obvibase/utils/blob/master/src/lib/map/mapProp.ts): a lens to zoom in on a value of a `Map`.
+- [`mapProp`](https://github.com/obvibase/utils/blob/master/src/lib/map/mapProp.ts): a lens to zoom in on a value stored in a `Map`.
 
 - [`setProp`](https://github.com/obvibase/utils/blob/master/src/lib/set/setProp.ts): a lens to zoom in on presence of an element in a `Set`.
 
