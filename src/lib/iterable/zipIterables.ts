@@ -1,7 +1,8 @@
 /**
  * Combines iterables to create an iterable whose values are computed from the
- * values, in order, of each of the input iterables. If no arguments are
- * provided, returns an empty iterable.
+ * values, in order, of each of the input iterables. Completes when any of the
+ * input iterables completes. If no arguments are provided, returns an empty
+ * iterable.
  */
 export const zipIterables = function* <T extends unknown[]>(
   ...iterables: { [Key in keyof T]: Iterable<T[Key]> }
