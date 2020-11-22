@@ -1,5 +1,9 @@
 # @obvibase/utils
 
+[![npm version](https://badge.fury.io/js/%40obvibase%2Futils.svg)](https://badge.fury.io/js/%40obvibase%2Futils)
+[![gzip size](https://badgen.net/bundlephobia/minzip/@obvibase/utils?color=green)](https://bundlephobia.com/result?p=@obvibase/utils@10.0.1)
+[![gzip size](https://badgen.net/bundlephobia/tree-shaking/@obvibase/utils)](https://bundlephobia.com/result?p=@obvibase/utils@10.0.1)
+
 Utils for writing functional-style code in TypeScript using a pipeline operator polyfill.
 
 - [Minimal API](#minimal-api).
@@ -9,8 +13,6 @@ Utils for writing functional-style code in TypeScript using a pipeline operator 
 - [Functions for working with native `Iterable`s](#iterables) that match their counterparts for working with observables in RxJS.
 
 - [React-friendly lenses](#lenses).
-
-- Fully tree-shakeable.
 
 - Includes TypeScript type definitions and designed with an eye to type inference.
 
