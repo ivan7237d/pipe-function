@@ -4,7 +4,7 @@
 [![gzip size](https://badgen.net/bundlephobia/minzip/@obvibase/utils?color=green)](https://bundlephobia.com/result?p=@obvibase/utils@10.0.1)
 [![gzip size](https://badgen.net/bundlephobia/tree-shaking/@obvibase/utils)](https://bundlephobia.com/result?p=@obvibase/utils@10.0.1)
 
-Utils for writing functional-style code in TypeScript using a pipeline operator polyfill.
+Utils for writing functional-style code in TypeScript using a pipeline operator ponyfill.
 
 - [Minimal API](#minimal-api).
 
@@ -28,7 +28,7 @@ or
 npm install @obvibase/utils --save
 ```
 
-## Pipeline operator polyfill
+## Pipeline operator ponyfill
 
 The library includes a function `applyPipe` which takes between 1 and 12 arguments: `applyPipe(x, a, b)` is equivalent to `b(a(x))`, or using the pipeline operator, `x |> a |> b`. Type inference works well with this function, and if any one of the proposed flavors of the pipeline operator eventually reaches stage 3 and starts to be supported in TypeScript, it would be straightforward to build a codemod to convert the function to the operator.
 
