@@ -1,8 +1,8 @@
 # @obvibase/utils
 
 [![npm version](https://badge.fury.io/js/%40obvibase%2Futils.svg)](https://badge.fury.io/js/%40obvibase%2Futils)
-[![gzip size](https://badgen.net/bundlephobia/minzip/@obvibase/utils?color=green)](https://bundlephobia.com/result?p=@obvibase/utils@10.0.1)
-[![gzip size](https://badgen.net/bundlephobia/tree-shaking/@obvibase/utils)](https://bundlephobia.com/result?p=@obvibase/utils@10.0.1)
+[![gzip size](https://badgen.net/bundlephobia/minzip/@obvibase/utils?color=green)](https://bundlephobia.com/result?p=@obvibase/utils)
+[![gzip size](https://badgen.net/bundlephobia/tree-shaking/@obvibase/utils)](https://bundlephobia.com/result?p=@obvibase/utils)
 
 Utils for writing functional-style code in TypeScript using a pipeline operator ponyfill.
 
@@ -36,7 +36,7 @@ The library intentionally doesn't include a `pipe` function that would compose f
 
 ## Minimal API
 
-Speaking of "only one way to do it", this library provides a utility only when something can't be easily done with vanilla JavaScript. For example, we do not provide a function to get an object's property value, so instead of `applyPipe({ a: 1 }, get('a'))` you would just write `applyPipe({ a: 1 }, value => value.a)`. This is because we see the mental overhead of choosing among multiple ways to write a piece of code as higher cost compared to typing more characters.
+Speaking of "only one way to do it", this library provides a utility only when something can't be easily done with vanilla JavaScript. For example, we do not provide a function to get an object's property value, so instead of `applyPipe({ a: 1 }, get('a'))` you would just write `applyPipe({ a: 1 }, value => value.a)`. This is because we see the mental overhead of choosing among multiple ways to write a piece of code as higher cost compared to doing more typing.
 
 ## Objects, arrays, maps and sets
 
@@ -56,7 +56,7 @@ How-to:
 
 - **Find an element matching a predicate:** `applyPipe(yourIterable, filter(yourPredicate), firstInIterable)`.
 
-> :bulb: If filtering an iterable changes the type of the elements, use `flatMapIterable` instead of `filterIterable`: the type of elements in
+> :bulb: If filtering an iterable changes type of the elements, use `flatMapIterable` instead of `filterIterable`: the type of elements in
 >
 > ```ts
 > applyPipe(
@@ -104,7 +104,7 @@ type View<S, A> = [value: A, set: (value: A) => S];
 type StateView<A> = View<void, A>;
 ```
 
-and we define a `Lens` as a function that transforms a view `View<S, A>` into another view `View<S, B>` (it logically follows that a lens will transform a `StateView` into another `StateView`).
+and we define a `Lens` as a function that transforms a view `View<S, A>` into another view `View<S, B>` (it follows that a lens will transform a `StateView` into another `StateView`).
 
 To see how this works, we'll write a React component using the following two functions provided by the library:
 
@@ -112,7 +112,7 @@ To see how this works, we'll write a React component using the following two fun
 
 - [`bindingProps`](https://github.com/obvibase/utils/blob/master/src/lib/react/bindingProps.ts): a helper function that converts a `StateView` into an object with props that React input components understand, e.g. `['x', set]` would be transformed into `{ value: 'x', onChange: ({ currentTarget: { value } }) => set(value) }`.
 
-The component will look as follows:
+Here's what the component will look like:
 
 ```ts
 type State = { a: string; b?: { c: string } };
@@ -148,7 +148,7 @@ export const StatefulComponent = () => {
 
 In the code above, TypeScript successfully infers the types, and as we get to a point where we need to type 'a', 'b', or 'c', IntelliSense shows correct suggestions.
 
-When binding a checkbox, use [`bindingPropsCheckbox`](https://github.com/obvibase/utils/blob/master/src/lib/react/bindingPropsCheckbox.ts) instead of `bindingProps` so that `checked` prop would be used instead of `value`.
+Checkbox is different from other inputs in that we have to use `checked` prop instead of `value`, so when binding a checkbox, instead of `bindingProps` use [`bindingPropsCheckbox`](https://github.com/obvibase/utils/blob/master/src/lib/react/bindingPropsCheckbox.ts).
 
 In the component example we used `objectProp` lens to transform a `StateView` into another `StateView`, but like other lenses, it also works on `StateView`'s supertype `View`. Thanks to that, we can use `objectProp` in the conventional way to immutably set a property nested within a larger structure, as in the following example of a reducer that sets the value of `b` in `{ a: { b: string; c: string } }`:
 
@@ -173,7 +173,7 @@ expect(sampleReducer({ a: { b: '', c: '' } }, { payload: 'x' })).toEqual({
 
 There is a simple helper function [`rootView`](https://github.com/obvibase/utils/blob/master/src/lib/view/rootView.ts) which converts a `value` into a view `[value, <identity function>]` and which we can use to replace the first argument in the `applyPipe` call above, including the type signature, with just `rootView(state)`.
 
-The only other lens-related APIs that this library provides are as follows:
+The only other lens-related utilities that are left to mention are:
 
 - [`mapProp`](https://github.com/obvibase/utils/blob/master/src/lib/map/mapProp.ts): a lens to zoom in on a value stored in a `Map`.
 
