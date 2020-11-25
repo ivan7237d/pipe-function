@@ -1,7 +1,7 @@
 {
   "name": "@obvibase/utils",
   "version": "10.0.4",
-  "description": "Utils for writing functional-style code in TypeScript using a pipeline operator ponyfill",
+  "description": "TypeScript utilities for those who don't like utilities",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",

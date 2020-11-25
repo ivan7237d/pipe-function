@@ -4,17 +4,19 @@
 [![gzip size](https://badgen.net/bundlephobia/minzip/@obvibase/utils?color=green)](https://bundlephobia.com/result?p=@obvibase/utils)
 [![gzip size](https://badgen.net/bundlephobia/tree-shaking/@obvibase/utils)](https://bundlephobia.com/result?p=@obvibase/utils)
 
-Utils for writing functional-style code in TypeScript using a pipeline operator ponyfill.
+TypeScript utilities for those who don't like utilities.
 
 - [Minimal API](#minimal-api).
 
+- [Pipeline operator ponyfill](#pipeline-operator-ponyfill).
+
 - [Non-mutating functions for working with objects, arrays, maps, and sets](#objects-arrays-maps-and-sets).
 
-- [Functions for working with native `Iterable`s](#iterables) that match their counterparts for working with observables in RxJS.
+- [Functions for working with native `Iterable`s](#iterables).
 
 - [React-friendly lenses](#lenses).
 
-- Includes TypeScript type definitions and designed with an eye to type inference.
+- Designed with an eye to type inference.
 
 ## Installing
 
@@ -28,15 +30,15 @@ or
 npm install @obvibase/utils --save
 ```
 
-## Pipeline operator ponyfill
+## Minimal API
+
+Based on "only one way to do it" principle, this library provides a utility only when something can't be easily done with vanilla JavaScript. For example, we do not provide a function to get an object's property value, so instead of `applyPipe({ a: 1 }, get('a'))` you would just write `applyPipe({ a: 1 }, value => value.a)`. This is because we see the mental overhead of choosing among multiple ways to write a piece of code as higher cost compared to doing more typing.
+
+## Pipeline operator [ponyfill](https://ponyfill.com/)
 
 The library includes a function `applyPipe` which takes between 1 and 12 arguments: `applyPipe(x, a, b)` is equivalent to `b(a(x))`, or using the pipeline operator, `x |> a |> b`. Type inference works well with this function, and if any one of the proposed flavors of the pipeline operator eventually reaches stage 3 and starts to be supported in TypeScript, it would be straightforward to build a codemod to convert the function to the operator.
 
-The library intentionally doesn't include a `pipe` function that would compose functions without applying the resulting function to an argument, mainly because this would break the "only one way to do it" rule.
-
-## Minimal API
-
-Speaking of "only one way to do it", this library provides a utility only when something can't be easily done with vanilla JavaScript. For example, we do not provide a function to get an object's property value, so instead of `applyPipe({ a: 1 }, get('a'))` you would just write `applyPipe({ a: 1 }, value => value.a)`. This is because we see the mental overhead of choosing among multiple ways to write a piece of code as higher cost compared to doing more typing.
+The library intentionally doesn't include a `pipe` function that would compose functions without applying the resulting function to an argument, mainly because this would go against "only one way to do it".
 
 ## Objects, arrays, maps and sets
 
