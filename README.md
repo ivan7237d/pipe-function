@@ -32,7 +32,7 @@ npm install @obvibase/utils --save
 
 ## Minimal API
 
-Based on "only one way to do it" principle, this library provides a utility only when something can't be easily done with vanilla JavaScript. For example, we do not provide a function to get an object's property value, so instead of `applyPipe({ a: 1 }, get('a'))` you would just write `applyPipe({ a: 1 }, value => value.a)`. This is because we see the mental overhead of choosing among multiple ways to write a piece of code as higher cost compared to doing more typing.
+Based on "only one way to do it" principle, this library provides a utility only when something can't be easily done with vanilla JavaScript. For example, we do not provide a function to get an object's property value, so instead of `get('a')` you would just write `value => value.a`. This is because we see the mental overhead of choosing among multiple ways to write a piece of code as higher cost compared to doing more typing.
 
 ## Pipeline operator [ponyfill](https://ponyfill.com/)
 
