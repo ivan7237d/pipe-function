@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.0.2](https://github.com/obvibase/utils/compare/v10.0.1...v10.0.2) (2020-11-25)
+
+
+### Bug Fixes
+
+* **iterable:** fix signature of everyInIterable ([5224ed6](https://github.com/obvibase/utils/commit/5224ed661e219a466d98d5f75c6d70869bf29e7c))
+
 ### [10.0.1](https://github.com/obvibase/utils/compare/v10.0.0...v10.0.1) (2020-11-14)
 
 
