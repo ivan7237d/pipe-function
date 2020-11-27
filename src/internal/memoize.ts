@@ -7,10 +7,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-types
 export const memoize = <From extends object, To>(
   project: (arg: From) => To,
-): readonly [
-  decorated: (arg: From) => To,
-  teach: (from: From, to: To) => void,
-] => {
+): [decorated: (arg: From) => To, teach: (from: From, to: To) => void] => {
   const cache = new WeakMap<From, To>();
   return [
     (arg: From) =>
