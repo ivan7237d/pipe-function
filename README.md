@@ -1,4 +1,4 @@
-# antiutils
+# Antiutils
 
 [![npm version](https://badge.fury.io/js/antiutils.svg)](https://badge.fury.io/js/antiutils)
 [![gzip size](https://badgen.net/bundlephobia/minzip/antiutils?color=green)](https://bundlephobia.com/result?p=antiutils)
