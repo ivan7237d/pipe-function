@@ -1,0 +1,427 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>antiutils</title>
+	<meta name="description" content="Documentation for antiutils">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">antiutils</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1>antiutils</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#antiutils" id="antiutils" style="color: inherit; text-decoration: none;">
+					<h1>Antiutils</h1>
+				</a>
+				<p><a href="https://badge.fury.io/js/antiutils"><img src="https://badge.fury.io/js/antiutils.svg" alt="npm version"></a>
+					<a href="https://bundlephobia.com/result?p=antiutils"><img src="https://badgen.net/bundlephobia/minzip/antiutils?color=green" alt="gzip size"></a>
+				<a href="https://bundlephobia.com/result?p=antiutils"><img src="https://badgen.net/bundlephobia/tree-shaking/antiutils" alt="gzip size"></a></p>
+				<p>TypeScript/JavaScript utilities for those who don&#39;t like utilities.</p>
+				<ul>
+					<li><p><a href="#minimal-api">Minimal API</a>.</p>
+					</li>
+					<li><p><a href="#pipeline-operator-ponyfill">Pipeline operator ponyfill</a>.</p>
+					</li>
+					<li><p><a href="#objects-arrays-maps-and-sets">Non-mutating functions for working with objects, arrays, maps, and sets</a>.</p>
+					</li>
+					<li><p><a href="#iterables">Functions for working with native <code>Iterable</code>s</a>.</p>
+					</li>
+					<li><p><a href="#lenses">React-friendly lenses</a>.</p>
+					</li>
+					<li><p>Designed with an eye to type inference.</p>
+					</li>
+				</ul>
+				<a href="#status" id="status" style="color: inherit; text-decoration: none;">
+					<h2>Status</h2>
+				</a>
+				<p>Experimental. The library is feature-complete and has near-full unit test coverage, but there may be major version bumps in response to initial feedback.</p>
+				<a href="#installing" id="installing" style="color: inherit; text-decoration: none;">
+					<h2>Installing</h2>
+				</a>
+				<pre><code>yarn <span class="hljs-keyword">add</span><span class="bash"> antiutils</span></code></pre>
+				<p>or</p>
+				<pre><code>npm <span class="hljs-keyword">install</span> antiutils <span class="hljs-comment">--save</span></code></pre>
+				<a href="#minimal-api" id="minimal-api" style="color: inherit; text-decoration: none;">
+					<h2>Minimal API</h2>
+				</a>
+				<p>Based on &quot;only one way to do it&quot; principle, this library provides a utility only when something can&#39;t be easily done with vanilla JavaScript. For example, we do not provide a function to get an object&#39;s property value, so instead of <code>get(&#39;a&#39;)</code> you would just write <code>value =&gt; value.a</code>. This is because we see the mental overhead of choosing among multiple ways to write a piece of code as higher cost compared to doing more typing.</p>
+				<a href="#pipeline-operator-ponyfill" id="pipeline-operator-ponyfill" style="color: inherit; text-decoration: none;">
+					<h2>Pipeline operator <a href="https://ponyfill.com/">ponyfill</a></h2>
+				</a>
+				<p>The library includes a function <code>applyPipe</code> which takes between 1 and 12 arguments: <code>applyPipe(x, a, b)</code> is equivalent to <code>b(a(x))</code>, or using the pipeline operator, <code>x |&gt; a |&gt; b</code>. Type inference works well with this function, and if any one of the proposed flavors of the pipeline operator eventually reaches stage 3 and starts to be supported in TypeScript, it would be straightforward to build a codemod to convert the function to the operator.</p>
+				<p>The library intentionally doesn&#39;t include a <code>pipe</code> function that would compose functions without applying the resulting function to an argument, mainly because this would go against &quot;only one way to do it&quot;.</p>
+				<a href="#objects-arrays-maps-and-sets" id="objects-arrays-maps-and-sets" style="color: inherit; text-decoration: none;">
+					<h2>Objects, arrays, maps and sets</h2>
+				</a>
+				<p>The library includes non-mutating functions for working with <a href="https://github.com/ivan7237d/antiutils/tree/master/src/internal/object">objects</a>, <a href="https://github.com/ivan7237d/antiutils/tree/master/src/internal/array">arrays</a>, <a href="https://github.com/ivan7237d/antiutils/tree/master/src/internal/map">maps</a>, and <a href="https://github.com/ivan7237d/antiutils/tree/master/src/internal/set">sets</a>.</p>
+				<blockquote>
+					<p>:bulb: TIP</p>
+					<p>If you use TypeScript 4.1+, make sure you enable strictly checked indexed access using <a href="https://devblogs.microsoft.com/typescript/announcing-typescript-4-1-rc/#no-unchecked-indexed-access"><code>--noUncheckedIndexedAccess</code> compiler flag</a>.</p>
+				</blockquote>
+				<a href="#iterables" id="iterables" style="color: inherit; text-decoration: none;">
+					<h2>Iterables</h2>
+				</a>
+				<p><a href="https://github.com/ivan7237d/antiutils/tree/master/src/internal/iterable">Functions for working with iterables</a> have signatures that try to stay close to equivalent RxJS operators, but have names like <code>mapIterable</code> that do not clash with RxJS.</p>
+				<p>How-to:</p>
+				<ul>
+					<li><p><strong>Get an element&#39;s index:</strong> <code>zipIterables(rangeIterable(), yourIterable)</code> (returns an iterable of <code>[&lt;element index&gt;, &lt;element&gt;]</code>).</p>
+					</li>
+					<li><p><strong>Get a flag indicating if the element is the first element:</strong> <code>zipIterables(firstIterable, yourIterable)</code> (returns an iterable of <code>[boolean, &lt;element&gt;]</code>).</p>
+					</li>
+					<li><p><strong>Find an element matching a predicate:</strong> <code>applyPipe(yourIterable, filter(yourPredicate), firstInIterable)</code>.</p>
+					</li>
+				</ul>
+				<blockquote>
+					<p>:bulb: TIP</p>
+					<p>If filtering an iterable changes type of the elements, use <code>flatMapIterable</code> instead of <code>filterIterable</code>: the type of elements in</p>
+					<pre><code class="language-ts">applyPipe(
+  [<span class="hljs-number">1</span>, <span class="hljs-literal">undefined</span>],
+  filterIterable(<span class="hljs-function">(<span class="hljs-params">value</span>) =&gt;</span> value !== <span class="hljs-literal">undefined</span>),
+);</code></pre>
+					<p>will be inferred as <code>Iterable&lt;number | undefined&gt;</code>, while for</p>
+					<pre><code class="language-ts">applyPipe(
+  [<span class="hljs-number">1</span>, <span class="hljs-literal">undefined</span>],
+  flatMapIterable(<span class="hljs-function">(<span class="hljs-params">value</span>) =&gt;</span> (value === <span class="hljs-literal">undefined</span> ? [] : [value])),
+);</code></pre>
+					<p>it will be inferred as <code>Iterable&lt;number&gt;</code>. The same trick works when filtering arrays and observables.</p>
+				</blockquote>
+				<a href="#comparison-functions" id="comparison-functions" style="color: inherit; text-decoration: none;">
+					<h2>Comparison functions</h2>
+				</a>
+				<p>The library exports types</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">type</span> CompareFunction&lt;T&gt; = <span class="hljs-function">(<span class="hljs-params">to: T, <span class="hljs-keyword">from</span>: T</span>) =&gt;</span> <span class="hljs-built_in">number</span>;
+<span class="hljs-keyword">type</span> EqualFunction&lt;T&gt; = <span class="hljs-function">(<span class="hljs-params"><span class="hljs-keyword">from</span>: T, to: T</span>) =&gt;</span> <span class="hljs-built_in">boolean</span>;</code></pre>
+				<p>It <a href="https://github.com/ivan7237d/antiutils/tree/master/src/internal/compare">provides</a> implementations of <code>CompareFunction</code> for primitive types and a function <code>lexicographicCompare</code> to compose <code>CompareFunction</code>s.</p>
+				<p>It also provides implementations of <code>EqualFunction</code> for objects, iterables, maps, and sets, and a function <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/deepEqual.ts"><code>deepEqual</code></a> that recursively delegates to those functions depending on the object type.</p>
+				<a href="#lenses" id="lenses" style="color: inherit; text-decoration: none;">
+					<h2>Lenses</h2>
+				</a>
+				<p>First let&#39;s talk about how we define a lens. When building React components, it&#39;s convenient to work with a type which we&#39;ll call <code>StateView</code>, a combination of a value and a setter:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">type</span> StateView&lt;A&gt; = [value: A, <span class="hljs-attr">set</span>: <span class="hljs-function">(<span class="hljs-params">value: A</span>) =&gt;</span> <span class="hljs-built_in">void</span>];</code></pre>
+				<p>Values returned by React&#39;s <code>setState</code> hook can be treated as values of this type, and it is also what you would want to pass to an input element such as a textbox to create a two-way binding. In this library we actually define <code>StateView</code> as a subtype of another type called <code>View</code> (you&#39;ll soon see why):</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">type</span> View&lt;S, A&gt; = [value: A, <span class="hljs-attr">set</span>: <span class="hljs-function">(<span class="hljs-params">value: A</span>) =&gt;</span> S];
+<span class="hljs-keyword">type</span> StateView&lt;A&gt; = View&lt;<span class="hljs-built_in">void</span>, A&gt;;</code></pre>
+				<p>and we define a <code>Lens</code> as a function that transforms a view <code>View&lt;S, A&gt;</code> into another view <code>View&lt;S, B&gt;</code> (it follows that a lens will transform a <code>StateView</code> into another <code>StateView</code>).</p>
+				<p>To see how this works, we&#39;ll write a React component using the following two functions provided by the library:</p>
+				<ul>
+					<li><p><a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/object/objectProp.ts"><code>objectProp</code></a>: a lens which zooms in on an object&#39;s property, e.g. <code>objectProp(&#39;a&#39;)</code> will transform a value of type <code>StateView&lt;{ a: number }&gt;</code> into a value of type <code>StateView&lt;number&gt;</code>.</p>
+					</li>
+					<li><p><a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/react/bindingProps.ts"><code>bindingProps</code></a>: a helper function that converts a <code>StateView</code> into an object with props that React input components understand, e.g. <code>[&#39;x&#39;, set]</code> would be transformed into <code>{ value: &#39;x&#39;, onChange: ({ currentTarget: { value } }) =&gt; set(value) }</code>.</p>
+					</li>
+				</ul>
+				<p>Here&#39;s what the component will look like:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">type</span> State = { <span class="hljs-attr">a</span>: <span class="hljs-built_in">string</span>; b?: { <span class="hljs-attr">c</span>: <span class="hljs-built_in">string</span> } };
+
+<span class="hljs-comment">/**
+ * A component that encapsulates presentation logic but is agnostic as to how we
+ * manage state.
+ */</span>
+<span class="hljs-keyword">const</span> StatelessComponent = <span class="hljs-function">(<span class="hljs-params">{ stateView }: { stateView: StateView&lt;State&gt; }</span>) =&gt;</span> (
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    {/* An input bound to &#x27;a&#x27;. */}
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> {<span class="hljs-attr">...applyPipe</span>(<span class="hljs-attr">stateView</span>, <span class="hljs-attr">objectProp</span>(&#x27;<span class="hljs-attr">a</span>&#x27;), <span class="hljs-attr">bindingProps</span>)} /&gt;</span>
+    {applyPipe(stateView, objectProp(&#x27;b&#x27;), ([value, set]) =&gt;
+      // If &#x27;b&#x27; is absent,...
+      value === undefined ? (
+        // ...a button that adds a default value for &#x27;b&#x27;,...
+        <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> set({ c: &#x27;&#x27; })}&gt;Add &#x27;b&#x27;<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+      ) : (
+        // ...otherwise (if &#x27;b&#x27; is present), an input bound to &#x27;c&#x27;.
+        <span class="hljs-tag">&lt;<span class="hljs-name">input</span>
+          {<span class="hljs-attr">...applyPipe</span>([<span class="hljs-attr">value</span>, <span class="hljs-attr">set</span>] <span class="hljs-attr">as</span> <span class="hljs-attr">const</span>, <span class="hljs-attr">objectProp</span>(&#x27;<span class="hljs-attr">c</span>&#x27;), <span class="hljs-attr">bindingProps</span>)}
+        /&gt;</span>
+      ),
+    )}
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+);
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> StatefulComponent = <span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-keyword">const</span> stateView = React.useState&lt;State&gt;({ <span class="hljs-attr">a</span>: <span class="hljs-string">&#x27;&#x27;</span> });
+  <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">StatelessComponent</span> {<span class="hljs-attr">...</span>{ <span class="hljs-attr">stateView</span> }} /&gt;</span></span>;
+};</code></pre>
+				<p>In the code above, TypeScript successfully infers the types, and as we get to a point where we need to type &#39;a&#39;, &#39;b&#39;, or &#39;c&#39;, IntelliSense shows correct suggestions.</p>
+				<p>Checkbox is different from other inputs in that we have to use <code>checked</code> prop instead of <code>value</code>, so when binding a checkbox, instead of <code>bindingProps</code> use <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/react/bindingPropsCheckbox.ts"><code>bindingPropsCheckbox</code></a>.</p>
+				<p>In the component example we used <code>objectProp</code> lens to transform a <code>StateView</code> into another <code>StateView</code>, but like other lenses, it also works on <code>StateView</code>&#39;s supertype <code>View</code>. Thanks to that, we can use <code>objectProp</code> in the conventional way to immutably set a property nested within a larger structure, as in the following example of a reducer that sets the value of <code>b</code> in <code>{ a: { b: string; c: string } }</code>:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">type</span> State = { <span class="hljs-attr">a</span>: { <span class="hljs-attr">b</span>: <span class="hljs-built_in">string</span>; c: <span class="hljs-built_in">string</span> } };
+
+<span class="hljs-keyword">const</span> sampleReducer = <span class="hljs-function">(<span class="hljs-params">state: State, action: { payload: <span class="hljs-built_in">string</span> }</span>) =&gt;</span>
+  applyPipe(
+    [state, <span class="hljs-function">(<span class="hljs-params">value</span>) =&gt;</span> value] <span class="hljs-keyword">as</span> View&lt;State, State&gt;,
+    <span class="hljs-comment">// Transforms values into `View&lt;State, { b: string; c: string }&gt;`.</span>
+    objectProp(<span class="hljs-string">&#x27;a&#x27;</span>),
+    <span class="hljs-comment">// Transforms values into `View&lt;State, string&gt;`.</span>
+    objectProp(<span class="hljs-string">&#x27;b&#x27;</span>),
+    <span class="hljs-comment">// `set` takes a value for `b` and returns a new `State`.</span>
+    <span class="hljs-function">(<span class="hljs-params">[, set]</span>) =&gt;</span> set(action.payload),
+  );
+
+expect(sampleReducer({ <span class="hljs-attr">a</span>: { <span class="hljs-attr">b</span>: <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-attr">c</span>: <span class="hljs-string">&#x27;&#x27;</span> } }, { <span class="hljs-attr">payload</span>: <span class="hljs-string">&#x27;x&#x27;</span> })).toEqual({
+  <span class="hljs-attr">a</span>: { <span class="hljs-attr">b</span>: <span class="hljs-string">&#x27;x&#x27;</span>, <span class="hljs-attr">c</span>: <span class="hljs-string">&#x27;&#x27;</span> },
+});</code></pre>
+				<p>There is a simple helper function <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/view/rootView.ts"><code>rootView</code></a> which converts a <code>value</code> into a view <code>[value, &lt;identity function&gt;]</code> and which we can use to replace the first argument in the <code>applyPipe</code> call above, including the type signature, with just <code>rootView(state)</code>.</p>
+				<p>The only other lens-related utilities that are left to mention are:</p>
+				<ul>
+					<li><p><a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/map/mapProp.ts"><code>mapProp</code></a>: a lens to zoom in on a value stored in a <code>Map</code>.</p>
+					</li>
+					<li><p><a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/set/setProp.ts"><code>setProp</code></a>: a lens to zoom in on presence of an element in a <code>Set</code>.</p>
+					</li>
+				</ul>
+				<a href="#miscellaneous" id="miscellaneous" style="color: inherit; text-decoration: none;">
+					<h2>Miscellaneous</h2>
+				</a>
+				<ul>
+					<li><p><a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/memoize.ts"><code>memoize</code></a>: a utility to memoize values using WeakMap.</p>
+					</li>
+					<li><p><a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/assertNever.ts"><code>assertNever</code></a>: utility used to typecheck that a conditional has exhausted all possibilities, e.g. if <code>a</code> has type <code>0 | 1</code>, you could write <code>a === 0 ? &#39;zero&#39; : a === 1 ? &#39;one&#39; : assertNever(a)</code>.</p>
+					</li>
+				</ul>
+				<hr>
+				<p><a href="https://github.com/ivan7237d/antiutils/blob/master/.github/CONTRIBUTING.md">Contributing guidelines</a></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#comparefunction" class="tsd-kind-icon">Compare<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#equalfunction" class="tsd-kind-icon">Equal<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#lens" class="tsd-kind-icon">Lens</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#reducer" class="tsd-kind-icon">Reducer</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#stateview" class="tsd-kind-icon">State<wbr>View</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#view" class="tsd-kind-icon">View</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#addtoset" class="tsd-kind-icon">add<wbr>ToSet</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#applypipe" class="tsd-kind-icon">apply<wbr>Pipe</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#assertnever" class="tsd-kind-icon">assert<wbr>Never</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#bindingprops" class="tsd-kind-icon">binding<wbr>Props</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#bindingpropscheckbox" class="tsd-kind-icon">binding<wbr>Props<wbr>Checkbox</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#booleancompare" class="tsd-kind-icon">boolean<wbr>Compare</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#concatiterables" class="tsd-kind-icon">concat<wbr>Iterables</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#deepequal" class="tsd-kind-icon">deep<wbr>Equal</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#deletefrommap" class="tsd-kind-icon">delete<wbr>From<wbr>Map</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#deletefromset" class="tsd-kind-icon">delete<wbr>From<wbr>Set</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#diffmaps" class="tsd-kind-icon">diff<wbr>Maps</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#diffobjects" class="tsd-kind-icon">diff<wbr>Objects</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#everyiniterable" class="tsd-kind-icon">every<wbr>InIterable</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#filteriterable" class="tsd-kind-icon">filter<wbr>Iterable</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#firstiniterable" class="tsd-kind-icon">first<wbr>InIterable</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#flatmapiterable" class="tsd-kind-icon">flat<wbr>Map<wbr>Iterable</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#foreachiniterable" class="tsd-kind-icon">for<wbr>Each<wbr>InIterable</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#isemptyiterable" class="tsd-kind-icon">is<wbr>Empty<wbr>Iterable</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#isobject" class="tsd-kind-icon">is<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#iterablesequal" class="tsd-kind-icon">iterables<wbr>Equal</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#lexicographiccompare" class="tsd-kind-icon">lexicographic<wbr>Compare</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#mapiterable" class="tsd-kind-icon">map<wbr>Iterable</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#mapprop" class="tsd-kind-icon">map<wbr>Prop</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#mapsequal" class="tsd-kind-icon">maps<wbr>Equal</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#memoize" class="tsd-kind-icon">memoize</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#numbercompare" class="tsd-kind-icon">number<wbr>Compare</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#objectentries" class="tsd-kind-icon">object<wbr>Entries</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#objectfromentries" class="tsd-kind-icon">object<wbr>From<wbr>Entries</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#objectkeys" class="tsd-kind-icon">object<wbr>Keys</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#objectprop" class="tsd-kind-icon">object<wbr>Prop</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#objectvalues" class="tsd-kind-icon">object<wbr>Values</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#objectsequal" class="tsd-kind-icon">objects<wbr>Equal</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#rangeiterable" class="tsd-kind-icon">range<wbr>Iterable</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#reduceiterable" class="tsd-kind-icon">reduce<wbr>Iterable</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#reversearray" class="tsd-kind-icon">reverse<wbr>Array</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#reversecompare" class="tsd-kind-icon">reverse<wbr>Compare</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#rootview" class="tsd-kind-icon">root<wbr>View</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#scaniterable" class="tsd-kind-icon">scan<wbr>Iterable</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#setinmap" class="tsd-kind-icon">set<wbr>InMap</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#setprop" class="tsd-kind-icon">set<wbr>Prop</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#setsequal" class="tsd-kind-icon">sets<wbr>Equal</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#slicearray" class="tsd-kind-icon">slice<wbr>Array</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#someiniterable" class="tsd-kind-icon">some<wbr>InIterable</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#sortarray" class="tsd-kind-icon">sort<wbr>Array</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#stringcompare" class="tsd-kind-icon">string<wbr>Compare</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#takeiterable" class="tsd-kind-icon">take<wbr>Iterable</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#takewhileiterable" class="tsd-kind-icon">take<wbr>While<wbr>Iterable</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#zipiterables" class="tsd-kind-icon">zip<wbr>Iterables</a>
+					</li>
+					<li class=" tsd-kind-object-literal tsd-is-external">
+						<a href="globals.html#firstiterable" class="tsd-kind-icon">first<wbr>Iterable</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
