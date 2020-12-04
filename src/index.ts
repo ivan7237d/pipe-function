@@ -42,6 +42,7 @@ export { addToSet } from './internal/set/addToSet';
 export { deleteFromSet } from './internal/set/deleteFromSet';
 export { setProp } from './internal/set/setProp';
 export { setsEqual } from './internal/set/setsEqual';
+export { rootView } from './internal/view/rootView';
 export type { CompareFunction } from './internal/types/types';
 export type { EqualFunction } from './internal/types/types';
 export type { Reducer } from './internal/types/types';
