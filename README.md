@@ -20,7 +20,7 @@ TypeScript/JavaScript utilities for those who don't like utilities.
 
 ## Status
 
-Experimental. The library is feature-complete and has full unit test coverage, but we want to get some feedback before calling it production-ready.
+Experimental. The library is feature-complete and has near-full unit test coverage, but there may be major version bumps in response to initial feedback.
 
 ## Installing
 
