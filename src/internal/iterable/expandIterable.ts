@@ -5,6 +5,8 @@
  * ```
  * const even = expandIterable((value) => !value, false);
  * ```
+ *
+ * (yields `false`, `true`, `false`, `true`...).
  */
 export const expandIterable = function* <T>(
   project: (value: T) => T | undefined,
