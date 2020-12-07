@@ -4,14 +4,29 @@ import { Reducer } from '../types/types';
  * Performs the same computation as `reduce`, but emits the value of the
  * accumulator after each iteration.
  */
-export const scanIterable = <Accumulator, Element>(
-  reducer: Reducer<Accumulator, Element>,
-  seed: Accumulator,
-) =>
-  function* (source: Iterable<Element>): Iterable<Accumulator> {
+export const scanIterable: {
+  <Element>(reducer: Reducer<Element, Element>): (
+    source: Iterable<Element>,
+  ) => Iterable<Element>;
+  <Accumulator, Element>(
+    reducer: Reducer<
+      Accumulator extends undefined ? Element : Accumulator,
+      Element
+    >,
+    seed: Accumulator,
+  ): (
+    source: Iterable<Element>,
+  ) => Iterable<Accumulator extends undefined ? Element : Accumulator>;
+} = (reducer: Reducer<unknown, unknown>, seed?: unknown) =>
+  function* (source: Iterable<unknown>): Iterable<unknown> {
     let accumulator = seed;
-    for (const element of source) {
-      accumulator = reducer(accumulator, element);
-      yield accumulator;
+    for (const value of source) {
+      const nextAccumulator =
+        accumulator === undefined ? value : reducer(accumulator, value);
+      if (nextAccumulator === undefined) {
+        return;
+      }
+      yield (accumulator = nextAccumulator);
     }
+    return accumulator;
   };
