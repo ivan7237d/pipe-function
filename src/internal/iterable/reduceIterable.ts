@@ -1,5 +1,15 @@
 import { Reducer } from '../types/types';
 
+/**
+ * Unlike the native array method and RxJS, `undefined` accumulator values have
+ * special meaning:
+ *
+ * - `reduceIterable(reducer, undefined)` is equivalient to
+ *   `reduceIterable(reducer)`.
+ *
+ * - If the reducer returns `undefined`, instead of assigning this value to the
+ *   accumulator, we stop the iteration early.
+ */
 export const reduceIterable: {
   <Element>(reducer: Reducer<Element, Element>): (
     source: Iterable<Element>,

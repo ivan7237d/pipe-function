@@ -1,7 +1,7 @@
 import { Reducer } from '../types/types';
 
 /**
- * Performs the same computation as `reduce`, but emits the value of the
+ * Performs the same computation as `reduce`, but yields the value of the
  * accumulator after each iteration.
  */
 export const scanIterable: {

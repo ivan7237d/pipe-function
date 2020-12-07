@@ -62,7 +62,31 @@ How-to:
 
 - **Get a flag indicating if the element is the first element:** `zipIterables(firstIterable, yourIterable)` (returns an iterable of `[boolean, <element>]`).
 
-- **Find an element matching a predicate:** `applyPipe(yourIterable, filter(yourPredicate), firstInIterable)`.
+- **Find the first element matching a predicate:** `applyPipe(yourIterable, filter(yourPredicate), firstInIterable)`.
+
+- **Yield values while a condition holds:**
+
+  ```ts
+  applyPipe(
+    [1, 2, 3, 2],
+    scanIterable((...[, value]) => (value <= 2 ? value : undefined)),
+  );
+  ```
+
+  (yields `1`, `2`, see [scanIterable](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/scanIterable.ts) and [reduceIterable](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/reduceIterable.ts)).
+
+- **Also yield the value that broke the condition:**
+
+  ```ts
+  applyPipe(
+    [1, 2, 3, 2],
+    scanIterable((accumulator, value) =>
+      accumulator <= 2 ? value : undefined,
+    ),
+  );
+  ```
+
+  (yields `1`, `2`, `3`).
 
 > :bulb: TIP
 >
