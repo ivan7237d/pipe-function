@@ -75,7 +75,7 @@ How-to:
   );
   ```
 
-  (yields `1`, `2`, see [scanIterable](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/scanIterable.ts) and [reduceIterable](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/reduceIterable.ts)).
+  (yields `1`, `2`, see [`scanIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/scanIterable.ts) and [`reduceIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/reduceIterable.ts)).
 
 - **Also yield the value that broke the condition:**
 
