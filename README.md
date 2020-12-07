@@ -36,7 +36,7 @@ npm install antiutils --save
 
 ## Minimal API
 
-Based on "only one way to do it" principle, this library provides a utility only when something can't be easily and readably done with vanilla JavaScript. For example, we do not provide a function to get an object's property value, so instead of `get('a')` you would just write `value => value.a`. This is because we see the mental overhead of choosing among multiple ways to write a piece of code as higher cost compared to doing more typing.
+Based on the "only one way to do it" principle, this library provides a utility only when something can't be easily and readably done with vanilla JavaScript. For example, we do not provide a function to get an object's property value, so instead of `get('a')` you would just write `value => value.a`. This is because we see the mental overhead of choosing among multiple ways to write a piece of code as higher cost compared to doing more typing.
 
 That said, we do sometimes provide a shortcut for what would otherwise be a one-liner, such as `lastInIterable` for `reduceIterable((...[, value]) => value)` - not for conciseness or performance, but to improve readability.
 
@@ -90,27 +90,16 @@ How-to:
 
   (yields `1`, `2`, `3`).
 
-> :bulb: TIP
->
-> If filtering an iterable changes type of the elements, use `flatMapIterable` instead of `filterIterable`: the type of elements in
->
-> ```ts
-> applyPipe(
->   [1, undefined],
->   filterIterable((value) => value !== undefined),
-> );
-> ```
->
-> will be inferred as `Iterable<number | undefined>`, while for
->
-> ```ts
-> applyPipe(
->   [1, undefined],
->   flatMapIterable((value) => (value === undefined ? [] : [value])),
-> );
-> ```
->
-> it will be inferred as `Iterable<number>`. The same trick works when filtering arrays and observables.
+- **Filter an iterable in a way that the type system understands:**
+
+  ```ts
+  applyPipe(
+    [1, undefined],
+    flatMapIterable((value) => (value === undefined ? [] : [value])),
+  );
+  ```
+
+  (type will be inferred as `Iterable<number>`, not `Iterable<number | undefined>` as would be the case if you used `filterIterable`; the same trick works when filtering arrays and observables).
 
 ## Comparison functions
 
