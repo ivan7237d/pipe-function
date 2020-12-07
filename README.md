@@ -64,6 +64,12 @@ How-to:
 
 - **Get a flag indicating if the element is the first element:** `zipIterables(firstIterable, yourIterable)` (returns an iterable of `[boolean, <element>]`).
 
+- **Count elements in an iterable:**: `applyPipe(yourIterable, reduceIterable(countReducer, 0))`.
+
+- **Check if every element in an iterable is true:** `applyPipe(yourIterableOfBooleans, reduceIterable(andReducer, true))` (iteration will not continue unnecessarily because of how [`reduceIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/reduceIterable.ts) and [`andReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer/andReducer.ts) are defined).
+
+- **Check if some elements in an iterable are true:** `applyPipe(yourIterableOfBooleans, reduceIterable(orReducer, false))`.
+
 - **Find the first element matching a predicate:** `applyPipe(yourIterable, filter(yourPredicate), firstInIterable)`.
 
 - **Yield values while a condition holds:**
@@ -75,7 +81,7 @@ How-to:
   );
   ```
 
-  (yields `1`, `2`, see [`scanIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/scanIterable.ts) and [`reduceIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/reduceIterable.ts)).
+  (yields `1`, `2`, see [`scanIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/scanIterable.ts)).
 
 - **Also yield the value that broke the condition:**
 
@@ -113,6 +119,12 @@ type EqualFunction<T> = (from: T, to: T) => boolean;
 It [provides](https://github.com/ivan7237d/antiutils/tree/master/src/internal/compare) implementations of `CompareFunction` for primitive types and a function `lexicographicCompare` to compose `CompareFunction`s.
 
 It also provides implementations of `EqualFunction` for objects, iterables, maps, and sets, and a function [`deepEqual`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/deepEqual.ts) that recursively delegates to those functions depending on the object type.
+
+## Reducers
+
+The library exports a type `Reducer` which is like a regular reducer, but can return `undefined` to stop the iteration short, and which is used by functions [`reduceIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/reduceIterable.ts) and [`scanIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/scanIterable.ts).
+
+The library includes [basic implementations of this type](https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer), all of which except the boolean ones (`andReducer` and `orReducer`) can also be used with arrays and observables.
 
 ## Lenses
 
