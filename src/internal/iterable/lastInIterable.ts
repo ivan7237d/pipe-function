@@ -3,8 +3,8 @@
  */
 export const lastInIterable = <T>(iterable: Iterable<T>): T | undefined => {
   let result: T | undefined = undefined;
-  for (const el of iterable) {
-    result = el;
+  // eslint-disable-next-line no-empty
+  for (result of iterable) {
   }
   return result;
 };
