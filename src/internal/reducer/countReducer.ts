@@ -1,1 +1,1 @@
-export const countReducer = (accumulator: number) => accumulator + 1;
+export const countReducer = (accumulator: number): number => accumulator + 1;

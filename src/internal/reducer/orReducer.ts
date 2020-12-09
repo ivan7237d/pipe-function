@@ -1,2 +1,4 @@
-export const orReducer = (accumulator: boolean, value: boolean) =>
-  accumulator ? undefined : value;
+export const orReducer = (
+  accumulator: boolean,
+  value: boolean,
+): boolean | undefined => (accumulator ? undefined : value);
