@@ -1,6 +1,7 @@
 import { applyPipe } from '../applyPipe';
-import { everyInIterable } from '../iterable/everyInIterable';
 import { mapIterable } from '../iterable/mapIterable';
+import { reduceIterable } from '../iterable/reduceIterable';
+import { andReducer } from '../reducer/andReducer';
 
 export const setsEqual = <Value>(
   from: ReadonlySet<Value>,
@@ -10,5 +11,5 @@ export const setsEqual = <Value>(
   applyPipe(
     from,
     mapIterable((el) => to.has(el)),
-    everyInIterable,
+    reduceIterable<boolean, boolean>(andReducer, true),
   );
