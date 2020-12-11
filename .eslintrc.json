@@ -27,6 +27,18 @@
     "eqeqeq": "error",
     "curly": "error",
     "@typescript-eslint/no-empty-function": "off",
-    "no-constant-condition": ["error", { "checkLoops": false }]
+    "no-constant-condition": ["error", { "checkLoops": false }],
+    /*
+     * Disabled because of buggy behavior: in
+     *
+     * ```
+     * A extends (...args: infer Args) => infer FunctionResult
+     *   ? (...args: Args) => FunctionResult
+     *   : B
+     * ```
+     *
+     * `FunctionResult` is reported as unused.
+     */
+    "@typescript-eslint/no-unused-vars": "off"
   }
 }
