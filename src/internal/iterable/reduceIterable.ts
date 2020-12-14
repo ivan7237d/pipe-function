@@ -1,11 +1,15 @@
 import { Reducer } from '../types/types';
 
 /**
- * Unlike the native array method and RxJS, `undefined` accumulator values have
- * special meaning:
+ * Works like the native array method and `reduce` in RxJS, except:
  *
  * - `reduceIterable(reducer, undefined)` is equivalient to
- *   `reduceIterable(reducer)`.
+ *   `reduceIterable(reducer)`, in other words if the seed is `undefined`, the
+ *   accumulator is initialized with the first value yielded by the source
+ *   iterable.
+ *
+ * - When the source iterable is empty and the seed is not provided, instead of
+ *   throwing an error, returns `undefined`.
  *
  * - If the reducer returns `undefined`, instead of assigning this value to the
  *   accumulator, we stop the iteration early.
