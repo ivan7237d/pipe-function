@@ -56,7 +56,7 @@ The library includes non-mutating functions for working with [objects](https://g
 
 ## Iterables
 
-[Functions for working with iterables](https://github.com/ivan7237d/antiutils/tree/master/src/internal/iterable) have signatures that try to stay close to equivalent RxJS operators, but have names like `mapIterable` that do not clash with RxJS.
+[Functions for working with iterables](https://github.com/ivan7237d/antiutils/tree/master/src/internal/iterable) have signatures that try to stay close to corresponding native array methods and RxJS operators.
 
 How-to:
 
