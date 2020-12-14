@@ -1,7 +1,8 @@
 /**
- * Returns the last value, or `undefined` if the iterable is empty. If
- * the iterable is an array, retrieves the last value by index, otherwise
- * iterates to the end.
+ * Returns the last value, or `undefined` if the iterable is empty.
+ *
+ * Performance-related note: if the iterable is an array, retrieves the last
+ * value by index, otherwise iterates to the end.
  */
 export const lastInIterable = <T>(iterable: Iterable<T>): T | undefined => {
   if (Array.isArray(iterable)) {
