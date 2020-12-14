@@ -2,10 +2,11 @@
  * Slices an array, yielding elements that have indexes >= `from` and < `to`.
  * Either one of the two parameters can be dropped, in which case the
  * corresponding condition will not be checked. Differs from the array `slice`
- * method in that negative values of parameters have no special meaning. If the
- * source iterable is an array, immediately skips to the starting index,
- * otherwise throws away elements yielded by the source until the starting index
- * is reached.
+ * method in that negative values of parameters have no special meaning.
+ *
+ * Performance-related note: if the source iterable is an array, immediately
+ * skips to the starting index, otherwise throws away elements yielded by the
+ * source until the starting index is reached.
  */
 export const sliceIterable = <T>(from?: number, to?: number) =>
   function* (source: Iterable<T>): Iterable<T> {
