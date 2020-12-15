@@ -78,7 +78,7 @@ How-to:
 
   (type will be inferred as `Iterable<number>`, not `Iterable<number | undefined>` as would be the case if you used `filterIterable`; the same trick works when filtering arrays and observables).
 
-- **Get an element's index:** `zipIterables(rangeIterable(), yourIterable)` (returns an iterable of `[<element index>, <element>]`).
+- **Index elements:** `zipIterables(rangeIterable(), yourIterable)` (returns an iterable of `[<element index>, <element>]`).
 
 - **Get a flag indicating if the element is the first element:** `zipIterables(firstIterable, yourIterable)` (returns an iterable of `[boolean, <element>]`).
 
