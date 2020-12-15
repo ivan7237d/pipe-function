@@ -14,7 +14,13 @@ TypeScript/JavaScript utilities for those who don't like utilities.
 
 - [Functions for working with native `Iterable`s](#iterables).
 
+- [Basic comparison functions](#comparison-functions).
+
+- [Basic reducers](#reducers).
+
 - [React-friendly lenses](#lenses).
+
+- [Memoization utilities](#memoization).
 
 - Designed with an eye to type inference.
 
@@ -226,9 +232,25 @@ The only other lens-related utilities that are left to mention are:
 
 - [`setProp`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/set/setProp.ts): a lens to zoom in on presence of an element in a `Set`.
 
-## Miscellaneous
+## Memoization
 
-- [`memoize`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/memoize.ts): a utility to memoize values using WeakMap.
+The library provides utilities [`memoizeWeak`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/memoize/memoizeWeak.ts) and [`memoizeStrong`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/memoize/memoizeStrong.ts) to memoize functions that take a single argument. Internally they cache results in respectively a WeakMap and a Map, with arguments as keys and results as values. `memoizeWeak` has an advantage that retaining a reference to the memoized function will not prevent cached arguments and results from being garbage-collected, but it can only memoize functions that take objects (not primitive values) as arguments, because only objects can be used as keys in a WeakMap.
+
+> :bulb: TIP
+>
+> You can combine `memoizeWeak` and `memoizeStrong` to memoize a function that takes multiple arguments, some of them primitive values, e.g.
+>
+> ```ts
+> const original = (x: { a: number }, y: number) => x.a + y;
+> const memoized = memoizeWeak((x: { a: number }) =>
+>   memoizeStrong((y: number) => original(x, y)),
+> );
+> const withRestoredSignature = (x: { a: number }, y: number) => memoized(x)(y);
+> ```
+
+The library also provides a function [`teach`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/memoize/teach.ts) for cases when you need to teach a memoized function to return a result already known from an external source such as persisted storage, and a function [`knows`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/memoize/knows.ts) to check if there is a cached result for a given argument.
+
+## Miscellaneous
 
 - [`assertNever`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/assertNever.ts): utility used to typecheck that a conditional has exhausted all possibilities, e.g. if `a` has type `0 | 1`, you could write `a === 0 ? 'zero' : a === 1 ? 'one' : assertNever(a)`.
 
