@@ -1,4 +1,5 @@
 import { applyPipe } from '../applyPipe';
+import { asContext } from '../types/asContext';
 import { reduceIterable } from './reduceIterable';
 
 it('works', () => {
@@ -37,7 +38,7 @@ it('works', () => {
   expect(
     applyPipe(
       [0, 1, 2],
-      reduceIterable((): number | undefined => undefined),
+      reduceIterable(asContext(() => undefined)),
     ),
   ).toMatchInlineSnapshot(`0`);
 });

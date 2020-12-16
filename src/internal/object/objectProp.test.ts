@@ -1,5 +1,6 @@
 import { applyPipe } from '../applyPipe';
 import { isEmptyIterable } from '../iterable/isEmptyIterable';
+import { asView } from '../types/asView';
 import { View } from '../types/types';
 import { rootView } from '../view/rootView';
 import { objectKeys } from './objectKeys';
@@ -35,16 +36,15 @@ it('works with optional properties', () => {
   type State = { a?: { b?: number; c?: number }; d: number };
   const state: State = { a: { b: 1 }, d: 3 };
   const { get, set } = applyPipe(rootView(state), objectProp('a'));
-  const getValueOrDefault = () => get() ?? {};
-  const aView: View<State, ReturnType<typeof getValueOrDefault>> = {
-    get: getValueOrDefault,
+  const aView = asView({
+    get: () => get() ?? {},
     set: (value) =>
       set(
         value === undefined || applyPipe(value, objectKeys, isEmptyIterable)
           ? undefined
           : value,
       ),
-  };
+  });
   expect(applyPipe(aView, objectProp('b')).set(undefined))
     .toMatchInlineSnapshot(`
     Object {

@@ -1,4 +1,5 @@
 import { applyPipe } from '../applyPipe';
+import { asContext } from '../types/asContext';
 import { setInMap } from './setInMap';
 
 it('works', () => {
@@ -23,7 +24,7 @@ it('works', () => {
         ['a', 0],
         ['b', 1],
       ]),
-      setInMap('a', undefined),
+      setInMap('a'),
     ),
   ).toMatchInlineSnapshot(`
     Map {
@@ -51,7 +52,7 @@ it('works', () => {
     applyPipe(
       new Map([['a', 1]]),
       (value) => new Map(value),
-      setInMap('b', undefined),
+      setInMap('b', asContext(undefined)),
     ),
   ).toMatchInlineSnapshot(`
     Map {

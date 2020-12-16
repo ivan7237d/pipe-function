@@ -1,4 +1,5 @@
 import { applyPipe } from '../applyPipe';
+import { asContext } from '../types/asContext';
 import { scanIterable } from './scanIterable';
 
 it('works', () => {
@@ -63,11 +64,9 @@ it('works', () => {
     ]
   `);
   expect(
-    applyPipe(
-      'abc',
-      scanIterable((): string | undefined => undefined),
-      (source) => [...source],
-    ),
+    applyPipe('abc', scanIterable(asContext(() => undefined)), (source) => [
+      ...source,
+    ]),
   ).toMatchInlineSnapshot(`
     Array [
       "a",
