@@ -105,27 +105,12 @@ it('works with index signatures', () => {
 it('works in example 1 from README', () => {
   type State = { a: { b: string; c: string } };
 
+  /**
+   * A reducer that sets the value of `b` in the state to the payload.
+   **/
   const sampleReducer = (state: State, action: { payload: string }) =>
     applyPipe(
-      { get: () => state, set: (value) => value } as View<State, State>,
-      // Transforms values into `View<State, { b: string; c: string }>`.
-      objectProp('a'),
-      // Transforms values into `View<State, string>`.
-      objectProp('b'),
-    )
-      // `set` takes a value for `b` and returns a new `State`.
-      .set(action.payload);
-
-  expect(sampleReducer({ a: { b: '', c: '' } }, { payload: 'x' })).toEqual({
-    a: { b: 'x', c: '' },
-  });
-});
-
-it('works in example 2 from README', () => {
-  type State = { a: { b: string; c: string } };
-
-  const sampleReducer = (state: State, action: { payload: string }) =>
-    applyPipe(
+      // Returns `View<State, State>`.
       rootView(state),
       // Transforms values into `View<State, { b: string; c: string }>`.
       objectProp('a'),
@@ -140,7 +125,7 @@ it('works in example 2 from README', () => {
   });
 });
 
-it('works in example 3 from README', () => {
+it('works in example 2 from README', () => {
   type State = { a?: { b: string; c: string } };
 
   const sampleReducer = (state: State, action: { payload: string }) =>

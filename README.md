@@ -140,93 +140,85 @@ The library includes [basic implementations of this type](https://github.com/iva
 
 ## Lenses
 
-First let's talk about how we define a lens. When building React components, it's convenient to work with a type which we'll call `StateView`, a combination of a value and a setter:
+We start by defining a `View` as a combination of a getter and a setter:
 
 ```ts
-type StateView<A> = [value: A, set: (value: A) => void];
+type View<S, A> = { get: () => A; set: (value: A) => S };
 ```
 
-Values returned by React's `setState` hook can be treated as values of this type, and it is also what you would want to pass to an input element such as a textbox to create a two-way binding. In this library we actually define `StateView` as a subtype of another type called `View` (you'll soon see why):
+and define a `Lens` as a function that transforms a view into another view:
 
 ```ts
-type View<S, A> = [value: A, set: (value: A) => S];
-type StateView<A> = View<void, A>;
+type Lens<S, A, B> = (source: View<S, A>) => View<S, B>;
 ```
 
-and we define a `Lens` as a function that transforms a view `View<S, A>` into another view `View<S, B>` (it follows that a lens will transform a `StateView` into another `StateView`).
+The library provides the following functions:
 
-To see how this works, we'll write a React component using the following two functions provided by the library:
+- [`objectProp`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/object/objectProp.ts): a lens to zoom in on an object's property.
 
-- [`objectProp`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/object/objectProp.ts): a lens which zooms in on an object's property, e.g. `objectProp('a')` will transform a value of type `StateView<{ a: number }>` into a value of type `StateView<number>`.
+- [`mapProp`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/map/mapProp.ts): a lens to zoom in on a value stored in a `Map`.
 
-- [`bindingProps`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/react/bindingProps.ts): a helper function that converts a `StateView` into an object with props that React input components understand, e.g. `['x', set]` would be transformed into `{ value: 'x', onChange: ({ currentTarget: { value } }) => set(value) }`.
+- [`setProp`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/set/setProp.ts): a lens to zoom in on presence of an element in a `Set`.
 
-Here's what the component will look like:
+- [`rootView`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/view/rootView.ts): a function that converts a `value` into a view `{ get: () => value, set: <identity function> }`.
 
-```ts
-type State = { a: string; b?: { c: string } };
-
-/**
- * A component that encapsulates presentation logic but is agnostic as to how we
- * manage state.
- */
-const StatelessComponent = ({ stateView }: { stateView: StateView<State> }) => (
-  <div>
-    {/* An input bound to 'a'. */}
-    <input {...applyPipe(stateView, objectProp('a'), bindingProps)} />
-    {applyPipe(stateView, objectProp('b'), ([value, set]) =>
-      // If 'b' is absent,...
-      value === undefined ? (
-        // ...a button that adds a default value for 'b',...
-        <button onClick={() => set({ c: '' })}>Add 'b'</button>
-      ) : (
-        // ...otherwise (if 'b' is present), an input bound to 'c'.
-        <input
-          {...applyPipe([value, set] as const, objectProp('c'), bindingProps)}
-        />
-      ),
-    )}
-  </div>
-);
-
-export const StatefulComponent = () => {
-  const stateView = React.useState<State>({ a: '' });
-  return <StatelessComponent {...{ stateView }} />;
-};
-```
-
-In the code above, TypeScript successfully infers the types, and as we get to a point where we need to type 'a', 'b', or 'c', IntelliSense shows correct suggestions.
-
-Checkbox is different from other inputs in that we have to use `checked` prop instead of `value`, so when binding a checkbox, instead of `bindingProps` use [`bindingPropsCheckbox`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/react/bindingPropsCheckbox.ts).
-
-In the component example we used `objectProp` lens to transform a `StateView` into another `StateView`, but like other lenses, it also works on `StateView`'s supertype `View`. Thanks to that, we can use `objectProp` in the conventional way to immutably set a property nested within a larger structure, as in the following example of a reducer that sets the value of `b` in `{ a: { b: string; c: string } }`:
+Example usage:
 
 ```ts
 type State = { a: { b: string; c: string } };
 
+/**
+ * A reducer that sets the value of `b` in the state to the payload.
+ **/
 const sampleReducer = (state: State, action: { payload: string }) =>
   applyPipe(
-    [state, (value) => value] as View<State, State>,
+    // Returns `View<State, State>`.
+    rootView(state),
     // Transforms values into `View<State, { b: string; c: string }>`.
     objectProp('a'),
     // Transforms values into `View<State, string>`.
     objectProp('b'),
+  )
     // `set` takes a value for `b` and returns a new `State`.
-    ([, set]) => set(action.payload),
-  );
+    .set(action.payload);
 
 expect(sampleReducer({ a: { b: '', c: '' } }, { payload: 'x' })).toEqual({
   a: { b: 'x', c: '' },
 });
 ```
 
-There is a simple helper function [`rootView`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/view/rootView.ts) which converts a `value` into a view `[value, <identity function>]` and which we can use to replace the first argument in the `applyPipe` call above, including the type signature, with just `rootView(state)`.
+Example of usage with optional properties:
 
-The only other lens-related utilities that are left to mention are:
+```ts
+// Note the optional `a`.
+type State = { a?: { b: string; c: string } };
 
-- [`mapProp`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/map/mapProp.ts): a lens to zoom in on a value stored in a `Map`.
+const sampleReducer = (state: State, action: { payload: string }) =>
+  applyPipe(
+    rootView(state),
+    // Transforms values into `View<State, { b: string; c: string } |
+    // undefined>`.
+    objectProp('a'),
+    // Transforms values into `View<State, { b: string; c: string }>`.
+    ({ get, set }) => ({
+      get: () => get() ?? { b: '', c: '' },
+      set,
+    }),
+    objectProp('b'),
+  ).set(action.payload);
 
-- [`setProp`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/set/setProp.ts): a lens to zoom in on presence of an element in a `Set`.
+expect(sampleReducer({}, { payload: 'x' })).toEqual({
+  a: { b: 'x', c: '' },
+});
+```
+
+The library also defines
+
+```ts
+type StateView<A> = View<void, A>; // = { get: () => A; set: (value: A) => void };
+```
+
+where the setter does not return any value, but instead produces a side effect. To learn about how this type is used, please see the docs for [`antiutils-react`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/view/rootView.ts), a package that provides glue between Antiutils and React.
 
 ## Memoization
 
