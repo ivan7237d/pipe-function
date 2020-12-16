@@ -14,19 +14,15 @@ TypeScript/JavaScript utilities for those who don't like utilities.
 
 - [Functions for working with native `Iterable`s](#iterables).
 
-- [Basic comparison functions](#comparison-functions).
+- [Comparison functions](#comparison-functions).
 
-- [Basic reducers](#reducers).
+- [Reducers](#reducers).
 
-- [React-friendly lenses](#lenses).
+- [Lenses](#lenses).
 
 - [Memoization utilities](#memoization).
 
-- Designed with an eye to type inference.
-
-## Status
-
-Experimental. The library is feature-complete and has near-full unit test coverage, but there may be major version bumps in response to initial feedback.
+- [Functions for downcasting](#functions-for-downcasting)
 
 ## Installing
 
@@ -250,9 +246,17 @@ The library provides utilities [`memoizeWeak`](https://github.com/ivan7237d/anti
 
 The library also provides a function [`teach`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/memoize/teach.ts) for cases when you need to teach a memoized function to return a result already known from an external source such as persisted storage, and a function [`knows`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/memoize/knows.ts) to check if there is a cached result for a given argument.
 
-## Miscellaneous
+## Functions for downcasting
 
-- [`assertNever`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/assertNever.ts): utility used to typecheck that a conditional has exhausted all possibilities, e.g. if `a` has type `0 | 1`, you could write `a === 0 ? 'zero' : a === 1 ? 'one' : assertNever(a)`.
+The library provides the following identity functions that cast the argument to a subtype, but unlike the TypeScript's `as`, never make assertions:
+
+- [`asNever`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asNever.ts): an identity function with signature `(value: never) => never ` used to typecheck that a symbol has type `never`. Throws if called. Example: if `a` has type `0 | 1`, you could write `a === 0 ? 'zero' : a === 1 ? 'one' : asNever(a)` to make sure that typecheck will fail if the type of `a` changes to say `0 | 1 | 2`.
+
+- [`as`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/as.ts): an identity function with signature `<T>(value: T) => T` that can be used to downcast a value to a non-generic type: `as<YourType>(yourValue)`.
+
+- [`asContext`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asContext.ts): an identity function with signature `<A, B extends A>(value: B) => A` that can be used to infer the type of a value from the context instead of the other way around. For example, the function `firstInIterable` can be implemented as `reduceIterable(() => undefined)`, but writing `applyPipe([0, 1], reduceIterable(() => undefined))` will not typecheck. The reason is that TypeScript will look at the reducer `() => undefined` and infer the type of the accumulator as `undefined`, and then expect the array `[0, 1]` to be `undefined[]`. Enclosing the reducer in `asContext` (`asContext(() => undefined)`) will cause TypeScript to correctly infer the type of the accumulator as `number`.
+
+- [`asCompareFunction`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asCompareFunction.ts), [`asEqualFunction`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asEqualFunction.ts), [`asLens`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asLens.ts), [`asReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asReducer.ts), [`asStateView`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asStateView.ts), [`asView`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asView.ts): identity functions that can be used to downcast values to any of the generic types defined by the library.
 
 ---
 
