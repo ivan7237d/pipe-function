@@ -1,10 +1,14 @@
 import { applyPipe } from '../applyPipe';
-import { objectFromEntries } from './objectFromEntries';
+import { objectFromEntriesPonyfill } from './objectFromEntries';
 
 it('works', () => {
   expect(
     applyPipe(
-      objectFromEntries([['a', 0] as const, ['b', 1], ['c', undefined]]),
+      objectFromEntriesPonyfill([
+        ['a', 0] as const,
+        ['b', 1],
+        ['c', undefined],
+      ]),
     ),
   ).toMatchInlineSnapshot(`
     Object {
