@@ -14,11 +14,11 @@ export const objectProp = <S, A, Key extends keyof A>(
     : undefined extends A[Key]
     ? never
     : A[Key]
-> => ([objectValue, set]) => [
+> => ({ get, set }) => ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  objectValue[key] as any,
-  (propValue) => {
-    const { ...copy } = objectValue;
+  get: () => get()[key] as any,
+  set: (propValue) => {
+    const { ...copy } = get();
     if (propValue === undefined) {
       delete copy[key];
     } else {
@@ -26,4 +26,4 @@ export const objectProp = <S, A, Key extends keyof A>(
     }
     return set(copy);
   },
-];
+});
