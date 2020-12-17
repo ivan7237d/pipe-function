@@ -36,9 +36,6 @@ it('works', () => {
     ),
   ).toMatchInlineSnapshot(`2`);
   expect(
-    applyPipe(
-      [0, 1, 2],
-      reduceIterable(asContext(() => undefined)),
-    ),
+    applyPipe([0, 1, 2], reduceIterable(asContext(() => undefined))),
   ).toMatchInlineSnapshot(`0`);
 });
