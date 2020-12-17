@@ -78,15 +78,17 @@
 					</li>
 					<li><p><a href="#iterables">Functions for working with native <code>Iterable</code>s</a>.</p>
 					</li>
-					<li><p><a href="#lenses">React-friendly lenses</a>.</p>
+					<li><p><a href="#comparison-functions">Comparison functions</a>.</p>
 					</li>
-					<li><p>Designed with an eye to type inference.</p>
+					<li><p><a href="#reducers">Reducers</a>.</p>
+					</li>
+					<li><p><a href="#lenses">Lenses</a>.</p>
+					</li>
+					<li><p><a href="#memoization">Memoization utilities</a>.</p>
+					</li>
+					<li><p><a href="#functions-for-downcasting">Functions for downcasting</a></p>
 					</li>
 				</ul>
-				<a href="#status" id="status" style="color: inherit; text-decoration: none;">
-					<h2>Status</h2>
-				</a>
-				<p>Experimental. The library is feature-complete and has near-full unit test coverage, but there may be major version bumps in response to initial feedback.</p>
 				<a href="#installing" id="installing" style="color: inherit; text-decoration: none;">
 					<h2>Installing</h2>
 				</a>
@@ -96,7 +98,8 @@
 				<a href="#minimal-api" id="minimal-api" style="color: inherit; text-decoration: none;">
 					<h2>Minimal API</h2>
 				</a>
-				<p>Based on &quot;only one way to do it&quot; principle, this library provides a utility only when something can&#39;t be easily done with vanilla JavaScript. For example, we do not provide a function to get an object&#39;s property value, so instead of <code>get(&#39;a&#39;)</code> you would just write <code>value =&gt; value.a</code>. This is because we see the mental overhead of choosing among multiple ways to write a piece of code as higher cost compared to doing more typing.</p>
+				<p>Based on the &quot;only one way to do it&quot; principle, this library provides a utility only when something can&#39;t be easily and readably done with vanilla JavaScript. For example, we do not provide a function to get an object&#39;s property value, so instead of <code>get(&#39;a&#39;)</code> you would just write <code>value =&gt; value.a</code>. This is because we see the mental overhead of choosing among multiple ways to write a piece of code as higher cost compared to doing more typing.</p>
+				<p>That said, we do sometimes provide a shortcut for what would otherwise be a one-liner, such as <code>lastInIterable</code> for <code>reduceIterable((...[, value]) =&gt; value)</code> - not for conciseness or performance, but to improve readability.</p>
 				<a href="#pipeline-operator-ponyfill" id="pipeline-operator-ponyfill" style="color: inherit; text-decoration: none;">
 					<h2>Pipeline operator <a href="https://ponyfill.com/">ponyfill</a></h2>
 				</a>
@@ -113,30 +116,46 @@
 				<a href="#iterables" id="iterables" style="color: inherit; text-decoration: none;">
 					<h2>Iterables</h2>
 				</a>
-				<p><a href="https://github.com/ivan7237d/antiutils/tree/master/src/internal/iterable">Functions for working with iterables</a> have signatures that try to stay close to equivalent RxJS operators, but have names like <code>mapIterable</code> that do not clash with RxJS.</p>
+				<p><a href="https://github.com/ivan7237d/antiutils/tree/master/src/internal/iterable">Functions for working with iterables</a> have signatures that try to stay close to corresponding native array methods and RxJS operators.</p>
 				<p>How-to:</p>
 				<ul>
-					<li><p><strong>Get an element&#39;s index:</strong> <code>zipIterables(rangeIterable(), yourIterable)</code> (returns an iterable of <code>[&lt;element index&gt;, &lt;element&gt;]</code>).</p>
+					<li><p><strong>Filter an iterable in a way that the type system understands:</strong></p>
+						<pre><code class="language-ts">applyPipe(
+  [<span class="hljs-number">1</span>, <span class="hljs-literal">undefined</span>],
+  <span class="hljs-comment">// Equivalent to `filterIterable((value) =&gt; value !== undefined)`.</span>
+  flatMapIterable(<span class="hljs-function">(<span class="hljs-params">value</span>) =&gt;</span> (value !== <span class="hljs-literal">undefined</span> ? [value] : [])),
+);</code></pre>
+						<p>(type will be inferred as <code>Iterable&lt;number&gt;</code>, not <code>Iterable&lt;number | undefined&gt;</code> as would be the case if you used <code>filterIterable</code>; the same trick works when filtering arrays and observables).</p>
+					</li>
+					<li><p><strong>Index elements:</strong> <code>zipIterables(rangeIterable(), yourIterable)</code> (returns an iterable of <code>[&lt;element index&gt;, &lt;element&gt;]</code>).</p>
 					</li>
 					<li><p><strong>Get a flag indicating if the element is the first element:</strong> <code>zipIterables(firstIterable, yourIterable)</code> (returns an iterable of <code>[boolean, &lt;element&gt;]</code>).</p>
 					</li>
-					<li><p><strong>Find an element matching a predicate:</strong> <code>applyPipe(yourIterable, filter(yourPredicate), firstInIterable)</code>.</p>
+					<li><p><strong>Count elements in an iterable:</strong>: <code>applyPipe(yourIterable, reduceIterable(countReducer, 0))</code>.</p>
+					</li>
+					<li><p><strong>Check if every element in an iterable is true:</strong> <code>applyPipe(yourIterableOfBooleans, reduceIterable(andReducer, true))</code> (iteration will not continue unnecessarily because of how <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/reduceIterable.ts"><code>reduceIterable</code></a> and <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer/andReducer.ts"><code>andReducer</code></a> are defined).</p>
+					</li>
+					<li><p><strong>Check if some elements in an iterable are true:</strong> <code>applyPipe(yourIterableOfBooleans, reduceIterable(orReducer, false))</code>.</p>
+					</li>
+					<li><p><strong>Find the first element matching a predicate:</strong> <code>applyPipe(yourIterable, filter(yourPredicate), firstInIterable)</code>.</p>
+					</li>
+					<li><p><strong>Yield values while a condition holds:</strong></p>
+						<pre><code class="language-ts">applyPipe(
+  [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>],
+  scanIterable(<span class="hljs-function">(<span class="hljs-params">...[, value]</span>) =&gt;</span> (value &lt;= <span class="hljs-number">2</span> ? value : <span class="hljs-literal">undefined</span>)),
+);</code></pre>
+						<p>(yields <code>1</code>, <code>2</code>, see <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/scanIterable.ts"><code>scanIterable</code></a>).</p>
+					</li>
+					<li><p><strong>Also yield the value that broke the condition:</strong></p>
+						<pre><code class="language-ts">applyPipe(
+  [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>],
+  scanIterable(<span class="hljs-function">(<span class="hljs-params">accumulator, value</span>) =&gt;</span>
+    accumulator &lt;= <span class="hljs-number">2</span> ? value : <span class="hljs-literal">undefined</span>,
+  ),
+);</code></pre>
+						<p>(yields <code>1</code>, <code>2</code>, <code>3</code>).</p>
 					</li>
 				</ul>
-				<blockquote>
-					<p>:bulb: TIP</p>
-					<p>If filtering an iterable changes type of the elements, use <code>flatMapIterable</code> instead of <code>filterIterable</code>: the type of elements in</p>
-					<pre><code class="language-ts">applyPipe(
-  [<span class="hljs-number">1</span>, <span class="hljs-literal">undefined</span>],
-  filterIterable(<span class="hljs-function">(<span class="hljs-params">value</span>) =&gt;</span> value !== <span class="hljs-literal">undefined</span>),
-);</code></pre>
-					<p>will be inferred as <code>Iterable&lt;number | undefined&gt;</code>, while for</p>
-					<pre><code class="language-ts">applyPipe(
-  [<span class="hljs-number">1</span>, <span class="hljs-literal">undefined</span>],
-  flatMapIterable(<span class="hljs-function">(<span class="hljs-params">value</span>) =&gt;</span> (value === <span class="hljs-literal">undefined</span> ? [] : [value])),
-);</code></pre>
-					<p>it will be inferred as <code>Iterable&lt;number&gt;</code>. The same trick works when filtering arrays and observables.</p>
-				</blockquote>
 				<a href="#comparison-functions" id="comparison-functions" style="color: inherit; text-decoration: none;">
 					<h2>Comparison functions</h2>
 				</a>
@@ -145,86 +164,105 @@
 <span class="hljs-keyword">type</span> EqualFunction&lt;T&gt; = <span class="hljs-function">(<span class="hljs-params"><span class="hljs-keyword">from</span>: T, to: T</span>) =&gt;</span> <span class="hljs-built_in">boolean</span>;</code></pre>
 				<p>It <a href="https://github.com/ivan7237d/antiutils/tree/master/src/internal/compare">provides</a> implementations of <code>CompareFunction</code> for primitive types and a function <code>lexicographicCompare</code> to compose <code>CompareFunction</code>s.</p>
 				<p>It also provides implementations of <code>EqualFunction</code> for objects, iterables, maps, and sets, and a function <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/deepEqual.ts"><code>deepEqual</code></a> that recursively delegates to those functions depending on the object type.</p>
+				<a href="#reducers" id="reducers" style="color: inherit; text-decoration: none;">
+					<h2>Reducers</h2>
+				</a>
+				<p>The library exports a type</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">type</span> Reducer&lt;Accumulator, Element&gt; = <span class="hljs-function">(<span class="hljs-params">
+  accumulator: Accumulator,
+  element: Element,
+</span>) =&gt;</span> Accumulator | <span class="hljs-literal">undefined</span>;</code></pre>
+				<p>which is like a regular reducer, but can return <code>undefined</code> to stop the iteration short, and which is used by functions <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/reduceIterable.ts"><code>reduceIterable</code></a> and <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/scanIterable.ts"><code>scanIterable</code></a>.</p>
+				<p>The library includes <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer">basic implementations of this type</a>, all of which except the boolean ones (<code>andReducer</code> and <code>orReducer</code>) can also be used with arrays and observables.</p>
 				<a href="#lenses" id="lenses" style="color: inherit; text-decoration: none;">
 					<h2>Lenses</h2>
 				</a>
-				<p>First let&#39;s talk about how we define a lens. When building React components, it&#39;s convenient to work with a type which we&#39;ll call <code>StateView</code>, a combination of a value and a setter:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">type</span> StateView&lt;A&gt; = [value: A, <span class="hljs-attr">set</span>: <span class="hljs-function">(<span class="hljs-params">value: A</span>) =&gt;</span> <span class="hljs-built_in">void</span>];</code></pre>
-				<p>Values returned by React&#39;s <code>setState</code> hook can be treated as values of this type, and it is also what you would want to pass to an input element such as a textbox to create a two-way binding. In this library we actually define <code>StateView</code> as a subtype of another type called <code>View</code> (you&#39;ll soon see why):</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">type</span> View&lt;S, A&gt; = [value: A, <span class="hljs-attr">set</span>: <span class="hljs-function">(<span class="hljs-params">value: A</span>) =&gt;</span> S];
-<span class="hljs-keyword">type</span> StateView&lt;A&gt; = View&lt;<span class="hljs-built_in">void</span>, A&gt;;</code></pre>
-				<p>and we define a <code>Lens</code> as a function that transforms a view <code>View&lt;S, A&gt;</code> into another view <code>View&lt;S, B&gt;</code> (it follows that a lens will transform a <code>StateView</code> into another <code>StateView</code>).</p>
-				<p>To see how this works, we&#39;ll write a React component using the following two functions provided by the library:</p>
+				<p>We start by defining a <code>View</code> as a combination of a getter and a setter:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">type</span> View&lt;S, A&gt; = { <span class="hljs-attr">get</span>: <span class="hljs-function">() =&gt;</span> A; set: <span class="hljs-function">(<span class="hljs-params">value: A</span>) =&gt;</span> S };</code></pre>
+				<p>and define a <code>Lens</code> as a function that transforms a view into another view:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">type</span> Lens&lt;S, A, B&gt; = <span class="hljs-function">(<span class="hljs-params">source: View&lt;S, A&gt;</span>) =&gt;</span> View&lt;S, B&gt;;</code></pre>
+				<p>The library provides the following functions:</p>
 				<ul>
-					<li><p><a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/object/objectProp.ts"><code>objectProp</code></a>: a lens which zooms in on an object&#39;s property, e.g. <code>objectProp(&#39;a&#39;)</code> will transform a value of type <code>StateView&lt;{ a: number }&gt;</code> into a value of type <code>StateView&lt;number&gt;</code>.</p>
+					<li><p><a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/object/objectProp.ts"><code>objectProp</code></a>: a lens to zoom in on an object&#39;s property.</p>
 					</li>
-					<li><p><a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/react/bindingProps.ts"><code>bindingProps</code></a>: a helper function that converts a <code>StateView</code> into an object with props that React input components understand, e.g. <code>[&#39;x&#39;, set]</code> would be transformed into <code>{ value: &#39;x&#39;, onChange: ({ currentTarget: { value } }) =&gt; set(value) }</code>.</p>
-					</li>
-				</ul>
-				<p>Here&#39;s what the component will look like:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">type</span> State = { <span class="hljs-attr">a</span>: <span class="hljs-built_in">string</span>; b?: { <span class="hljs-attr">c</span>: <span class="hljs-built_in">string</span> } };
-
-<span class="hljs-comment">/**
- * A component that encapsulates presentation logic but is agnostic as to how we
- * manage state.
- */</span>
-<span class="hljs-keyword">const</span> StatelessComponent = <span class="hljs-function">(<span class="hljs-params">{ stateView }: { stateView: StateView&lt;State&gt; }</span>) =&gt;</span> (
-  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
-    {/* An input bound to &#x27;a&#x27;. */}
-    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> {<span class="hljs-attr">...applyPipe</span>(<span class="hljs-attr">stateView</span>, <span class="hljs-attr">objectProp</span>(&#x27;<span class="hljs-attr">a</span>&#x27;), <span class="hljs-attr">bindingProps</span>)} /&gt;</span>
-    {applyPipe(stateView, objectProp(&#x27;b&#x27;), ([value, set]) =&gt;
-      // If &#x27;b&#x27; is absent,...
-      value === undefined ? (
-        // ...a button that adds a default value for &#x27;b&#x27;,...
-        <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> set({ c: &#x27;&#x27; })}&gt;Add &#x27;b&#x27;<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
-      ) : (
-        // ...otherwise (if &#x27;b&#x27; is present), an input bound to &#x27;c&#x27;.
-        <span class="hljs-tag">&lt;<span class="hljs-name">input</span>
-          {<span class="hljs-attr">...applyPipe</span>([<span class="hljs-attr">value</span>, <span class="hljs-attr">set</span>] <span class="hljs-attr">as</span> <span class="hljs-attr">const</span>, <span class="hljs-attr">objectProp</span>(&#x27;<span class="hljs-attr">c</span>&#x27;), <span class="hljs-attr">bindingProps</span>)}
-        /&gt;</span>
-      ),
-    )}
-  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
-);
-
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> StatefulComponent = <span class="hljs-function">() =&gt;</span> {
-  <span class="hljs-keyword">const</span> stateView = React.useState&lt;State&gt;({ <span class="hljs-attr">a</span>: <span class="hljs-string">&#x27;&#x27;</span> });
-  <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">StatelessComponent</span> {<span class="hljs-attr">...</span>{ <span class="hljs-attr">stateView</span> }} /&gt;</span></span>;
-};</code></pre>
-				<p>In the code above, TypeScript successfully infers the types, and as we get to a point where we need to type &#39;a&#39;, &#39;b&#39;, or &#39;c&#39;, IntelliSense shows correct suggestions.</p>
-				<p>Checkbox is different from other inputs in that we have to use <code>checked</code> prop instead of <code>value</code>, so when binding a checkbox, instead of <code>bindingProps</code> use <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/react/bindingPropsCheckbox.ts"><code>bindingPropsCheckbox</code></a>.</p>
-				<p>In the component example we used <code>objectProp</code> lens to transform a <code>StateView</code> into another <code>StateView</code>, but like other lenses, it also works on <code>StateView</code>&#39;s supertype <code>View</code>. Thanks to that, we can use <code>objectProp</code> in the conventional way to immutably set a property nested within a larger structure, as in the following example of a reducer that sets the value of <code>b</code> in <code>{ a: { b: string; c: string } }</code>:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">type</span> State = { <span class="hljs-attr">a</span>: { <span class="hljs-attr">b</span>: <span class="hljs-built_in">string</span>; c: <span class="hljs-built_in">string</span> } };
-
-<span class="hljs-keyword">const</span> sampleReducer = <span class="hljs-function">(<span class="hljs-params">state: State, action: { payload: <span class="hljs-built_in">string</span> }</span>) =&gt;</span>
-  applyPipe(
-    [state, <span class="hljs-function">(<span class="hljs-params">value</span>) =&gt;</span> value] <span class="hljs-keyword">as</span> View&lt;State, State&gt;,
-    <span class="hljs-comment">// Transforms values into `View&lt;State, { b: string; c: string }&gt;`.</span>
-    objectProp(<span class="hljs-string">&#x27;a&#x27;</span>),
-    <span class="hljs-comment">// Transforms values into `View&lt;State, string&gt;`.</span>
-    objectProp(<span class="hljs-string">&#x27;b&#x27;</span>),
-    <span class="hljs-comment">// `set` takes a value for `b` and returns a new `State`.</span>
-    <span class="hljs-function">(<span class="hljs-params">[, set]</span>) =&gt;</span> set(action.payload),
-  );
-
-expect(sampleReducer({ <span class="hljs-attr">a</span>: { <span class="hljs-attr">b</span>: <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-attr">c</span>: <span class="hljs-string">&#x27;&#x27;</span> } }, { <span class="hljs-attr">payload</span>: <span class="hljs-string">&#x27;x&#x27;</span> })).toEqual({
-  <span class="hljs-attr">a</span>: { <span class="hljs-attr">b</span>: <span class="hljs-string">&#x27;x&#x27;</span>, <span class="hljs-attr">c</span>: <span class="hljs-string">&#x27;&#x27;</span> },
-});</code></pre>
-				<p>There is a simple helper function <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/view/rootView.ts"><code>rootView</code></a> which converts a <code>value</code> into a view <code>[value, &lt;identity function&gt;]</code> and which we can use to replace the first argument in the <code>applyPipe</code> call above, including the type signature, with just <code>rootView(state)</code>.</p>
-				<p>The only other lens-related utilities that are left to mention are:</p>
-				<ul>
 					<li><p><a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/map/mapProp.ts"><code>mapProp</code></a>: a lens to zoom in on a value stored in a <code>Map</code>.</p>
 					</li>
 					<li><p><a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/set/setProp.ts"><code>setProp</code></a>: a lens to zoom in on presence of an element in a <code>Set</code>.</p>
 					</li>
-				</ul>
-				<a href="#miscellaneous" id="miscellaneous" style="color: inherit; text-decoration: none;">
-					<h2>Miscellaneous</h2>
-				</a>
-				<ul>
-					<li><p><a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/memoize.ts"><code>memoize</code></a>: a utility to memoize values using WeakMap.</p>
+					<li><p><a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/view/rootView.ts"><code>rootView</code></a>: a function that converts a <code>value</code> into a view <code>{ get: () =&gt; value, set: &lt;identity function&gt; }</code>.</p>
 					</li>
-					<li><p><a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/assertNever.ts"><code>assertNever</code></a>: utility used to typecheck that a conditional has exhausted all possibilities, e.g. if <code>a</code> has type <code>0 | 1</code>, you could write <code>a === 0 ? &#39;zero&#39; : a === 1 ? &#39;one&#39; : assertNever(a)</code>.</p>
+				</ul>
+				<p>Example usage:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">type</span> State = { <span class="hljs-attr">a</span>: { <span class="hljs-attr">b</span>: <span class="hljs-built_in">string</span>; c: <span class="hljs-built_in">string</span> } };
+
+<span class="hljs-comment">/**
+ * A reducer that sets the value of `b` in the state to the payload.
+ **/</span>
+<span class="hljs-keyword">const</span> sampleReducer = <span class="hljs-function">(<span class="hljs-params">state: State, action: { payload: <span class="hljs-built_in">string</span> }</span>) =&gt;</span>
+  applyPipe(
+    <span class="hljs-comment">// Returns `View&lt;State, State&gt;`.</span>
+    rootView(state),
+    <span class="hljs-comment">// Transforms values into `View&lt;State, { b: string; c: string }&gt;`.</span>
+    objectProp(<span class="hljs-string">&#x27;a&#x27;</span>),
+    <span class="hljs-comment">// Transforms values into `View&lt;State, string&gt;`.</span>
+    objectProp(<span class="hljs-string">&#x27;b&#x27;</span>),
+  )
+    <span class="hljs-comment">// `set` takes a value for `b` and returns a new `State`.</span>
+    .set(action.payload);
+
+expect(sampleReducer({ <span class="hljs-attr">a</span>: { <span class="hljs-attr">b</span>: <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-attr">c</span>: <span class="hljs-string">&#x27;&#x27;</span> } }, { <span class="hljs-attr">payload</span>: <span class="hljs-string">&#x27;x&#x27;</span> })).toEqual({
+  <span class="hljs-attr">a</span>: { <span class="hljs-attr">b</span>: <span class="hljs-string">&#x27;x&#x27;</span>, <span class="hljs-attr">c</span>: <span class="hljs-string">&#x27;&#x27;</span> },
+});</code></pre>
+				<p>Example of usage with optional properties:</p>
+				<pre><code class="language-ts"><span class="hljs-comment">// Note the optional `a`.</span>
+<span class="hljs-keyword">type</span> State = { a?: { <span class="hljs-attr">b</span>: <span class="hljs-built_in">string</span>; c: <span class="hljs-built_in">string</span> } };
+
+<span class="hljs-keyword">const</span> sampleReducer = <span class="hljs-function">(<span class="hljs-params">state: State, action: { payload: <span class="hljs-built_in">string</span> }</span>) =&gt;</span>
+  applyPipe(
+    rootView(state),
+    <span class="hljs-comment">// Transforms values into `View&lt;State, { b: string; c: string } |</span>
+    <span class="hljs-comment">// undefined&gt;`.</span>
+    objectProp(<span class="hljs-string">&#x27;a&#x27;</span>),
+    <span class="hljs-comment">// Transforms values into `View&lt;State, { b: string; c: string }&gt;`.</span>
+    <span class="hljs-function">(<span class="hljs-params">{ get, set }</span>) =&gt;</span> ({
+      <span class="hljs-attr">get</span>: <span class="hljs-function">() =&gt;</span> get() ?? { <span class="hljs-attr">b</span>: <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-attr">c</span>: <span class="hljs-string">&#x27;&#x27;</span> },
+      set,
+    }),
+    objectProp(<span class="hljs-string">&#x27;b&#x27;</span>),
+  ).set(action.payload);
+
+expect(sampleReducer({}, { <span class="hljs-attr">payload</span>: <span class="hljs-string">&#x27;x&#x27;</span> })).toEqual({
+  <span class="hljs-attr">a</span>: { <span class="hljs-attr">b</span>: <span class="hljs-string">&#x27;x&#x27;</span>, <span class="hljs-attr">c</span>: <span class="hljs-string">&#x27;&#x27;</span> },
+});</code></pre>
+				<p>The library also defines</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">type</span> StateView&lt;A&gt; = View&lt;<span class="hljs-built_in">void</span>, A&gt;; <span class="hljs-comment">// = { get: () =&gt; A; set: (value: A) =&gt; void };</span></code></pre>
+				<p>where the setter does not return any value, but instead produces a side effect. To learn about how this type is used, please see the docs for <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/view/rootView.ts"><code>antiutils-react</code></a>, a package that provides glue between Antiutils and React.</p>
+				<a href="#memoization" id="memoization" style="color: inherit; text-decoration: none;">
+					<h2>Memoization</h2>
+				</a>
+				<p>The library provides utilities <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/memoize/memoizeWeak.ts"><code>memoizeWeak</code></a> and <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/memoize/memoizeStrong.ts"><code>memoizeStrong</code></a> to memoize functions that take a single argument. Internally they cache results in respectively a WeakMap and a Map, with arguments as keys and results as values. <code>memoizeWeak</code> has an advantage that retaining a reference to the memoized function will not prevent cached arguments and results from being garbage-collected, but it can only memoize functions that take objects (not primitive values) as arguments, because only objects can be used as keys in a WeakMap.</p>
+				<blockquote>
+					<p>:bulb: TIP</p>
+					<p>You can combine <code>memoizeWeak</code> and <code>memoizeStrong</code> to memoize a function that takes multiple arguments, some of them primitive values, e.g.</p>
+					<pre><code class="language-ts"><span class="hljs-keyword">const</span> original = <span class="hljs-function">(<span class="hljs-params">x: { a: <span class="hljs-built_in">number</span> }, y: <span class="hljs-built_in">number</span></span>) =&gt;</span> x.a + y;
+<span class="hljs-keyword">const</span> memoized = memoizeWeak(<span class="hljs-function">(<span class="hljs-params">x: { a: <span class="hljs-built_in">number</span> }</span>) =&gt;</span>
+  memoizeStrong(<span class="hljs-function">(<span class="hljs-params">y: <span class="hljs-built_in">number</span></span>) =&gt;</span> original(x, y)),
+);
+<span class="hljs-keyword">const</span> withRestoredSignature = <span class="hljs-function">(<span class="hljs-params">x: { a: <span class="hljs-built_in">number</span> }, y: <span class="hljs-built_in">number</span></span>) =&gt;</span> memoized(x)(y);</code></pre>
+				</blockquote>
+				<p>The library also provides a function <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/memoize/teach.ts"><code>teach</code></a> for cases when you need to teach a memoized function to return a result already known from an external source such as persisted storage, and a function <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/memoize/knows.ts"><code>knows</code></a> to check if there is a cached result for a given argument.</p>
+				<a href="#functions-for-downcasting" id="functions-for-downcasting" style="color: inherit; text-decoration: none;">
+					<h2>Functions for downcasting</h2>
+				</a>
+				<p>The library provides the following identity functions that cast the argument to a subtype, but unlike the TypeScript&#39;s <code>as</code>, never make assertions:</p>
+				<ul>
+					<li><p><a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asNever.ts"><code>asNever</code></a>: an identity function with signature <code>(value: never) =&gt; never </code> used to typecheck that a symbol has type <code>never</code>. Throws if called. Example: if <code>a</code> has type <code>0 | 1</code>, you could write <code>a === 0 ? &#39;zero&#39; : a === 1 ? &#39;one&#39; : asNever(a)</code> to make sure that typecheck will fail if the type of <code>a</code> changes to say <code>0 | 1 | 2</code>.</p>
+					</li>
+					<li><p><a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/as.ts"><code>as</code></a>: an identity function with signature <code>&lt;T&gt;(value: T) =&gt; T</code> that can be used to downcast a value to a non-generic type: <code>as&lt;YourType&gt;(yourValue)</code>.</p>
+					</li>
+					<li><p><a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asContext.ts"><code>asContext</code></a>: an identity function with signature <code>&lt;A, B extends A&gt;(value: B) =&gt; A</code> that can be used to infer the type of a value from the context instead of the other way around. For example, the function <code>firstInIterable</code> can be implemented as <code>reduceIterable(() =&gt; undefined)</code>, but writing <code>applyPipe([0, 1], reduceIterable(() =&gt; undefined))</code> will not typecheck. The reason is that TypeScript will look at the reducer <code>() =&gt; undefined</code> and infer the type of the accumulator as <code>undefined</code>, and then expect the array <code>[0, 1]</code> to be <code>undefined[]</code>. Enclosing the reducer in <code>asContext</code> (<code>asContext(() =&gt; undefined)</code>) will cause TypeScript to correctly infer the type of the accumulator as <code>number</code>.</p>
+					</li>
+					<li><p><a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asCompareFunction.ts"><code>asCompareFunction</code></a>, <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asEqualFunction.ts"><code>asEqualFunction</code></a>, <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asLens.ts"><code>asLens</code></a>, <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asReducer.ts"><code>asReducer</code></a>, <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asStateView.ts"><code>asStateView</code></a>, <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asView.ts"><code>asView</code></a>: identity functions that can be used to downcast values to any of the generic types defined by the library.</p>
 					</li>
 				</ul>
 				<hr>
@@ -241,6 +279,12 @@ expect(sampleReducer({ <span class="hljs-attr">a</span>: { <span class="hljs-att
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
+						<a href="interfaces/objectfromentries.html" class="tsd-kind-icon">Object<wbr>From<wbr>Entries</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#applypipe" class="tsd-kind-icon">Apply<wbr>Pipe</a>
+					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#comparefunction" class="tsd-kind-icon">Compare<wbr>Function</a>
 					</li>
@@ -259,20 +303,50 @@ expect(sampleReducer({ <span class="hljs-attr">a</span>: { <span class="hljs-att
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#view" class="tsd-kind-icon">View</a>
 					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#ascomparefunction" class="tsd-kind-icon">as<wbr>Compare<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#ascontext" class="tsd-kind-icon">as<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#asequalfunction" class="tsd-kind-icon">as<wbr>Equal<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#aslens" class="tsd-kind-icon">as<wbr>Lens</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#asreducer" class="tsd-kind-icon">as<wbr>Reducer</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#asstateview" class="tsd-kind-icon">as<wbr>State<wbr>View</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#asview" class="tsd-kind-icon">as<wbr>View</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#memoizecache" class="tsd-kind-icon">memoize<wbr>Cache</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#objectfromentries" class="tsd-kind-icon">object<wbr>From<wbr>Entries</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#objectfromentriesponyfill" class="tsd-kind-icon">object<wbr>From<wbr>Entries<wbr>Ponyfill</a>
+					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#addtoset" class="tsd-kind-icon">add<wbr>ToSet</a>
 					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#andreducer" class="tsd-kind-icon">and<wbr>Reducer</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#applypipe" class="tsd-kind-icon">apply<wbr>Pipe</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#assertnever" class="tsd-kind-icon">assert<wbr>Never</a>
-					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#bindingprops" class="tsd-kind-icon">binding<wbr>Props</a>
+						<a href="globals.html#as" class="tsd-kind-icon">as</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#bindingpropscheckbox" class="tsd-kind-icon">binding<wbr>Props<wbr>Checkbox</a>
+						<a href="globals.html#asnever" class="tsd-kind-icon">as<wbr>Never</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#booleancompare" class="tsd-kind-icon">boolean<wbr>Compare</a>
@@ -294,9 +368,6 @@ expect(sampleReducer({ <span class="hljs-attr">a</span>: { <span class="hljs-att
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#diffobjects" class="tsd-kind-icon">diff<wbr>Objects</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#everyiniterable" class="tsd-kind-icon">every<wbr>InIterable</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#filteriterable" class="tsd-kind-icon">filter<wbr>Iterable</a>
@@ -320,6 +391,9 @@ expect(sampleReducer({ <span class="hljs-attr">a</span>: { <span class="hljs-att
 						<a href="globals.html#iterablesequal" class="tsd-kind-icon">iterables<wbr>Equal</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#knows" class="tsd-kind-icon">knows</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#lexicographiccompare" class="tsd-kind-icon">lexicographic<wbr>Compare</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
@@ -332,16 +406,16 @@ expect(sampleReducer({ <span class="hljs-attr">a</span>: { <span class="hljs-att
 						<a href="globals.html#mapsequal" class="tsd-kind-icon">maps<wbr>Equal</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#memoize" class="tsd-kind-icon">memoize</a>
+						<a href="globals.html#memoizestrong" class="tsd-kind-icon">memoize<wbr>Strong</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#memoizeweak" class="tsd-kind-icon">memoize<wbr>Weak</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#numbercompare" class="tsd-kind-icon">number<wbr>Compare</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#objectentries" class="tsd-kind-icon">object<wbr>Entries</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#objectfromentries" class="tsd-kind-icon">object<wbr>From<wbr>Entries</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#objectkeys" class="tsd-kind-icon">object<wbr>Keys</a>
@@ -358,7 +432,7 @@ expect(sampleReducer({ <span class="hljs-attr">a</span>: { <span class="hljs-att
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#rangeiterable" class="tsd-kind-icon">range<wbr>Iterable</a>
 					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#reduceiterable" class="tsd-kind-icon">reduce<wbr>Iterable</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
@@ -370,7 +444,7 @@ expect(sampleReducer({ <span class="hljs-attr">a</span>: { <span class="hljs-att
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#rootview" class="tsd-kind-icon">root<wbr>View</a>
 					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#scaniterable" class="tsd-kind-icon">scan<wbr>Iterable</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
@@ -386,7 +460,7 @@ expect(sampleReducer({ <span class="hljs-attr">a</span>: { <span class="hljs-att
 						<a href="globals.html#slicearray" class="tsd-kind-icon">slice<wbr>Array</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#someiniterable" class="tsd-kind-icon">some<wbr>InIterable</a>
+						<a href="globals.html#slicereversedarray" class="tsd-kind-icon">slice<wbr>Reversed<wbr>Array</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#sortarray" class="tsd-kind-icon">sort<wbr>Array</a>
@@ -395,10 +469,7 @@ expect(sampleReducer({ <span class="hljs-attr">a</span>: { <span class="hljs-att
 						<a href="globals.html#stringcompare" class="tsd-kind-icon">string<wbr>Compare</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#takeiterable" class="tsd-kind-icon">take<wbr>Iterable</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#takewhileiterable" class="tsd-kind-icon">take<wbr>While<wbr>Iterable</a>
+						<a href="globals.html#teach" class="tsd-kind-icon">teach</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#zipiterables" class="tsd-kind-icon">zip<wbr>Iterables</a>
