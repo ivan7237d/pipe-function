@@ -218,7 +218,7 @@ The library also defines
 type StateView<A> = View<void, A>; // = { get: () => A; set: (value: A) => void };
 ```
 
-where the setter does not return any value, but instead produces a side effect. To learn about how this type is used, please see the docs for [`antiutils-react`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/view/rootView.ts), a package that provides glue between Antiutils and React.
+where the setter does not return any value, but instead produces a side effect. To learn about how this type is used, please see the docs for [`antiutils-react`](https://github.com/ivan7237d/antiutils-react), a package that provides glue between Antiutils and React.
 
 ## Memoization
 
