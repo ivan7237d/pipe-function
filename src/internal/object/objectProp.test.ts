@@ -1,7 +1,6 @@
 import { applyPipe } from '../applyPipe';
 import { isEmptyIterable } from '../iterable/isEmptyIterable';
 import { asView } from '../types/asView';
-import { View } from '../types/types';
 import { rootView } from '../view/rootView';
 import { objectKeys } from './objectKeys';
 import { objectProp } from './objectProp';
