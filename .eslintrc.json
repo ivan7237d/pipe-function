@@ -39,6 +39,10 @@
      *
      * `FunctionResult` is reported as unused.
      */
-    "@typescript-eslint/no-unused-vars": "off"
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/consistent-type-assertions": [
+      "error",
+      { "assertionStyle": "never" }
+    ]
   }
 }

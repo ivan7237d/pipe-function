@@ -1,4 +1,5 @@
 import { applyPipe } from '../applyPipe';
+import { as } from '../types/as';
 import { asContext } from '../types/asContext';
 import { scanIterable } from './scanIterable';
 
@@ -31,7 +32,7 @@ it('works', () => {
   `);
   expect(
     applyPipe(
-      [] as string[],
+      as<string[]>([]),
       scanIterable((accumulator, element) => accumulator + element),
       (source) => [...source],
     ),

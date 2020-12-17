@@ -15,13 +15,14 @@ export const objectProp = <S, A, Key extends keyof A>(
     ? never
     : A[Key]
 > => ({ get, set }) => ({
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, @typescript-eslint/no-explicit-any
   get: () => get()[key] as any,
   set: (propValue) => {
     const { ...copy } = get();
     if (propValue === undefined) {
       delete copy[key];
     } else {
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       copy[key] = propValue as A[Key];
     }
     return set(copy);

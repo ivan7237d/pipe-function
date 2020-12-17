@@ -14,6 +14,5 @@ export const mapProp = <S, Key, Value>(key: Key) => ({
   set: (value: Map<Key, Value>) => S;
 }): View<S, Value | undefined> => ({
   get: () => get().get(key),
-  set: (value) =>
-    set(applyPipe(get(), setInMap(key, value)) as Map<Key, Value>),
+  set: (value) => set(applyPipe(get(), setInMap(key, value))),
 });

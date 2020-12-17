@@ -21,7 +21,7 @@ it('works with non-optional properties', () => {
   const symbol = Symbol();
   expect(
     applyPipe(
-      rootView({ [symbol]: 1 } as { [symbol]: number }),
+      rootView<{ [symbol]: number }>({ [symbol]: 1 }),
       objectProp(symbol),
     ).set(2),
   ).toMatchInlineSnapshot(`
@@ -80,7 +80,7 @@ it('works with optional properties', () => {
 it('works with index signatures', () => {
   expect(
     applyPipe(
-      rootView({ a: 1, b: 2 } as { [key: string]: number }),
+      rootView<{ [key: string]: number }>({ a: 1, b: 2 }),
       objectProp('a'),
     ).set(undefined),
   ).toMatchInlineSnapshot(`
@@ -90,7 +90,7 @@ it('works with index signatures', () => {
   `);
   expect(
     applyPipe(
-      rootView({ a: 1, b: 2 } as { [key: string]: number }),
+      rootView<{ [key: string]: number }>({ a: 1, b: 2 }),
       objectProp('a'),
     ).set(3),
   ).toMatchInlineSnapshot(`

@@ -20,7 +20,8 @@ export const memoizeWeak =
     const cache = new WeakMap<From, To>();
     const decorated = (arg: From): To =>
       cache.has(arg)
-        ? (cache.get(arg) as To)
+        ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          cache.get(arg)!
         : (() => {
             const result = project(arg);
             cache.set(arg, result);

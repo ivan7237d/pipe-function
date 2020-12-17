@@ -16,6 +16,7 @@ export const zipIterables = function* <T extends unknown[]>(
     if (results.some((res) => res.done)) {
       return;
     } else {
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       yield results.map((res) => res.value) as T;
     }
   }

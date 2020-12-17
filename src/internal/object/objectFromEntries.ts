@@ -4,8 +4,9 @@ interface ObjectFromEntries {
   ): Record<Key, Value>;
 }
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
 export const objectFromEntriesPonyfill = ((source) => {
-  const result = {} as Record<string | number | symbol, unknown>;
+  const result: Record<string | number | symbol, unknown> = {};
   for (const [key, value] of source) {
     result[key] = value;
   }
@@ -17,5 +18,5 @@ export const objectFromEntriesPonyfill = ((source) => {
  * Object.fromEntries, but is better typed.
  */
 export const objectFromEntries: ObjectFromEntries =
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, @typescript-eslint/no-explicit-any
   (Object as any).fromEntries ?? objectFromEntriesPonyfill;

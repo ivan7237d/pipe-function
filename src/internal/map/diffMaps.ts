@@ -17,16 +17,16 @@ export const diffMaps = function* <Key, Value>(
     | [from: undefined, to: Value],
 ]> {
   for (const key of to.keys()) {
-    if (
-      !from.has(key) ||
-      !equalFunction(from.get(key) as Value, to.get(key) as Value)
-    ) {
-      yield [key, [from.get(key) as Value, to.get(key) as Value]];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    if (!from.has(key) || !equalFunction(from.get(key)!, to.get(key)!)) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      yield [key, [from.get(key)!, to.get(key)!]];
     }
   }
   for (const key of from.keys()) {
     if (!to.has(key)) {
-      yield [key, [from.get(key) as Value, undefined]];
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      yield [key, [from.get(key)!, undefined]];
     }
   }
 };

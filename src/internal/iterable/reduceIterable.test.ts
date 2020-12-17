@@ -1,4 +1,5 @@
 import { applyPipe } from '../applyPipe';
+import { as } from '../types/as';
 import { asContext } from '../types/asContext';
 import { reduceIterable } from './reduceIterable';
 
@@ -17,7 +18,7 @@ it('works', () => {
   ).toMatchInlineSnapshot(`"ab"`);
   expect(
     applyPipe(
-      [] as string[],
+      as<string[]>([]),
       reduceIterable((accumulator, value) => `${accumulator}${value}`),
     ),
   ).toMatchInlineSnapshot(`undefined`);

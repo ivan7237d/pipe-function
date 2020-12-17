@@ -16,9 +16,9 @@ export const teach = <From, To>(
       `teach() must be called with a function returned by memoizeWeak() or memoizeStrong().`,
     );
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/consistent-type-assertions
   if (!cache.has(from as any)) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/consistent-type-assertions
     cache.set(from as any, to);
   }
 };

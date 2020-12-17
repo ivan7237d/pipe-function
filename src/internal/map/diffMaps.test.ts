@@ -1,5 +1,6 @@
 import { applyPipe } from '../applyPipe';
 import { objectEntries } from '../object/objectEntries';
+import { as } from '../types/as';
 import { diffMaps } from './diffMaps';
 
 it('works without equal function provided', () => {
@@ -10,6 +11,7 @@ it('works without equal function provided', () => {
         { a: 0, b: 3, d: 4 },
       ] as const,
       (value) =>
+        // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
         value.map((value) =>
           applyPipe(value, objectEntries, (source) => new Map(source)),
         ) as [Map<string, number>, Map<string, number>],
@@ -46,9 +48,10 @@ it('works with equal function provided', () => {
   type T = Record<string, readonly [number]>;
   expect([
     ...applyPipe(
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       [
-        { a: [0], b: [1], c: [2] } as T,
-        { a: [0], b: [3], d: [4] } as T,
+        as<T>({ a: [0], b: [1], c: [2] }),
+        as<T>({ a: [0], b: [3], d: [4] }),
       ].map((value) =>
         applyPipe(value, objectEntries, (source) => new Map(source)),
       ) as [Map<string, [number]>, Map<string, [number]>],

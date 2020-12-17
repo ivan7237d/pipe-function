@@ -32,6 +32,7 @@ it('works for 1+ arguments', () => {
     ...values
   ) =>
     applyPipe(
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       values.map((value) => value[index]) as [string, string],
       (values) => stringCompare(...values),
     );
