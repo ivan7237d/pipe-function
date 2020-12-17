@@ -6,21 +6,21 @@
 
 TypeScript/JavaScript utilities for those who don't like utilities.
 
-- [Minimal API](#minimal-api).
+- [Minimal API](#minimal-api)
 
-- [Pipeline operator ponyfill](#pipeline-operator-ponyfill).
+- [Pipeline operator ponyfill](#pipeline-operator-ponyfill)
 
-- [Non-mutating functions for working with objects, arrays, maps, and sets](#objects-arrays-maps-and-sets).
+- [Non-mutating functions for working with objects, arrays, maps, and sets](#objects-arrays-maps-and-sets)
 
-- [Functions for working with native `Iterable`s](#iterables).
+- [Functions for working with native `Iterable`s](#iterables)
 
-- [Comparison functions](#comparison-functions).
+- [Comparison functions](#comparison-functions)
 
-- [Reducers](#reducers).
+- [Reducers](#reducers)
 
-- [Lenses](#lenses).
+- [Lenses](#lenses)
 
-- [Memoization utilities](#memoization).
+- [Memoization utilities](#memoization)
 
 - [Functions for downcasting](#functions-for-downcasting)
 
