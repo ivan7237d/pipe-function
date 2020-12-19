@@ -187,6 +187,8 @@ expect(sampleReducer({ a: { b: '', c: '' } }, { payload: 'x' })).toEqual({
 });
 ```
 
+In the code above, TypeScript successfully infers the types, and as we get to a point where we need to type 'a', 'b', or 'c', IntelliSense shows correct suggestions.
+
 Example of usage with optional properties:
 
 ```ts
