@@ -1,7 +1,15 @@
-- **What kind of change does this PR introduce?** (Bug fix, feature, docs update, ...)
+<!--
+  Thank you for your pull request!
 
-- **What is the current behavior?** (You can also link to an open issue here)
+  Before submitting, please make sure the following is done:
 
-- **What is the new behavior (if this is a feature change)?**
+  - Fork the repository and create your branch from `master`.
+  - If you've fixed a bug or added code that should be tested, add tests.
+  - Ensure `yarn test` passes (this runs jest, prettier and lint).
+-->
 
-- **Other information**:
+## Summary
+
+<!--
+  Explain the motivation for making this change.
+-->
