@@ -246,7 +246,14 @@ The library provides the following identity functions that cast the argument to 
 
 - [`as`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/as.ts): an identity function with signature `<T>(value: T) => T` that can be used to downcast a value to a non-generic type: `as<YourType>(yourValue)`.
 
-- [`asContext`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asContext.ts): an identity function with signature `<A, B extends A>(value: B) => A` that can be used to infer the type of a value from the context instead of the other way around. For example, the function `firstInIterable` can be implemented as `reduceIterable(() => undefined)`, but writing `applyPipe([0, 1], reduceIterable(() => undefined))` will not typecheck. The reason is that TypeScript will look at the reducer `() => undefined` and infer the type of the accumulator as `undefined`, and then expect the array `[0, 1]` to be `undefined[]`. Enclosing the reducer in `asContext` (`asContext(() => undefined)`) will cause TypeScript to correctly infer the type of the accumulator as `number`.
+- [`asContext`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asContext.ts): an identity function with signature `<A, B extends A>(value: B) => A` that can be used to infer the type of a value from the context instead of the other way around. Consider the following example:
+
+  ```ts
+  const every = (iterable: Iterable<boolean>): boolean =>
+    applyPipe(iterable, reduceIterable(andReducer, true));
+  ```
+
+  The above code will not typecheck because TypeScript will look at the seed `true` and infer the type of the accumulator as `true`, but `andReducer` returns an accumulator with type `boolean`. Replacing the seed `true` with `asContext(true)` causes TypeScript to correctly infer the type of the accumulator as `boolean`.
 
 - [`asCompareFunction`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asCompareFunction.ts), [`asEqualFunction`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asEqualFunction.ts), [`asLens`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asLens.ts), [`asReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asReducer.ts), [`asStateView`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asStateView.ts), [`asView`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asView.ts): identity functions that can be used to downcast values to any of the generic types defined by the library.
 
