@@ -240,9 +240,9 @@ The library also provides a function [`teach`](https://github.com/ivan7237d/anti
 
 ## Functions for downcasting
 
-The library provides the following identity functions that cast the argument to a subtype, but unlike the TypeScript's `as`, never make assertions:
+The library provides the following identity functions that cast the argument to a subtype, but unlike the TypeScript's `as`, never make type assertions:
 
-- [`asNever`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asNever.ts): an identity function with signature `(value: never) => never ` used to typecheck that a symbol has type `never`. Throws if called. Example: if `a` has type `0 | 1`, you could write `a === 0 ? 'zero' : a === 1 ? 'one' : asNever(a)` to make sure that typecheck will fail if the type of `a` changes to say `0 | 1 | 2`.
+- [`asNever`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asNever.ts): an identity function with signature `(value: never) => never ` used to typecheck that a branch is unreachable. For example, if `a` has type `0 | 1`, you could write `a === 0 ? 'zero' : a === 1 ? 'one' : asNever(a)` to make sure that typecheck will fail if the type of `a` changes to say `0 | 1 | 2`. Throws if called.
 
 - [`as`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/as.ts): an identity function with signature `<T>(value: T) => T` that can be used to downcast a value to a non-generic type: `as<YourType>(yourValue)`.
 
