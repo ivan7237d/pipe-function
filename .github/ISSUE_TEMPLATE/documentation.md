@@ -1,5 +1,5 @@
 ---
-name: Feature request
+name: Documentation
 about: Suggest new features
 labels: 'documentation'
 ---
