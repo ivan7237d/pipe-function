@@ -140,17 +140,26 @@ The library includes [basic implementations of this type](https://github.com/iva
 
 ## Lenses
 
-We start by defining a `View` as a combination of a getter and a setter:
+First let's talk about how we define a lens. When building UI components, it's convenient to work with a type which we'll call `StateView`, a combination of a getter and a setter:
+
+```ts
+type StateView<A> = { get: () => A; set: (value: A) => void };
+```
+
+For example in the case of React, this shape is close to values returned by `useState` hook, and it is also what you would want to pass to an input element such as a textbox to create a two-way binding. In this library we actually define `StateView` as a subtype of another type called `View`:
 
 ```ts
 type View<S, A> = { get: () => A; set: (value: A) => S };
+type StateView<A> = View<void, A>;
 ```
 
-and define a `Lens` as a function that transforms a view into another view:
+and we define a `Lens` as a function that transforms a view into another view:
 
 ```ts
 type Lens<S, A, B> = (source: View<S, A>) => View<S, B>;
 ```
+
+This way a lens can be used in the traditional way, as in the below example of a reducer, but it can also be used to convert a `StateView` into another `StateView`, as demonstrated in the README for [`antiutils-react`](https://github.com/ivan7237d/antiutils-react), a package that provides glue between Antiutils and React.
 
 The library provides the following functions:
 
@@ -162,13 +171,14 @@ The library provides the following functions:
 
 - [`rootView`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/view/rootView.ts): a function that converts a `value` into a view `{ get: () => value, set: <identity function> }`.
 
-Example usage:
+Usage example:
 
 ```ts
 type State = { a: { b: string; c: string } };
 
 /**
- * A reducer that sets the value of `b` in the state to the payload.
+ * A reducer that sets the value of `b` in the state to the value provided
+ * as action payload.
  **/
 const sampleReducer = (state: State, action: { payload: string }) =>
   applyPipe(
@@ -213,14 +223,6 @@ expect(sampleReducer({}, { payload: 'x' })).toEqual({
   a: { b: 'x', c: '' },
 });
 ```
-
-The library also defines
-
-```ts
-type StateView<A> = View<void, A>; // = { get: () => A; set: (value: A) => void };
-```
-
-where the setter does not return any value, but instead produces a side effect. To learn about how this type is used, please see the docs for [`antiutils-react`](https://github.com/ivan7237d/antiutils-react), a package that provides glue between Antiutils and React.
 
 ## Memoization
 
