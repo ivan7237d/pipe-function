@@ -44,7 +44,7 @@ That said, we do sometimes provide a shortcut for what would otherwise be a one-
 
 ## Pipeline operator [ponyfill](https://ponyfill.com/)
 
-The library includes a function `applyPipe` which takes between 1 and 12 arguments: `applyPipe(x, a, b)` is equivalent to `b(a(x))`, or using the pipeline operator, `x |> a |> b`. Type inference works well with this function, and if any one of the proposed flavors of the pipeline operator eventually reaches stage 3 and starts to be supported in TypeScript, it would be straightforward to build a codemod to convert the function to the operator.
+The library includes a function `applyPipe` which takes between 1 and 12 arguments: `applyPipe(x, a, b)` is equivalent to `b(a(x))`, or using the pipeline operator, `x |> a |> b`. Type inference works well with this function, and if any one of the proposed flavors of the pipeline operator eventually reaches stage 3 and starts to be supported in TypeScript, it would be straightforward to build a codemod to convert this function to the operator.
 
 The library intentionally doesn't include a `pipe` function that would compose functions without applying the resulting function to an argument, mainly because this would go against "only one way to do it".
 
@@ -257,7 +257,7 @@ The library provides the following identity functions that cast the argument to 
     applyPipe(iterable, reduceIterable(andReducer, true));
   ```
 
-  The above code will not typecheck because TypeScript will look at the seed `true` and infer the type of the accumulator as `true`, but `andReducer` returns an accumulator with type `boolean`. Replacing the seed `true` with `asContext(true)` causes TypeScript to correctly infer the type of the accumulator as `boolean`.
+  The above code will not typecheck because TypeScript will look at the seed `true` and infer the type of the accumulator as `true`, but it should be `boolean` because `andReducer` can return either `true` or `false`. Replacing the seed `true` with `asContext(true)` solves the problem.
 
 - [`asCompareFunction`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asCompareFunction.ts), [`asEqualFunction`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asEqualFunction.ts), [`asLens`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asLens.ts), [`asReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asReducer.ts), [`asStateView`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asStateView.ts), [`asView`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asView.ts): identity functions that can be used to downcast values to any of the generic types defined by the library.
 
