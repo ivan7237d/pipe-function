@@ -1,6 +1,6 @@
 {
   "name": "antiutils",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "TypeScript/JavaScript utilities for those who don't like utilities",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",

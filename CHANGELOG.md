@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.1](https://github.com/ivan7237d/antiutils/compare/v2.0.0...v2.0.1) (2021-01-03)
+
+
+### Bug Fixes
+
+* add missing exports ([ea3c82c](https://github.com/ivan7237d/antiutils/commit/ea3c82c53c90a0ade00d98c144dcb0f8efba4cca))
+
 ## [2.0.0](https://github.com/ivan7237d/antiutils/compare/v1.0.3...v2.0.0) (2020-12-17)
 
 ### ⚠ BREAKING CHANGES
