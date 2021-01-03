@@ -70,21 +70,21 @@
 				<a href="https://bundlephobia.com/result?p=antiutils"><img src="https://badgen.net/bundlephobia/tree-shaking/antiutils" alt="gzip size"></a></p>
 				<p>TypeScript/JavaScript utilities for those who don&#39;t like utilities.</p>
 				<ul>
-					<li><p><a href="#minimal-api">Minimal API</a>.</p>
+					<li><p><a href="#minimal-api">Minimal API</a></p>
 					</li>
-					<li><p><a href="#pipeline-operator-ponyfill">Pipeline operator ponyfill</a>.</p>
+					<li><p><a href="#pipeline-operator-ponyfill">Pipeline operator ponyfill</a></p>
 					</li>
-					<li><p><a href="#objects-arrays-maps-and-sets">Non-mutating functions for working with objects, arrays, maps, and sets</a>.</p>
+					<li><p><a href="#objects-arrays-maps-and-sets">Non-mutating functions for working with objects, arrays, maps, and sets</a></p>
 					</li>
-					<li><p><a href="#iterables">Functions for working with native <code>Iterable</code>s</a>.</p>
+					<li><p><a href="#iterables">Functions for working with native <code>Iterable</code>s</a></p>
 					</li>
-					<li><p><a href="#comparison-functions">Comparison functions</a>.</p>
+					<li><p><a href="#comparison-functions">Comparison functions</a></p>
 					</li>
-					<li><p><a href="#reducers">Reducers</a>.</p>
+					<li><p><a href="#reducers">Reducers</a></p>
 					</li>
-					<li><p><a href="#lenses">Lenses</a>.</p>
+					<li><p><a href="#lenses">Lenses</a></p>
 					</li>
-					<li><p><a href="#memoization">Memoization utilities</a>.</p>
+					<li><p><a href="#memoization">Memoization utilities</a></p>
 					</li>
 					<li><p><a href="#functions-for-downcasting">Functions for downcasting</a></p>
 					</li>
@@ -103,7 +103,7 @@
 				<a href="#pipeline-operator-ponyfill" id="pipeline-operator-ponyfill" style="color: inherit; text-decoration: none;">
 					<h2>Pipeline operator <a href="https://ponyfill.com/">ponyfill</a></h2>
 				</a>
-				<p>The library includes a function <code>applyPipe</code> which takes between 1 and 12 arguments: <code>applyPipe(x, a, b)</code> is equivalent to <code>b(a(x))</code>, or using the pipeline operator, <code>x |&gt; a |&gt; b</code>. Type inference works well with this function, and if any one of the proposed flavors of the pipeline operator eventually reaches stage 3 and starts to be supported in TypeScript, it would be straightforward to build a codemod to convert the function to the operator.</p>
+				<p>The library includes a function <code>applyPipe</code> which takes between 1 and 12 arguments: <code>applyPipe(x, a, b)</code> is equivalent to <code>b(a(x))</code>, or using the pipeline operator, <code>x |&gt; a |&gt; b</code>. Type inference works well with this function, and if any one of the proposed flavors of the pipeline operator eventually reaches stage 3 and starts to be supported in TypeScript, it would be straightforward to build a codemod to convert this function to the operator.</p>
 				<p>The library intentionally doesn&#39;t include a <code>pipe</code> function that would compose functions without applying the resulting function to an argument, mainly because this would go against &quot;only one way to do it&quot;.</p>
 				<a href="#objects-arrays-maps-and-sets" id="objects-arrays-maps-and-sets" style="color: inherit; text-decoration: none;">
 					<h2>Objects, arrays, maps and sets</h2>
@@ -133,11 +133,13 @@
 					</li>
 					<li><p><strong>Count elements in an iterable:</strong>: <code>applyPipe(yourIterable, reduceIterable(countReducer, 0))</code>.</p>
 					</li>
-					<li><p><strong>Check if every element in an iterable is true:</strong> <code>applyPipe(yourIterableOfBooleans, reduceIterable(andReducer, true))</code> (iteration will not continue unnecessarily because of how <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/reduceIterable.ts"><code>reduceIterable</code></a> and <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer/andReducer.ts"><code>andReducer</code></a> are defined).</p>
+					<li><p><strong>Check if every element in an iterable is true:</strong> <code>applyPipe(yourIterableOfBooleans, reduceIterable(andReducer, true))</code> (iteration will not continue unnecessarily because of <a href="#reducers">how a reducer is defined</a>).</p>
 					</li>
 					<li><p><strong>Check if some elements in an iterable are true:</strong> <code>applyPipe(yourIterableOfBooleans, reduceIterable(orReducer, false))</code>.</p>
 					</li>
 					<li><p><strong>Find the first element matching a predicate:</strong> <code>applyPipe(yourIterable, filter(yourPredicate), firstInIterable)</code>.</p>
+					</li>
+					<li><p><strong>Same as above, but throw an error if the iterable has multiple matching elements:</strong> <code>applyPipe(yourIterable, filter(yourPredicate), reduceIterable(asContext(() =&gt; { throw yourError; })))</code> (<code>asContext</code> is described in the section <a href="#functions-for-downcasting">&quot;Functions for downcasting&quot;</a>).</p>
 					</li>
 					<li><p><strong>Yield values while a condition holds:</strong></p>
 						<pre><code class="language-ts">applyPipe(
@@ -177,10 +179,14 @@
 				<a href="#lenses" id="lenses" style="color: inherit; text-decoration: none;">
 					<h2>Lenses</h2>
 				</a>
-				<p>We start by defining a <code>View</code> as a combination of a getter and a setter:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">type</span> View&lt;S, A&gt; = { <span class="hljs-attr">get</span>: <span class="hljs-function">() =&gt;</span> A; set: <span class="hljs-function">(<span class="hljs-params">value: A</span>) =&gt;</span> S };</code></pre>
-				<p>and define a <code>Lens</code> as a function that transforms a view into another view:</p>
+				<p>First let&#39;s talk about how we define a lens. When building UI components, it&#39;s convenient to work with a type which we&#39;ll call <code>StateView</code>, a combination of a getter and a setter:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">type</span> StateView&lt;A&gt; = { <span class="hljs-attr">get</span>: <span class="hljs-function">() =&gt;</span> A; set: <span class="hljs-function">(<span class="hljs-params">value: A</span>) =&gt;</span> <span class="hljs-built_in">void</span> };</code></pre>
+				<p>For example in the case of React, this shape is close to values returned by <code>useState</code> hook, and it is also what you would want to pass to an input element such as a textbox to create a two-way binding. In this library we actually define <code>StateView</code> as a subtype of another type called <code>View</code>:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">type</span> View&lt;S, A&gt; = { <span class="hljs-attr">get</span>: <span class="hljs-function">() =&gt;</span> A; set: <span class="hljs-function">(<span class="hljs-params">value: A</span>) =&gt;</span> S };
+<span class="hljs-keyword">type</span> StateView&lt;A&gt; = View&lt;<span class="hljs-built_in">void</span>, A&gt;;</code></pre>
+				<p>and we define a <code>Lens</code> as a function that transforms a view into another view:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">type</span> Lens&lt;S, A, B&gt; = <span class="hljs-function">(<span class="hljs-params">source: View&lt;S, A&gt;</span>) =&gt;</span> View&lt;S, B&gt;;</code></pre>
+				<p>This way a lens can be used in the traditional way, as in the below example of a reducer, but it can also be used to convert a <code>StateView</code> into another <code>StateView</code>, as demonstrated in the README for <a href="https://github.com/ivan7237d/antiutils-react"><code>antiutils-react</code></a>, a package that provides glue between Antiutils and React.</p>
 				<p>The library provides the following functions:</p>
 				<ul>
 					<li><p><a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/object/objectProp.ts"><code>objectProp</code></a>: a lens to zoom in on an object&#39;s property.</p>
@@ -192,11 +198,12 @@
 					<li><p><a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/view/rootView.ts"><code>rootView</code></a>: a function that converts a <code>value</code> into a view <code>{ get: () =&gt; value, set: &lt;identity function&gt; }</code>.</p>
 					</li>
 				</ul>
-				<p>Example usage:</p>
+				<p>Usage example:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">type</span> State = { <span class="hljs-attr">a</span>: { <span class="hljs-attr">b</span>: <span class="hljs-built_in">string</span>; c: <span class="hljs-built_in">string</span> } };
 
 <span class="hljs-comment">/**
- * A reducer that sets the value of `b` in the state to the payload.
+ * A reducer that sets the value of `b` in the state to the value provided
+ * as action payload.
  **/</span>
 <span class="hljs-keyword">const</span> sampleReducer = <span class="hljs-function">(<span class="hljs-params">state: State, action: { payload: <span class="hljs-built_in">string</span> }</span>) =&gt;</span>
   applyPipe(
@@ -213,6 +220,7 @@
 expect(sampleReducer({ <span class="hljs-attr">a</span>: { <span class="hljs-attr">b</span>: <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-attr">c</span>: <span class="hljs-string">&#x27;&#x27;</span> } }, { <span class="hljs-attr">payload</span>: <span class="hljs-string">&#x27;x&#x27;</span> })).toEqual({
   <span class="hljs-attr">a</span>: { <span class="hljs-attr">b</span>: <span class="hljs-string">&#x27;x&#x27;</span>, <span class="hljs-attr">c</span>: <span class="hljs-string">&#x27;&#x27;</span> },
 });</code></pre>
+				<p>In the code above, TypeScript successfully infers the types, and as we get to a point where we need to type &#39;a&#39;, &#39;b&#39;, or &#39;c&#39;, IntelliSense shows correct suggestions.</p>
 				<p>Example of usage with optional properties:</p>
 				<pre><code class="language-ts"><span class="hljs-comment">// Note the optional `a`.</span>
 <span class="hljs-keyword">type</span> State = { a?: { <span class="hljs-attr">b</span>: <span class="hljs-built_in">string</span>; c: <span class="hljs-built_in">string</span> } };
@@ -234,9 +242,6 @@ expect(sampleReducer({ <span class="hljs-attr">a</span>: { <span class="hljs-att
 expect(sampleReducer({}, { <span class="hljs-attr">payload</span>: <span class="hljs-string">&#x27;x&#x27;</span> })).toEqual({
   <span class="hljs-attr">a</span>: { <span class="hljs-attr">b</span>: <span class="hljs-string">&#x27;x&#x27;</span>, <span class="hljs-attr">c</span>: <span class="hljs-string">&#x27;&#x27;</span> },
 });</code></pre>
-				<p>The library also defines</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">type</span> StateView&lt;A&gt; = View&lt;<span class="hljs-built_in">void</span>, A&gt;; <span class="hljs-comment">// = { get: () =&gt; A; set: (value: A) =&gt; void };</span></code></pre>
-				<p>where the setter does not return any value, but instead produces a side effect. To learn about how this type is used, please see the docs for <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/view/rootView.ts"><code>antiutils-react</code></a>, a package that provides glue between Antiutils and React.</p>
 				<a href="#memoization" id="memoization" style="color: inherit; text-decoration: none;">
 					<h2>Memoization</h2>
 				</a>
@@ -254,13 +259,16 @@ expect(sampleReducer({}, { <span class="hljs-attr">payload</span>: <span class="
 				<a href="#functions-for-downcasting" id="functions-for-downcasting" style="color: inherit; text-decoration: none;">
 					<h2>Functions for downcasting</h2>
 				</a>
-				<p>The library provides the following identity functions that cast the argument to a subtype, but unlike the TypeScript&#39;s <code>as</code>, never make assertions:</p>
+				<p>The library provides the following identity functions that cast the argument to a type, but unlike TypeScript&#39;s <code>as</code>, never make type assertions:</p>
 				<ul>
-					<li><p><a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asNever.ts"><code>asNever</code></a>: an identity function with signature <code>(value: never) =&gt; never </code> used to typecheck that a symbol has type <code>never</code>. Throws if called. Example: if <code>a</code> has type <code>0 | 1</code>, you could write <code>a === 0 ? &#39;zero&#39; : a === 1 ? &#39;one&#39; : asNever(a)</code> to make sure that typecheck will fail if the type of <code>a</code> changes to say <code>0 | 1 | 2</code>.</p>
+					<li><p><a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asNever.ts"><code>asNever</code></a>: a function which has signature <code>(value: never) =&gt; never </code> and which throws if called, used to typecheck that a symbol has type <code>never</code> and therefore the call site is unreachable. For example, if <code>a</code> has type <code>0 | 1</code>, you could write <code>a === 0 ? &#39;zero&#39; : a === 1 ? &#39;one&#39; : asNever(a)</code> to make sure that all possibilities for <code>a</code> have been exhausted. If the type of <code>a</code> changes to say <code>0 | 1 | 2</code>, the type of the argument passed to <code>asNever</code> will be inferred as <code>2</code>, and this will cause a typechecking error because the only type assignable to <code>never</code> is <code>never</code> itself.</p>
 					</li>
 					<li><p><a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/as.ts"><code>as</code></a>: an identity function with signature <code>&lt;T&gt;(value: T) =&gt; T</code> that can be used to downcast a value to a non-generic type: <code>as&lt;YourType&gt;(yourValue)</code>.</p>
 					</li>
-					<li><p><a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asContext.ts"><code>asContext</code></a>: an identity function with signature <code>&lt;A, B extends A&gt;(value: B) =&gt; A</code> that can be used to infer the type of a value from the context instead of the other way around. For example, the function <code>firstInIterable</code> can be implemented as <code>reduceIterable(() =&gt; undefined)</code>, but writing <code>applyPipe([0, 1], reduceIterable(() =&gt; undefined))</code> will not typecheck. The reason is that TypeScript will look at the reducer <code>() =&gt; undefined</code> and infer the type of the accumulator as <code>undefined</code>, and then expect the array <code>[0, 1]</code> to be <code>undefined[]</code>. Enclosing the reducer in <code>asContext</code> (<code>asContext(() =&gt; undefined)</code>) will cause TypeScript to correctly infer the type of the accumulator as <code>number</code>.</p>
+					<li><p><a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asContext.ts"><code>asContext</code></a>: an identity function with signature <code>&lt;A, B extends A&gt;(value: B) =&gt; A</code> that can be used to infer the type of a value from the context instead of the other way around. Consider the following example:</p>
+						<pre><code class="language-ts"><span class="hljs-keyword">const</span> every = (iterable: Iterable&lt;<span class="hljs-built_in">boolean</span>&gt;): <span class="hljs-function"><span class="hljs-params">boolean</span> =&gt;</span>
+  applyPipe(iterable, reduceIterable(andReducer, <span class="hljs-literal">true</span>));</code></pre>
+						<p>The above code will not typecheck because TypeScript will look at the seed <code>true</code> and infer the type of the accumulator as <code>true</code>, but it should be <code>boolean</code> because <code>andReducer</code> can return either <code>true</code> or <code>false</code>. Replacing the seed <code>true</code> with <code>asContext(true)</code> solves the problem.</p>
 					</li>
 					<li><p><a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asCompareFunction.ts"><code>asCompareFunction</code></a>, <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asEqualFunction.ts"><code>asEqualFunction</code></a>, <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asLens.ts"><code>asLens</code></a>, <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asReducer.ts"><code>asReducer</code></a>, <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asStateView.ts"><code>asStateView</code></a>, <a href="https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asView.ts"><code>asView</code></a>: identity functions that can be used to downcast values to any of the generic types defined by the library.</p>
 					</li>
@@ -354,6 +362,9 @@ expect(sampleReducer({}, { <span class="hljs-attr">payload</span>: <span class="
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#concatiterables" class="tsd-kind-icon">concat<wbr>Iterables</a>
 					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#countreducer" class="tsd-kind-icon">count<wbr>Reducer</a>
+					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#deepequal" class="tsd-kind-icon">deep<wbr>Equal</a>
 					</li>
@@ -405,11 +416,17 @@ expect(sampleReducer({}, { <span class="hljs-attr">payload</span>: <span class="
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#mapsequal" class="tsd-kind-icon">maps<wbr>Equal</a>
 					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#maxreducer" class="tsd-kind-icon">max<wbr>Reducer</a>
+					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#memoizestrong" class="tsd-kind-icon">memoize<wbr>Strong</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#memoizeweak" class="tsd-kind-icon">memoize<wbr>Weak</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#minreducer" class="tsd-kind-icon">min<wbr>Reducer</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#numbercompare" class="tsd-kind-icon">number<wbr>Compare</a>
@@ -428,6 +445,9 @@ expect(sampleReducer({}, { <span class="hljs-attr">payload</span>: <span class="
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#objectsequal" class="tsd-kind-icon">objects<wbr>Equal</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#orreducer" class="tsd-kind-icon">or<wbr>Reducer</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#rangeiterable" class="tsd-kind-icon">range<wbr>Iterable</a>
@@ -467,6 +487,9 @@ expect(sampleReducer({}, { <span class="hljs-attr">payload</span>: <span class="
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#stringcompare" class="tsd-kind-icon">string<wbr>Compare</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#sumreducer" class="tsd-kind-icon">sum<wbr>Reducer</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#teach" class="tsd-kind-icon">teach</a>
