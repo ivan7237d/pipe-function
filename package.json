@@ -6,7 +6,6 @@
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
   "repository": "https://github.com/ivan7237d/antiutils.git",
-  "homepage": "https://ivan7237d.github.io/antiutils/",
   "license": "MIT",
   "keywords": [],
   "scripts": {
