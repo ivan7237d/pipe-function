@@ -18,6 +18,8 @@ export { mapIterable } from './internal/iterable/mapIterable';
 export { rangeIterable } from './internal/iterable/rangeIterable';
 export { reduceIterable } from './internal/iterable/reduceIterable';
 export { scanIterable } from './internal/iterable/scanIterable';
+export { sliceIterable } from './internal/iterable/sliceIterable';
+export { sliceReversedIterable } from './internal/iterable/sliceReversedIterable';
 export { zipIterables } from './internal/iterable/zipIterables';
 export { deleteFromMap } from './internal/map/deleteFromMap';
 export { diffMaps } from './internal/map/diffMaps';
