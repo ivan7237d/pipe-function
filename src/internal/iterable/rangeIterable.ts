@@ -7,7 +7,11 @@ export const rangeIterable = function* (
   to?: number,
   step = 1,
 ): Iterable<number> {
-  for (let index = from; to === undefined || index < to; index += step) {
+  for (
+    let index = from;
+    to === undefined || step === 0 || (step > 0 ? index < to : index > to);
+    index += step
+  ) {
     yield index;
   }
 };

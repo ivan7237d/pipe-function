@@ -42,4 +42,22 @@ it('works', () => {
       20,
     ]
   `);
+  expect(applyPipe(rangeIterable(30, 10, -10), (source) => [...source]))
+    .toMatchInlineSnapshot(`
+    Array [
+      30,
+      20,
+    ]
+  `);
+  expect(
+    applyPipe(rangeIterable(0, 0, 0), sliceIterable(undefined, 3), (source) => [
+      ...source,
+    ]),
+  ).toMatchInlineSnapshot(`
+    Array [
+      0,
+      0,
+      0,
+    ]
+  `);
 });
