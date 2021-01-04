@@ -1,5 +1,5 @@
 /**
- * Slices an array, yielding elements that have indexes >= `from` and < `to`.
+ * Slices an iterable, yielding elements that have indexes >= `from` and < `to`.
  * Either one of the two parameters can be dropped, in which case the
  * corresponding condition will not be checked. Differs from the array `slice`
  * method in that negative values of parameters have no special meaning.
