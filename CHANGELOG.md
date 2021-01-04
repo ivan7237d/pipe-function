@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/ivan7237d/antiutils/compare/v2.0.1...v2.1.0) (2021-01-04)
+
+
+### Features
+
+* **iterable:** reverseIterable ([94a24be](https://github.com/ivan7237d/antiutils/commit/94a24beb6716d438f5d6f7115f1e38fe035e4ee6))
+* **iterable:** sliceReversedIterable ([30bf7f5](https://github.com/ivan7237d/antiutils/commit/30bf7f57d2061ecf026ae3609d5fd3895f28d4a7))
+
+
+### Bug Fixes
+
+* **rangeIterable:** correctly handle non-positive step ([19c83ec](https://github.com/ivan7237d/antiutils/commit/19c83ec74ab22e76b8c14265452870c7c2266dd9))
+
 ### [2.0.1](https://github.com/ivan7237d/antiutils/compare/v2.0.0...v2.0.1) (2021-01-03)
 
 
