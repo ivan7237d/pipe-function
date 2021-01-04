@@ -17,6 +17,7 @@ export { firstIterable } from './internal/iterable/firstIterable';
 export { mapIterable } from './internal/iterable/mapIterable';
 export { rangeIterable } from './internal/iterable/rangeIterable';
 export { reduceIterable } from './internal/iterable/reduceIterable';
+export { reverseIterable } from './internal/iterable/reverseIterable';
 export { scanIterable } from './internal/iterable/scanIterable';
 export { sliceIterable } from './internal/iterable/sliceIterable';
 export { sliceReversedIterable } from './internal/iterable/sliceReversedIterable';
