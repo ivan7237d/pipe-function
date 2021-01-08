@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/antiutils.svg)](https://badge.fury.io/js/antiutils)
 [![gzip size](https://badgen.net/bundlephobia/minzip/antiutils?color=green)](https://bundlephobia.com/result?p=antiutils)
-[![gzip size](https://badgen.net/bundlephobia/tree-shaking/antiutils)](https://bundlephobia.com/result?p=antiutils)
+[![tree shaking](https://badgen.net/bundlephobia/tree-shaking/antiutils)](https://bundlephobia.com/result?p=antiutils)
 
 TypeScript/JavaScript utilities for those who don't like utilities.
 
