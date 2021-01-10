@@ -97,8 +97,12 @@
           "description": "Documentation only changes",
           "title": "Documentation"
         },
+        "test": {
+          "description": "Adding missing tests or correcting existing tests",
+          "title": "Tests"
+        },
         "refactor": {
-          "description": "A code change that neither fixes a bug nor adds a feature",
+          "description": "Other changes that modify src or test files",
           "title": "Code Refactoring"
         },
         "chore": {
