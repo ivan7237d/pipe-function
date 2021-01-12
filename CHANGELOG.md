@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/ivan7237d/antiutils/compare/v2.1.0...v2.2.0) (2021-01-12)
+
+
+### Features
+
+* add sideEffects property to package.json to help tree-shaking ([ac5e560](https://github.com/ivan7237d/antiutils/commit/ac5e5609c0b0444b128b636b02b9cd268a2f9a2d))
+
 ## [2.1.0](https://github.com/ivan7237d/antiutils/compare/v2.0.1...v2.1.0) (2021-01-04)
 
 
