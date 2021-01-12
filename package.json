@@ -63,10 +63,7 @@
     "build/main",
     "build/module",
     "!**/*.test.*",
-    "!**/*.json",
-    "CHANGELOG.md",
-    "LICENSE",
-    "README.md"
+    "!**/*.json"
   ],
   "jest": {
     "roots": [
