@@ -48,6 +48,10 @@ The library includes a function `applyPipe` which takes between 1 and 12 argumen
 
 The library intentionally doesn't include a `pipe` function that would compose functions without applying the resulting function to an argument, mainly because this would go against "only one way to do it".
 
+> :bulb: TIP
+>
+> At any point in the pipeline, you can insert the `log` function from [1log](https://github.com/ivan7237d/1log) library to log piped values.
+
 ## Objects, arrays, maps and sets
 
 The library includes non-mutating functions for working with [objects](https://github.com/ivan7237d/antiutils/tree/master/src/internal/object), [arrays](https://github.com/ivan7237d/antiutils/tree/master/src/internal/array), [maps](https://github.com/ivan7237d/antiutils/tree/master/src/internal/map), and [sets](https://github.com/ivan7237d/antiutils/tree/master/src/internal/set).
@@ -225,6 +229,10 @@ expect(sampleReducer({}, { payload: 'x' })).toEqual({
   a: { b: 'x', c: '' },
 });
 ```
+
+> :bulb: TIP
+>
+> You can log views using `viewPlugin` from the package [1log-antiutils](https://github.com/ivan7237d/1log-antiutils).
 
 ## Memoization
 
