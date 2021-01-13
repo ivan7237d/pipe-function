@@ -142,7 +142,7 @@ type Reducer<Accumulator, Element> = (
 
 which is like a regular reducer, but can return `undefined` to stop the iteration short, and which is used by functions [`reduceIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/reduceIterable.ts) and [`scanIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/scanIterable.ts).
 
-The library includes [basic implementations of this type](https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer), all of which except the boolean ones (`andReducer` and `orReducer`) can also be used with arrays and observables.
+The library includes [basic implementations of this type](https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer), all of which except the boolean ones (`andReducer` and `orReducer`) can also be used with arrays.
 
 ## Lenses
 
