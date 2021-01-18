@@ -116,6 +116,10 @@ How-to:
 
   (yields `1`, `2`, `3`).
 
+> :bulb: TIP
+>
+> You can log an iterable's creation, calls, nexts, yields, and completions using [`iterablePlugin`](https://github.com/ivan7237d/1log#iterableplugin) from 1log library.
+
 ## Comparison functions
 
 The library exports types
