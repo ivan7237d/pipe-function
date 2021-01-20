@@ -9,7 +9,7 @@
  * source until the starting index is reached.
  */
 export const sliceIterable = <T>(from?: number, to?: number) =>
-  function* (source: Iterable<T>): Iterable<T> {
+  function* (source: Iterable<T>): IterableIterator<T> {
     if (Array.isArray(source)) {
       const toLocal =
         to === undefined ? source.length : Math.min(to, source.length);

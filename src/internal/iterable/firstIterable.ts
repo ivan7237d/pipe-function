@@ -3,18 +3,9 @@
  * Zip it (`zipIterable`) to another iterable to get an indication of whether
  * the value is the first in the sequence.
  */
-export const firstIterable: Iterable<boolean> = {
-  [Symbol.iterator]: () => {
-    let first = true;
-    return {
-      next: () => {
-        const value = first;
-        first = false;
-        return {
-          done: false,
-          value,
-        };
-      },
-    };
-  },
+export const firstIterable = function* (): IterableIterator<boolean> {
+  yield true;
+  while (true) {
+    yield false;
+  }
 };

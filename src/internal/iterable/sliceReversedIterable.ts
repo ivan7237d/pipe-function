@@ -8,7 +8,7 @@
  * elements by index, otherwise converts the source iterable to an array first.
  */
 export const sliceReversedIterable = <T>(from?: number, to?: number) =>
-  function* (source: Iterable<T>): Iterable<T> {
+  function* (source: Iterable<T>): IterableIterator<T> {
     const array = Array.isArray(source) ? source : [...source];
     const length = array.length;
     const toLocal = to === undefined ? 0 : Math.max(0, length - to);

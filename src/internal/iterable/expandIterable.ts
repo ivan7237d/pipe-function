@@ -11,7 +11,7 @@
 export const expandIterable = function* <T>(
   project: (value: T) => T | undefined,
   seed?: T,
-): Iterable<T> {
+): IterableIterator<T> {
   let value = seed;
   while (true) {
     if (value === undefined) {

@@ -6,7 +6,7 @@ import { zipIterables } from './zipIterables';
 
 it('works', () => {
   expect(
-    applyPipe(firstIterable, sliceIterable(undefined, 3), (source) => [
+    applyPipe(firstIterable(), sliceIterable(undefined, 3), (source) => [
       ...source,
     ]),
   ).toMatchInlineSnapshot(`
@@ -19,7 +19,7 @@ it('works', () => {
 
   expect(
     applyPipe(
-      zipIterables(firstIterable, rangeIterable(undefined, 3)),
+      zipIterables(firstIterable(), rangeIterable(undefined, 3)),
       (source) => [...source],
     ),
   ).toMatchInlineSnapshot(`

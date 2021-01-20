@@ -7,7 +7,7 @@ import { Reducer } from '../types/types';
 export const scanIterable: {
   <Element>(reducer: Reducer<Element, Element>): (
     source: Iterable<Element>,
-  ) => Iterable<Element>;
+  ) => IterableIterator<Element>;
   <Accumulator, Element>(
     reducer: Reducer<
       Accumulator extends undefined ? Element : Accumulator,
@@ -16,9 +16,9 @@ export const scanIterable: {
     seed: Accumulator,
   ): (
     source: Iterable<Element>,
-  ) => Iterable<Accumulator extends undefined ? Element : Accumulator>;
+  ) => IterableIterator<Accumulator extends undefined ? Element : Accumulator>;
 } = (reducer: Reducer<unknown, unknown>, seed?: unknown) =>
-  function* (source: Iterable<unknown>): Iterable<unknown> {
+  function* (source: Iterable<unknown>): IterableIterator<unknown> {
     let accumulator = seed;
     for (const value of source) {
       const nextAccumulator =

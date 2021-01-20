@@ -6,7 +6,7 @@
  */
 export const zipIterables = function* <T extends unknown[]>(
   ...iterables: { [Key in keyof T]: Iterable<T[Key]> }
-): Iterable<T> {
+): IterableIterator<T> {
   if (iterables.length === 0) {
     return;
   }

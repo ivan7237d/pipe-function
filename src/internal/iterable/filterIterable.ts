@@ -3,7 +3,7 @@
  * for type inference.
  */
 export const filterIterable = <T>(predicate: (value: T) => boolean) =>
-  function* (source: Iterable<T>): Iterable<T> {
+  function* (source: Iterable<T>): IterableIterator<T> {
     for (const value of source) {
       if (predicate(value)) {
         yield value;
