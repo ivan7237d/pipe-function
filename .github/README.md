@@ -152,23 +152,33 @@ The library includes [basic implementations of `Reducer` and `ShortcutReducer`](
 
 ## Lenses
 
-First let's talk about how we define a lens. When building UI components, it's convenient to work with a type which we'll call `StateView`, a combination of a getter and a setter:
-
-```ts
-type StateView<A> = { get: () => A; set: (value: A) => void };
-```
-
-For example in the case of React, this shape is close to values returned by `useState` hook, and it is also what you would want to pass to an input element such as a textbox to create a two-way binding. In this library we actually define `StateView` as a subtype of another type called `View`:
+In Antiutils the definition of a lens is based on the concept of a view, which is a combination of a getter and a setter:
 
 ```ts
 interface View<S, A> {
   get: () => A;
   set: (value: A) => S;
 }
+```
+
+When generic type `S` is `void`, the setter only performs a side effect - we call this type of view a state view:
+
+```ts
 type StateView<A> = View<void, A>;
 ```
 
-and we define a `Lens` as a function that transforms a view into another view:
+State views are useful when working with React components - for details, see package [`antiutils-react`](https://github.com/ivan7237d/antiutils-react) which provides glue between Antiutils and React.
+
+The setter can also be a pure function that performs a non-mutating update, as in the following view that lets you access property `a` in object `{ a: 1, b: 2 }`:
+
+```ts
+const view: View<{ a: number }, number> = {
+  get: () => 1,
+  set: (value) => ({ a: value, b: 2 }),
+};
+```
+
+A lens is defined as a function that transforms one view into another view:
 
 ```ts
 interface Lens<S, A, B> {
@@ -176,19 +186,17 @@ interface Lens<S, A, B> {
 }
 ```
 
-This way a lens can be used in the traditional way, as in the below example of a reducer, but it can also be used to convert a `StateView` into another `StateView`, as demonstrated in the README for [`antiutils-react`](https://github.com/ivan7237d/antiutils-react), a package that provides glue between Antiutils and React.
+The library provides the following utilities:
 
-The library provides the following functions:
+- [`objectProp`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/object/objectProp.ts): returns a lens that zooms in on an object's property.
 
-- [`objectProp`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/object/objectProp.ts): a lens to zoom in on an object's property.
+- [`mapProp`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/map/mapProp.ts): returns a lens that zooms in on a value stored in a `Map` under a specific key.
 
-- [`mapProp`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/map/mapProp.ts): a lens to zoom in on a value stored in a `Map`.
-
-- [`setProp`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/set/setProp.ts): a lens to zoom in on presence of an element in a `Set`.
+- [`setProp`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/set/setProp.ts): returns a lens that zooms in on presence of an element in a `Set`.
 
 - [`rootView`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/view/rootView.ts): a function that converts a `value` into a view `{ get: () => value, set: <identity function> }`.
 
-Usage example:
+Here is an example using `objectProp` and `rootView`:
 
 ```ts
 type State = { a: { b: string; c: string } };
@@ -216,10 +224,9 @@ expect(sampleReducer({ a: { b: '', c: '' } }, { payload: 'x' })).toEqual({
 
 In the code above, TypeScript successfully infers the types, and as we get to a point where we need to type 'a', 'b', or 'c', IntelliSense shows correct suggestions.
 
-Example of usage with optional properties:
+A similar example, but with property `a` optional:
 
 ```ts
-// Note the optional `a`.
 type State = { a?: { b: string; c: string } };
 
 const sampleReducer = (state: State, action: { payload: string }) =>
@@ -280,7 +287,7 @@ The library provides the following identity functions that cast the argument to 
 
   The above code will not typecheck because TypeScript will look at the seed `true` and infer the type of the accumulator as `true`, but it should be `boolean` because `andReducer` can return either `true` or `false`. Replacing the seed `true` with `asContext(true)` solves the problem.
 
-- [`asCompareFunction`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asCompareFunction.ts), [`asEqualFunction`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asEqualFunction.ts), [`asLens`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asLens.ts), [`asReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asReducer.ts), [`asStateView`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asStateView.ts), [`asView`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asView.ts): identity functions that can be used to downcast values to any of the generic types defined by the library.
+- [`asCompareFunction`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asCompareFunction.ts), [`asEqualFunction`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asEqualFunction.ts), [`asLens`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asLens.ts), [`asReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asReducer.ts)б [`asShortcutReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asShortcutReducer.ts), [`asStateView`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asStateView.ts), [`asView`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asView.ts): identity functions that can be used to downcast values to any of the generic types defined by the library.
 
 ---
 
