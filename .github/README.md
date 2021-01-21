@@ -84,30 +84,24 @@ How-to:
 
 - **Count elements in an iterable:** `applyPipe(yourIterable, reduceIterable(countReducer, 0))`.
 
-- **Check if every element in an iterable is true:** `applyPipe(yourIterableOfBooleans, reduceIterable(andReducer, true))` (iteration will not continue unnecessarily because of [how a reducer is defined](#reducers)).
-
-- **Check if some elements in an iterable are true:** `applyPipe(yourIterableOfBooleans, reduceIterable(orReducer, false))`.
-
 - **Find the first element matching a predicate:** `applyPipe(yourIterable, filter(yourPredicate), firstInIterable)`.
-
-- **Same as above, but throw an error if the iterable has multiple matching elements:** `applyPipe(yourIterable, filter(yourPredicate), reduceIterable(asContext(() => { throw yourError; })))` (`asContext` is described in the section ["Functions for downcasting"](#functions-for-downcasting)).
 
 - **Yield values while a condition holds:**
 
   ```ts
   applyPipe(
-    [1, 2, 3, 2],
+    [1, 2, 3, 4],
     scanIterable((...[, value]) => (value <= 2 ? value : undefined)),
   );
   ```
 
-  (yields `1`, `2`, see [`scanIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/scanIterable.ts)).
+  (yields `1`, `2`, see [`scanIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/scanIterable.ts) and _[Reducers](#reducers)_).
 
 - **Also yield the value that broke the condition:**
 
   ```ts
   applyPipe(
-    [1, 2, 3, 2],
+    [1, 2, 3, 4],
     scanIterable((accumulator, value) =>
       accumulator <= 2 ? value : undefined,
     ),
