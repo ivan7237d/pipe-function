@@ -62,6 +62,7 @@ export { rootView } from './internal/view/rootView';
 export type { CompareFunction } from './internal/types/types';
 export type { EqualFunction } from './internal/types/types';
 export type { Reducer } from './internal/types/types';
+export type { ShortcutReducer } from './internal/types/types';
 export type { View } from './internal/types/types';
 export type { StateView } from './internal/types/types';
 export type { Lens } from './internal/types/types';

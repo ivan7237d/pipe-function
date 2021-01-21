@@ -1,2 +1,4 @@
-export const maxReducer = (accumulator: number, value: number): number =>
+import { Reducer } from '../types/types';
+
+export const maxReducer: Reducer<number, number> = (accumulator, value) =>
   Math.max(accumulator, value);

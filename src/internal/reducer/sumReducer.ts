@@ -1,2 +1,4 @@
-export const sumReducer = (accumulator: number, value: number): number =>
+import { Reducer } from '../types/types';
+
+export const sumReducer: Reducer<number, number> = (accumulator, value) =>
   accumulator + value;

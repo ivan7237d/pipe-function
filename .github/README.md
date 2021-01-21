@@ -76,13 +76,13 @@ How-to:
   );
   ```
 
-  (type will be inferred as `Iterable<number>`, not `Iterable<number | undefined>` as would be the case if you used `filterIterable`; the same trick works when filtering arrays and observables).
+  (type will be inferred as `IterableIterator<number>`, not `IterableIterator<number | undefined>` as would be the case if you used `filterIterable`; the same trick works when filtering arrays and observables).
 
 - **Index elements:** `zipIterables(rangeIterable(), yourIterable)` (returns an iterable of `[<element index>, <element>]`).
 
-- **Get a flag indicating if the element is the first element:** `zipIterables(firstIterable, yourIterable)` (returns an iterable of `[boolean, <element>]`).
+- **Get a flag indicating if the element is the first element:** `zipIterables(firstIterable(), yourIterable)` (returns an iterable of `[boolean, <element>]`).
 
-- **Count elements in an iterable:**: `applyPipe(yourIterable, reduceIterable(countReducer, 0))`.
+- **Count elements in an iterable:** `applyPipe(yourIterable, reduceIterable(countReducer, 0))`.
 
 - **Check if every element in an iterable is true:** `applyPipe(yourIterableOfBooleans, reduceIterable(andReducer, true))` (iteration will not continue unnecessarily because of [how a reducer is defined](#reducers)).
 
@@ -118,7 +118,7 @@ How-to:
 
 > :bulb: TIP
 >
-> You can log an iterable's creation, calls, nexts, yields, and completions using [`iterablePlugin`](https://github.com/ivan7237d/1log#iterableplugin) from 1log library.
+> You can log an iterable's creation, nexts, yields, and done's using [`iterableIteratorPlugin`](https://github.com/ivan7237d/1log#iterableiteratorplugin) from 1log library.
 
 ## Comparison functions
 
@@ -135,18 +135,23 @@ It also provides implementations of `EqualFunction` for objects, iterables, maps
 
 ## Reducers
 
-The library exports a type
+The library exports types
 
 ```ts
 type Reducer<Accumulator, Element> = (
   accumulator: Accumulator,
   element: Element,
+) => Accumulator;
+
+type ShortcutReducer<Accumulator, Element> = (
+  accumulator: Accumulator,
+  element: Element,
 ) => Accumulator | undefined;
 ```
 
-which is like a regular reducer, but can return `undefined` to stop the iteration short, and which is used by functions [`reduceIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/reduceIterable.ts) and [`scanIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/scanIterable.ts).
+`Reducer` is a regular reducer that can be passed to `reduce` method of an array. `ShortcutReducer` is like a regular reducer, but can return `undefined` to indicate that further iterations will not change the value of the accumulator, so functions [`reduceIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/reduceIterable.ts) and [`scanIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/scanIterable.ts) will stop the iteration short.
 
-The library includes [basic implementations of this type](https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer), all of which except the boolean ones (`andReducer` and `orReducer`) can also be used with arrays.
+The library includes [basic implementations of `Reducer` and `ShortcutReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer) such as `countReducer` (a `Reducer`) and `orReducer` (a `ShortcutReducer`).
 
 ## Lenses
 
@@ -236,7 +241,7 @@ expect(sampleReducer({}, { payload: 'x' })).toEqual({
 
 > :bulb: TIP
 >
-> You can log views using `viewPlugin` from the package [1log-antiutils](https://github.com/ivan7237d/1log-antiutils).
+> You can log views using a plugin from package [1log-antiutils](https://github.com/ivan7237d/1log-antiutils).
 
 ## Memoization
 

@@ -1,4 +1,6 @@
-export const orReducer = (
-  accumulator: boolean,
-  value: boolean,
-): boolean | undefined => (accumulator ? undefined : value);
+import { ShortcutReducer } from '../types/types';
+
+export const orReducer: ShortcutReducer<boolean, boolean> = (
+  accumulator,
+  value,
+) => (accumulator ? undefined : value);
