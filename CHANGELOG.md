@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.1](https://github.com/ivan7237d/antiutils/compare/v3.0.0...v3.0.1) (2021-01-21)
+
+
+### Bug Fixes
+
+* fix jsdoc for PartialReducer ([55a7901](https://github.com/ivan7237d/antiutils/commit/55a790134619481536f0c23ee2dd172daee647b7))
+
 ## [3.0.0](https://github.com/ivan7237d/antiutils/compare/v2.2.0...v3.0.0) (2021-01-21)
 
 ### ⚠ BREAKING CHANGES
