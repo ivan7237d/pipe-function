@@ -4,49 +4,40 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [3.0.0](https://github.com/ivan7237d/antiutils/compare/v2.2.0...v3.0.0) (2021-01-21)
 
-
 ### ⚠ BREAKING CHANGES
 
-* **reducer:** ShortcutReducer has been renamed to PartialReducer
-* **reducer:** Reducer has become ShortcutReducer
-* **iterable:** firstIterable is now a generator function.
+- **reducer:** Reducer has been renamed to PartialReducer
+- **iterable:** firstIterable is now a generator function.
 
 ### Features
 
-* replace types with interfaces ([12f14e7](https://github.com/ivan7237d/antiutils/commit/12f14e7490e2f653852622540dfbe3fdcb5ca9f5))
-* **iterable:** functions that returned Iterables now return IterableIterators ([4f1c4a4](https://github.com/ivan7237d/antiutils/commit/4f1c4a49cf88447f21abdd2e2abaa29456b51771))
-* **iterable:** someInIterable and noneInIterable ([48b3d80](https://github.com/ivan7237d/antiutils/commit/48b3d80032c08784b476a0a41a9ba3dea5aff687))
-* **reducer:** add interop Reducer type ([86b9db0](https://github.com/ivan7237d/antiutils/commit/86b9db02d7fdf538c366566c088e49cf04095938))
-
-
-* **reducer:** rename ShortcutReducer to PartialReducer ([f0e4dcc](https://github.com/ivan7237d/antiutils/commit/f0e4dcc5aba138a63dec0162a8bd905b33f77e17))
+- replace types with interfaces ([12f14e7](https://github.com/ivan7237d/antiutils/commit/12f14e7490e2f653852622540dfbe3fdcb5ca9f5))
+- **iterable:** functions that returned Iterables now return IterableIterators ([4f1c4a4](https://github.com/ivan7237d/antiutils/commit/4f1c4a49cf88447f21abdd2e2abaa29456b51771))
+- **iterable:** someInIterable and noneInIterable ([48b3d80](https://github.com/ivan7237d/antiutils/commit/48b3d80032c08784b476a0a41a9ba3dea5aff687))
+- **reducer:** add interop Reducer type ([86b9db0](https://github.com/ivan7237d/antiutils/commit/86b9db02d7fdf538c366566c088e49cf04095938), [f0e4dcc](https://github.com/ivan7237d/antiutils/commit/f0e4dcc5aba138a63dec0162a8bd905b33f77e17))
 
 ## [2.2.0](https://github.com/ivan7237d/antiutils/compare/v2.1.0...v2.2.0) (2021-01-12)
 
-
 ### Features
 
-* add sideEffects property to package.json to help tree-shaking ([ac5e560](https://github.com/ivan7237d/antiutils/commit/ac5e5609c0b0444b128b636b02b9cd268a2f9a2d))
+- add sideEffects property to package.json to help tree-shaking ([ac5e560](https://github.com/ivan7237d/antiutils/commit/ac5e5609c0b0444b128b636b02b9cd268a2f9a2d))
 
 ## [2.1.0](https://github.com/ivan7237d/antiutils/compare/v2.0.1...v2.1.0) (2021-01-04)
 
-
 ### Features
 
-* **iterable:** reverseIterable ([94a24be](https://github.com/ivan7237d/antiutils/commit/94a24beb6716d438f5d6f7115f1e38fe035e4ee6))
-* **iterable:** sliceReversedIterable ([30bf7f5](https://github.com/ivan7237d/antiutils/commit/30bf7f57d2061ecf026ae3609d5fd3895f28d4a7))
-
+- **iterable:** reverseIterable ([94a24be](https://github.com/ivan7237d/antiutils/commit/94a24beb6716d438f5d6f7115f1e38fe035e4ee6))
+- **iterable:** sliceReversedIterable ([30bf7f5](https://github.com/ivan7237d/antiutils/commit/30bf7f57d2061ecf026ae3609d5fd3895f28d4a7))
 
 ### Bug Fixes
 
-* **rangeIterable:** correctly handle non-positive step ([19c83ec](https://github.com/ivan7237d/antiutils/commit/19c83ec74ab22e76b8c14265452870c7c2266dd9))
+- **rangeIterable:** correctly handle non-positive step ([19c83ec](https://github.com/ivan7237d/antiutils/commit/19c83ec74ab22e76b8c14265452870c7c2266dd9))
 
 ### [2.0.1](https://github.com/ivan7237d/antiutils/compare/v2.0.0...v2.0.1) (2021-01-03)
 
-
 ### Bug Fixes
 
-* add missing exports ([ea3c82c](https://github.com/ivan7237d/antiutils/commit/ea3c82c53c90a0ade00d98c144dcb0f8efba4cca))
+- add missing exports ([ea3c82c](https://github.com/ivan7237d/antiutils/commit/ea3c82c53c90a0ade00d98c144dcb0f8efba4cca))
 
 ## [2.0.0](https://github.com/ivan7237d/antiutils/compare/v1.0.3...v2.0.0) (2020-12-17)
 
