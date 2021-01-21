@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/ivan7237d/antiutils/compare/v2.2.0...v3.0.0) (2021-01-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* **reducer:** ShortcutReducer has been renamed to PartialReducer
+* **reducer:** Reducer has become ShortcutReducer
+* **iterable:** firstIterable is now a generator function.
+
+### Features
+
+* replace types with interfaces ([12f14e7](https://github.com/ivan7237d/antiutils/commit/12f14e7490e2f653852622540dfbe3fdcb5ca9f5))
+* **iterable:** functions that returned Iterables now return IterableIterators ([4f1c4a4](https://github.com/ivan7237d/antiutils/commit/4f1c4a49cf88447f21abdd2e2abaa29456b51771))
+* **iterable:** someInIterable and noneInIterable ([48b3d80](https://github.com/ivan7237d/antiutils/commit/48b3d80032c08784b476a0a41a9ba3dea5aff687))
+* **reducer:** add interop Reducer type ([86b9db0](https://github.com/ivan7237d/antiutils/commit/86b9db02d7fdf538c366566c088e49cf04095938))
+
+
+* **reducer:** rename ShortcutReducer to PartialReducer ([f0e4dcc](https://github.com/ivan7237d/antiutils/commit/f0e4dcc5aba138a63dec0162a8bd905b33f77e17))
+
 ## [2.2.0](https://github.com/ivan7237d/antiutils/compare/v2.1.0...v2.2.0) (2021-01-12)
 
 
