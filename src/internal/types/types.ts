@@ -8,9 +8,8 @@ export interface Reducer<Accumulator, Element> {
   (accumulator: Accumulator, element: Element): Accumulator;
 }
 /**
- * A reducer which can return `undefined` to indicate that the accumulator will
- * not change with further iterations and therefore the iteration can be cut
- * short.
+ * A reducer which can return `undefined` to indicate that the current value of
+ * the accumulator should be used as the final result.
  */
 export interface PartialReducer<Accumulator, Element> {
   (accumulator: Accumulator, element: Element): Accumulator | undefined;
