@@ -146,7 +146,7 @@ interface PartialReducer<Accumulator, Element> {
 }
 ```
 
-`Reducer` is a regular reducer that can be passed to `reduce` method of an array. `PartialReducer` is like a regular reducer, but can return `undefined` to indicate that the last value of the accumulator should be used as the final result, so functions [`reduceIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/reduceIterable.ts) and [`scanIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/scanIterable.ts) will stop the iteration short.
+`Reducer` is a regular reducer that can be passed to `reduce` method of an array. `PartialReducer` is like a regular reducer, but can return `undefined` to indicate that the current value of the accumulator should be used as the final result, so functions [`reduceIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/reduceIterable.ts) and [`scanIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/scanIterable.ts) will stop the iteration short.
 
 The library includes [basic implementations of `Reducer` and `PartialReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer) such as `countReducer` (a `Reducer`) and `orReducer` (a `PartialReducer`).
 
