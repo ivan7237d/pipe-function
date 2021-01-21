@@ -119,8 +119,13 @@ How-to:
 The library exports types
 
 ```ts
-type CompareFunction<T> = (to: T, from: T) => number;
-type EqualFunction<T> = (from: T, to: T) => boolean;
+interface CompareFunction<T> {
+  (to: T, from: T): number;
+}
+
+interface EqualFunction<T> {
+  (from: T, to: T): boolean;
+}
 ```
 
 It [provides](https://github.com/ivan7237d/antiutils/tree/master/src/internal/compare) implementations of `CompareFunction` for primitive types and a function `lexicographicCompare` to compose `CompareFunction`s.
@@ -132,15 +137,13 @@ It also provides implementations of `EqualFunction` for objects, iterables, maps
 The library exports types
 
 ```ts
-type Reducer<Accumulator, Element> = (
-  accumulator: Accumulator,
-  element: Element,
-) => Accumulator;
+interface Reducer<Accumulator, Element> {
+  (accumulator: Accumulator, element: Element): Accumulator;
+}
 
-type ShortcutReducer<Accumulator, Element> = (
-  accumulator: Accumulator,
-  element: Element,
-) => Accumulator | undefined;
+interface ShortcutReducer<Accumulator, Element> {
+  (accumulator: Accumulator, element: Element): Accumulator | undefined;
+}
 ```
 
 `Reducer` is a regular reducer that can be passed to `reduce` method of an array. `ShortcutReducer` is like a regular reducer, but can return `undefined` to indicate that further iterations will not change the value of the accumulator, so functions [`reduceIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/reduceIterable.ts) and [`scanIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/scanIterable.ts) will stop the iteration short.
@@ -158,14 +161,19 @@ type StateView<A> = { get: () => A; set: (value: A) => void };
 For example in the case of React, this shape is close to values returned by `useState` hook, and it is also what you would want to pass to an input element such as a textbox to create a two-way binding. In this library we actually define `StateView` as a subtype of another type called `View`:
 
 ```ts
-type View<S, A> = { get: () => A; set: (value: A) => S };
+interface View<S, A> {
+  get: () => A;
+  set: (value: A) => S;
+}
 type StateView<A> = View<void, A>;
 ```
 
 and we define a `Lens` as a function that transforms a view into another view:
 
 ```ts
-type Lens<S, A, B> = (source: View<S, A>) => View<S, B>;
+interface Lens<S, A, B> {
+  (source: View<S, A>): View<S, B>;
+}
 ```
 
 This way a lens can be used in the traditional way, as in the below example of a reducer, but it can also be used to convert a `StateView` into another `StateView`, as demonstrated in the README for [`antiutils-react`](https://github.com/ivan7237d/antiutils-react), a package that provides glue between Antiutils and React.
