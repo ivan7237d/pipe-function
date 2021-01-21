@@ -90,7 +90,7 @@ How-to:
 
   ```ts
   applyPipe(
-    [1, 2, 3, 4],
+    [1, 2, 3, 2],
     scanIterable((...[, value]) => (value <= 2 ? value : undefined)),
   );
   ```
@@ -101,7 +101,7 @@ How-to:
 
   ```ts
   applyPipe(
-    [1, 2, 3, 4],
+    [1, 2, 3, 2],
     scanIterable((accumulator, value) =>
       accumulator <= 2 ? value : undefined,
     ),
@@ -141,14 +141,14 @@ interface Reducer<Accumulator, Element> {
   (accumulator: Accumulator, element: Element): Accumulator;
 }
 
-interface ShortcutReducer<Accumulator, Element> {
+interface PartialReducer<Accumulator, Element> {
   (accumulator: Accumulator, element: Element): Accumulator | undefined;
 }
 ```
 
-`Reducer` is a regular reducer that can be passed to `reduce` method of an array. `ShortcutReducer` is like a regular reducer, but can return `undefined` to indicate that further iterations will not change the value of the accumulator, so functions [`reduceIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/reduceIterable.ts) and [`scanIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/scanIterable.ts) will stop the iteration short.
+`Reducer` is a regular reducer that can be passed to `reduce` method of an array. `PartialReducer` is like a regular reducer, but can return `undefined` to indicate that the last value of the accumulator should be used as the final result, so functions [`reduceIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/reduceIterable.ts) and [`scanIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/scanIterable.ts) will stop the iteration short.
 
-The library includes [basic implementations of `Reducer` and `ShortcutReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer) such as `countReducer` (a `Reducer`) and `orReducer` (a `ShortcutReducer`).
+The library includes [basic implementations of `Reducer` and `PartialReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer) such as `countReducer` (a `Reducer`) and `orReducer` (a `PartialReducer`).
 
 ## Lenses
 
@@ -287,7 +287,7 @@ The library provides the following identity functions that cast the argument to 
 
   The above code will not typecheck because TypeScript will look at the seed `true` and infer the type of the accumulator as `true`, but it should be `boolean` because `andReducer` can return either `true` or `false`. Replacing the seed `true` with `asContext(true)` solves the problem.
 
-- [`asCompareFunction`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asCompareFunction.ts), [`asEqualFunction`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asEqualFunction.ts), [`asLens`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asLens.ts), [`asReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asReducer.ts)б [`asShortcutReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asShortcutReducer.ts), [`asStateView`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asStateView.ts), [`asView`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asView.ts): identity functions that can be used to downcast values to any of the generic types defined by the library.
+- [`asCompareFunction`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asCompareFunction.ts), [`asEqualFunction`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asEqualFunction.ts), [`asLens`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asLens.ts), [`asReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asReducer.ts)б [`asPartialReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asPartialReducer.ts), [`asStateView`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asStateView.ts), [`asView`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asView.ts): identity functions that can be used to downcast values to any of the generic types defined by the library.
 
 ---
 

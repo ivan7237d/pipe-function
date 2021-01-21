@@ -1,15 +1,15 @@
-import { ShortcutReducer } from '../types/types';
+import { PartialReducer } from '../types/types';
 
 /**
  * Performs the same computation as `reduce`, but yields the value of the
  * accumulator after each iteration.
  */
 export const scanIterable: {
-  <Element>(reducer: ShortcutReducer<Element, Element>): (
+  <Element>(reducer: PartialReducer<Element, Element>): (
     source: Iterable<Element>,
   ) => IterableIterator<Element>;
   <Accumulator, Element>(
-    reducer: ShortcutReducer<
+    reducer: PartialReducer<
       Accumulator extends undefined ? Element : Accumulator,
       Element
     >,
@@ -17,7 +17,7 @@ export const scanIterable: {
   ): (
     source: Iterable<Element>,
   ) => IterableIterator<Accumulator extends undefined ? Element : Accumulator>;
-} = (reducer: ShortcutReducer<unknown, unknown>, seed?: unknown) =>
+} = (reducer: PartialReducer<unknown, unknown>, seed?: unknown) =>
   function* (source: Iterable<unknown>): IterableIterator<unknown> {
     let accumulator = seed;
     for (const value of source) {

@@ -1,6 +1,6 @@
-import { ShortcutReducer } from '../types/types';
+import { PartialReducer } from '../types/types';
 
-export const orReducer: ShortcutReducer<boolean, boolean> = (
+export const orReducer: PartialReducer<boolean, boolean> = (
   accumulator,
   value,
 ) => (accumulator ? undefined : value);

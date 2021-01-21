@@ -1,4 +1,4 @@
-import { ShortcutReducer } from '../types/types';
+import { PartialReducer } from '../types/types';
 
 /**
  * Works like the native array method or `reduce` in RxJS, except:
@@ -15,11 +15,11 @@ import { ShortcutReducer } from '../types/types';
  *   accumulator, we stop the iteration early.
  */
 export const reduceIterable: {
-  <Element>(reducer: ShortcutReducer<Element, Element>): (
+  <Element>(reducer: PartialReducer<Element, Element>): (
     source: Iterable<Element>,
   ) => Element | undefined;
   <Accumulator, Element>(
-    reducer: ShortcutReducer<
+    reducer: PartialReducer<
       Accumulator extends undefined ? Element : Accumulator,
       Element
     >,
@@ -27,7 +27,7 @@ export const reduceIterable: {
   ): (
     source: Iterable<Element>,
   ) => Accumulator extends undefined ? Element | undefined : Accumulator;
-} = (reducer: ShortcutReducer<unknown, unknown>, seed?: unknown) => (
+} = (reducer: PartialReducer<unknown, unknown>, seed?: unknown) => (
   source: Iterable<unknown>,
 ): unknown => {
   let accumulator = seed;

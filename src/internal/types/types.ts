@@ -12,7 +12,7 @@ export interface Reducer<Accumulator, Element> {
  * not change with further iterations and therefore the iteration can be cut
  * short.
  */
-export interface ShortcutReducer<Accumulator, Element> {
+export interface PartialReducer<Accumulator, Element> {
   (accumulator: Accumulator, element: Element): Accumulator | undefined;
 }
 export interface View<S, A> {
