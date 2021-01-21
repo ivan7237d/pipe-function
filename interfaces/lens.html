@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ObjectFromEntries | antiutils</title>
+	<title>Lens | antiutils</title>
 	<meta name="description" content="Documentation for antiutils">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,52 +54,57 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="objectfromentries.html">ObjectFromEntries</a>
+					<a href="lens.html">Lens</a>
 				</li>
 			</ul>
-			<h1>Interface ObjectFromEntries</h1>
+			<h1>Interface Lens&lt;S, A, B&gt;</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>S</h4>
+					</li>
+					<li>
+						<h4>A</h4>
+					</li>
+					<li>
+						<h4>B</h4>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ObjectFromEntries</span>
+						<span class="target">Lens</span>
 					</li>
 				</ul>
 			</section>
 			<section class="tsd-panel">
 				<h3 class="tsd-before-signature">Callable</h3>
 				<ul class="tsd-signatures tsd-kind-interface tsd-has-type-parameter tsd-is-external">
-					<li class="tsd-signature tsd-kind-icon">__call&lt;Key, Value&gt;<span class="tsd-signature-symbol">(</span>source<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">readonly </span><span class="tsd-signature-symbol">[</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Value</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Value</span><span class="tsd-signature-symbol">&gt;</span></li>
+					<li class="tsd-signature tsd-kind-icon">__call<span class="tsd-signature-symbol">(</span>source<span class="tsd-signature-symbol">: </span><a href="view.html" class="tsd-signature-type">View</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="view.html" class="tsd-signature-type">View</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">B</span><span class="tsd-signature-symbol">&gt;</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/ivan7237d/antiutils/blob/f0e4dcc/src/internal/object/objectFromEntries.ts#L1">internal/object/objectFromEntries.ts:1</a></li>
+								<li>Defined in <a href="https://github.com/ivan7237d/antiutils/blob/f0e4dcc/src/internal/types/types.ts#L23">internal/types/types.ts:23</a></li>
 							</ul>
 						</aside>
-						<h4 class="tsd-type-parameters-title">Type parameters</h4>
-						<ul class="tsd-type-parameters">
-							<li>
-								<h4>Key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span></h4>
-							</li>
-							<li>
-								<h4>Value</h4>
-							</li>
-						</ul>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
-								<h5>source: <span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">readonly </span><span class="tsd-signature-symbol">[</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Value</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								<h5>source: <a href="view.html" class="tsd-signature-type">View</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">&gt;</span></h5>
 							</li>
 						</ul>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Value</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						<h4 class="tsd-returns-title">Returns <a href="view.html" class="tsd-signature-type">View</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">B</span><span class="tsd-signature-symbol">&gt;</span></h4>
 					</li>
 				</ul>
 			</section>
@@ -117,7 +122,7 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-has-type-parameter tsd-is-external">
-						<a href="objectfromentries.html" class="tsd-kind-icon">Object<wbr>From<wbr>Entries</a>
+						<a href="lens.html" class="tsd-kind-icon">Lens</a>
 					</li>
 				</ul>
 				<ul class="after-current">
