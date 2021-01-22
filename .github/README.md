@@ -234,19 +234,19 @@ interface PartialReducer<Accumulator, Element> {
 
 The library provides the following implementations of `Reducer`:
 
-- [`andReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer/andReducer.ts)
-
 - [`countReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer/countReducer.ts)
 
 - [`maxReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer/maxReducer.ts)
 
 - [`minReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer/minReducer.ts)
 
+- [`sumReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer/sumReducer.ts)
+
 and the following implementations of `PartialReducer`:
 
-- [`orReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer/orReducer.ts)
+- [`andReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer/andReducer.ts)
 
-- [`sumReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer/sumReducer.ts)
+- [`orReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer/orReducer.ts)
 
 ## Lenses
 
