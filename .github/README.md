@@ -50,7 +50,7 @@ The library provides a function `applyPipe` which takes between 1 and 12 argumen
 
 ## Non-mutating functions for working with objects, arrays, maps, and sets
 
-### Objects
+Objects:
 
 - [`diffObjects`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/object/diffObjects.ts)
 
@@ -68,7 +68,7 @@ The library provides a function `applyPipe` which takes between 1 and 12 argumen
 >
 > If you use TypeScript 4.1+, you can enable strictly checked indexed access using [`--noUncheckedIndexedAccess` compiler flag](https://devblogs.microsoft.com/typescript/announcing-typescript-4-1-rc/#no-unchecked-indexed-access).
 
-### Arrays
+Arrays:
 
 - [`reverseArray`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/array/reverseArray.ts)
 
@@ -78,7 +78,7 @@ The library provides a function `applyPipe` which takes between 1 and 12 argumen
 
 - [`sortArray`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/array/sortArray.ts)
 
-### Maps
+Maps:
 
 - [`deleteFromMap`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/map/deleteFromMap.ts)
 
@@ -86,7 +86,7 @@ The library provides a function `applyPipe` which takes between 1 and 12 argumen
 
 - [`setInMap`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/map/setInMap.ts)
 
-### Sets
+Sets:
 
 - [`addToSet`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/set/addToSet.ts)
 
