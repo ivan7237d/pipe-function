@@ -232,7 +232,21 @@ interface PartialReducer<Accumulator, Element> {
 
 `Reducer` is a regular reducer that can be passed to `reduce` method of an array. `PartialReducer` is like a regular reducer, but can return `undefined` to indicate that the current value of the accumulator should be used as the final result, so functions [`reduceIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/reduceIterable.ts) and [`scanIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/scanIterable.ts) will stop the iteration short.
 
-The library includes [basic implementations of `Reducer` and `PartialReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer) such as `countReducer` (a `Reducer`) and `orReducer` (a `PartialReducer`).
+The library provides the following implementations of `Reducer`:
+
+- [`andReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer/andReducer.ts)
+
+- [`countReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer/countReducer.ts)
+
+- [`maxReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer/maxReducer.ts)
+
+- [`minReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer/minReducer.ts)
+
+and the following implementations of `PartialReducer`:
+
+- [`orReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer/orReducer.ts)
+
+- [`sumReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/reducer/sumReducer.ts)
 
 ## Lenses
 
