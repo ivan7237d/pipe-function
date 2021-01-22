@@ -10,9 +10,9 @@ TypeScript/JavaScript utilities for those who don't like utilities.
 
 - [Pipeline operator ponyfill](#pipeline-operator-ponyfill)
 
-- [Non-mutating functions for working with objects, arrays, maps, and sets](#objects-arrays-maps-and-sets)
+- [Non-mutating functions for working with objects, arrays, maps, and sets](#non-mutating-functions-for-working-with-objects-arrays-maps-and-sets)
 
-- [Functions for working with native `Iterable`s](#iterables)
+- [Functions for working with native iterables](#functions-for-working-with-native-iterables)
 
 - [Comparison functions](#comparison-functions)
 
@@ -48,17 +48,89 @@ The library provides a function `applyPipe` which takes between 1 and 12 argumen
 >
 > At any point in the pipeline, you can insert the `log` function from [1log](https://github.com/ivan7237d/1log) library to log piped values.
 
-## Objects, arrays, maps and sets
+## Non-mutating functions for working with objects, arrays, maps, and sets
 
-The library includes non-mutating functions for working with [objects](https://github.com/ivan7237d/antiutils/tree/master/src/internal/object), [arrays](https://github.com/ivan7237d/antiutils/tree/master/src/internal/array), [maps](https://github.com/ivan7237d/antiutils/tree/master/src/internal/map), and [sets](https://github.com/ivan7237d/antiutils/tree/master/src/internal/set).
+### Objects
+
+- [`diffObjects`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/object/diffObjects.ts)
+
+- [`isObject`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/object/isObject.ts)
+
+- [`objectEntries`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/object/objectEntries.ts)
+
+- [`objectFromEntries`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/object/objectFromEntries.ts)
+
+- [`objectKeys`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/object/objectKeys.ts)
+
+- [`objectValues`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/object/objectValues.ts)
 
 > :bulb: TIP
 >
 > If you use TypeScript 4.1+, you can enable strictly checked indexed access using [`--noUncheckedIndexedAccess` compiler flag](https://devblogs.microsoft.com/typescript/announcing-typescript-4-1-rc/#no-unchecked-indexed-access).
 
-## Iterables
+### Arrays
 
-[Functions for working with iterables](https://github.com/ivan7237d/antiutils/tree/master/src/internal/iterable) have signatures that try to stay close to corresponding native array methods and RxJS operators.
+- [`reverseArray`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/array/reverseArray.ts)
+
+- [`sliceArray`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/array/sliceArray.ts)
+
+- [`sliceReversedArray`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/array/sliceReversedArray.ts)
+
+- [`sortArray`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/array/sortArray.ts)
+
+### Maps
+
+- [`deleteFromMap`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/map/deleteFromMap.ts)
+
+- [`diffMaps`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/map/diffMaps.ts)
+
+- [`setInMap`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/map/setInMap.ts)
+
+### Sets
+
+- [`addToSet`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/set/addToSet.ts)
+
+- [`deleteFromSet`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/set/deleteFromSet.ts)
+
+## Functions for working with native iterables
+
+- [`concatIterables`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/iterable/concatIterables.ts)
+
+- [`expandIterable`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/iterable/expandIterable.ts)
+
+- [`filterIterable`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/iterable/filterIterable.ts)
+
+- [`firstInIterable`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/iterable/firstInIterable.ts)
+
+- [`firstIterable`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/iterable/firstIterable.ts)
+
+- [`flatMapIterable`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/iterable/flatMapIterable.ts)
+
+- [`forEachInIterable`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/iterable/forEachInIterable.ts)
+
+- [`isEmptyIterable`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/iterable/isEmptyIterable.ts)
+
+- [`lastInIterable`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/iterable/lastInIterable.ts)
+
+- [`mapIterable`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/iterable/mapIterable.ts)
+
+- [`noneInIterable`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/iterable/noneInIterable.ts)
+
+- [`rangeIterable`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/iterable/rangeIterable.ts)
+
+- [`reduceIterable`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/iterable/reduceIterable.ts)
+
+- [`reverseIterable`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/iterable/reverseIterable.ts)
+
+- [`scanIterable`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/iterable/scanIterable.ts)
+
+- [`sliceIterable`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/iterable/sliceIterable.ts)
+
+- [`sliceReversedIterable`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/iterable/sliceReversedIterable.ts)
+
+- [`someInIterable`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/iterable/someInIterable.ts)
+
+- [`zipIterables`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/iterable/zipIterables.ts)
 
 How-to:
 
@@ -120,9 +192,29 @@ interface EqualFunction<T> {
 }
 ```
 
-It [provides](https://github.com/ivan7237d/antiutils/tree/master/src/internal/compare) implementations of `CompareFunction` for primitive types and a function `lexicographicCompare` to compose `CompareFunction`s.
+It provides implementations of `CompareFunction` for primitive types:
 
-It also provides implementations of `EqualFunction` for objects, iterables, maps, and sets, and a function [`deepEqual`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/deepEqual.ts) that recursively delegates to those functions depending on the object type.
+- [`booleanCompare`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/compare/booleanCompare.ts)
+
+- [`numberCompare`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/compare/numberCompare.ts)
+
+- [`reverseCompare`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/compare/reverseCompare.ts)
+
+- [`stringCompare`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/compare/stringCompare.ts)
+
+and a function [`lexicographicCompare`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/compare/lexicographicCompare.ts) to compose `CompareFunction`s.
+
+It also provides implementations of `EqualFunction` for objects, iterables, maps, and sets:
+
+- [`objectsEqual`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/object/objectsEqual.ts)
+
+- [`iterablesEqual`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/iterable/iterablesEqual.ts)
+
+- [`mapsEqual`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/map/mapsEqual.ts)
+
+- [`setsEqual`](https://github.com/ivan7237d/antiutils/tree/master/src/internal/set/setsEqual.ts)
+
+and a function [`deepEqual`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/deepEqual.ts) that recursively delegates to those functions depending on the object type.
 
 ## Reducers
 
