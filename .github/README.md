@@ -38,15 +38,11 @@ npm install antiutils --save
 
 ## Minimal API
 
-Based on the "only one way to do it" principle, this library provides a utility only when something can't be easily and readably done with vanilla JavaScript. For example, we do not provide a function to get an object's property value, so instead of `get('a')` you would just write `value => value.a`. This is because we see the mental overhead of choosing among multiple ways to write a piece of code as higher cost compared to doing more typing.
-
-That said, we do sometimes provide a shortcut for what would otherwise be a one-liner, such as `lastInIterable` for `reduceIterable((...[, value]) => value)` - not for conciseness or performance, but to improve readability.
+Based on the "only one way to do it" principle, this library provides a utility only when something can't be easily and readably accomplished with vanilla JavaScript. For example, we do not provide a function to get an object's property value, so instead of `get('a')` you would write just `value => value.a`.
 
 ## Pipeline operator [ponyfill](https://ponyfill.com/)
 
-The library includes a function `applyPipe` which takes between 1 and 12 arguments: `applyPipe(x, a, b)` is equivalent to `b(a(x))`, or using the pipeline operator, `x |> a |> b`. Type inference works well with this function, and if any one of the proposed flavors of the pipeline operator eventually reaches stage 3 and starts to be supported in TypeScript, it would be straightforward to build a codemod to convert this function to the operator.
-
-The library intentionally doesn't include a `pipe` function that would compose functions without applying the resulting function to an argument, mainly because this would go against "only one way to do it".
+The library provides a function `applyPipe` which takes between 1 and 12 arguments. `applyPipe(x, a, b)` is equivalent to `b(a(x))`, or using the pipeline operator, `x |> a |> b`. Type inference works well with this function, and if any one of the proposed flavors of the pipeline operator eventually reaches stage 3 and starts to be supported in TypeScript, it would be straightforward to build a codemod converting this function to the operator.
 
 > :bulb: TIP
 >
@@ -58,7 +54,7 @@ The library includes non-mutating functions for working with [objects](https://g
 
 > :bulb: TIP
 >
-> If you use TypeScript 4.1+, make sure you enable strictly checked indexed access using [`--noUncheckedIndexedAccess` compiler flag](https://devblogs.microsoft.com/typescript/announcing-typescript-4-1-rc/#no-unchecked-indexed-access).
+> If you use TypeScript 4.1+, you can enable strictly checked indexed access using [`--noUncheckedIndexedAccess` compiler flag](https://devblogs.microsoft.com/typescript/announcing-typescript-4-1-rc/#no-unchecked-indexed-access).
 
 ## Iterables
 
@@ -109,10 +105,6 @@ How-to:
   ```
 
   (yields `1`, `2`, `3`).
-
-> :bulb: TIP
->
-> You can log an iterable's creation, nexts, yields, and done's using [`iterableIteratorPlugin`](https://github.com/ivan7237d/1log#iterableiteratorplugin) from 1log library.
 
 ## Comparison functions
 
@@ -287,7 +279,7 @@ The library provides the following identity functions that cast the argument to 
 
   The above code will not typecheck because TypeScript will look at the seed `true` and infer the type of the accumulator as `true`, but it should be `boolean` because `andReducer` can return either `true` or `false`. Replacing the seed `true` with `asContext(true)` solves the problem.
 
-- [`asCompareFunction`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asCompareFunction.ts), [`asEqualFunction`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asEqualFunction.ts), [`asLens`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asLens.ts), [`asReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asReducer.ts)б [`asPartialReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asPartialReducer.ts), [`asStateView`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asStateView.ts), [`asView`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asView.ts): identity functions that can be used to downcast values to any of the generic types defined by the library.
+- [`asCompareFunction`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asCompareFunction.ts), [`asEqualFunction`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asEqualFunction.ts), [`asLens`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asLens.ts), [`asReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asReducer.ts), [`asPartialReducer`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asPartialReducer.ts), [`asStateView`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asStateView.ts), [`asView`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asView.ts): identity functions that can be used to downcast values to any of the generic types defined by the library.
 
 ---
 
