@@ -1,8 +1,9 @@
 # Antiutils
 
-[![npm version](https://img.shields.io/npm/v/antiutils.svg?style=flat&color=brightgreen)](https://github.com/ivan7237d/antiutils)
+[![npm version](https://img.shields.io/npm/v/antiutils.svg?style=flat&color=brightgreen)](https://www.npmjs.com/package/antiutils)
 [![gzip size](https://badgen.net/bundlephobia/minzip/antiutils?color=green)](https://bundlephobia.com/result?p=antiutils)
 [![tree shaking](https://badgen.net/bundlephobia/tree-shaking/antiutils)](https://bundlephobia.com/result?p=antiutils)
+[![types](https://img.shields.io/npm/types/antiutils?color=brightgreen)](https://www.npmjs.com/package/antiutils)
 
 TypeScript/JavaScript utilities for those who don't like utilities.
 
