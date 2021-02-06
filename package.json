@@ -8,7 +8,22 @@
   "sideEffects": false,
   "repository": "https://github.com/ivan7237d/antiutils.git",
   "license": "MIT",
-  "keywords": [],
+  "keywords": [
+    "utility",
+    "utilities",
+    "utils",
+    "functional",
+    "fp",
+    "typescript",
+    "pipeline",
+    "pipe",
+    "iterable",
+    "generator",
+    "optics",
+    "lens",
+    "memoize",
+    "memoization"
+  ],
   "scripts": {
     "prebuild": "rm -rf build",
     "build": "run-p build:*",
