@@ -4,19 +4,19 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [3.0.3](https://github.com/ivan7237d/antiutils/compare/v3.0.2...v3.0.3) (2021-02-06)
 
-### [3.0.2](https://github.com/ivan7237d/antiutils/compare/v3.0.1...v3.0.2) (2021-01-22)
+Chore release.
 
+### [3.0.2](https://github.com/ivan7237d/antiutils/compare/v3.0.1...v3.0.2) (2021-01-22)
 
 ### Bug Fixes
 
-* add missing exports ([f7f0c73](https://github.com/ivan7237d/antiutils/commit/f7f0c73a53e7789019d3db0d13cc5a62501acc03))
+- add missing exports ([f7f0c73](https://github.com/ivan7237d/antiutils/commit/f7f0c73a53e7789019d3db0d13cc5a62501acc03))
 
 ### [3.0.1](https://github.com/ivan7237d/antiutils/compare/v3.0.0...v3.0.1) (2021-01-21)
 
-
 ### Bug Fixes
 
-* fix jsdoc for PartialReducer ([55a7901](https://github.com/ivan7237d/antiutils/commit/55a790134619481536f0c23ee2dd172daee647b7))
+- fix jsdoc for PartialReducer ([55a7901](https://github.com/ivan7237d/antiutils/commit/55a790134619481536f0c23ee2dd172daee647b7))
 
 ## [3.0.0](https://github.com/ivan7237d/antiutils/compare/v2.2.0...v3.0.0) (2021-01-21)
 
