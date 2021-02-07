@@ -16,6 +16,7 @@
     "fp",
     "typescript",
     "pipeline",
+    "pipeline-operator",
     "pipe",
     "iterable",
     "generator",
