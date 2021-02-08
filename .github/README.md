@@ -4,6 +4,7 @@
 [![gzip size](https://badgen.net/bundlephobia/minzip/antiutils?color=green)](https://bundlephobia.com/result?p=antiutils)
 [![tree shaking](https://badgen.net/bundlephobia/tree-shaking/antiutils)](https://bundlephobia.com/result?p=antiutils)
 [![types](https://img.shields.io/npm/types/antiutils?color=brightgreen)](https://www.npmjs.com/package/antiutils)
+[![coverage status](https://coveralls.io/repos/github/ivan7237d/antiutils/badge.svg?branch=master)](https://coveralls.io/github/ivan7237d/antiutils?branch=master)
 
 TypeScript/JavaScript utilities for those who don't like utilities.
 
