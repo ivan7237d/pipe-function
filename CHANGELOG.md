@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [3.0.4](https://github.com/ivan7237d/antiutils/compare/v3.0.3...v3.0.4) (2021-02-08)
 
+Chore release.
+
 ### [3.0.3](https://github.com/ivan7237d/antiutils/compare/v3.0.2...v3.0.3) (2021-02-06)
 
 Chore release.
