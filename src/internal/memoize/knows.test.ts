@@ -9,4 +9,7 @@ it('works', () => {
   expect(knows(decorated, a)).toEqual(false);
   teach(decorated, a, 0);
   expect(knows(decorated, a)).toEqual(true);
+  expect(() => knows(() => 0, 0)).toThrowErrorMatchingInlineSnapshot(
+    `"teach() must be called with a function returned by memoizeWeak() or memoizeStrong()."`,
+  );
 });

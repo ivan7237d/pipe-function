@@ -8,7 +8,6 @@ it('works without equal function provided', () => {
       diffObjects(
         as<{ [key: string]: number }>({ a: 0, b: 1, c: 2 }),
         as<{ [key: string]: number }>({ a: 0, b: 3, d: 4 }),
-        (from, to) => from === to,
       ),
     ),
   ]).toMatchInlineSnapshot(`

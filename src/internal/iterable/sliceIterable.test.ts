@@ -43,6 +43,9 @@ const genericTest = (useArray: boolean) => {
     ]
   `);
   expect([
+    ...applyPipe([], maybeSubstituteIterable, sliceIterable(2)),
+  ]).toMatchInlineSnapshot(`Array []`);
+  expect([
     ...applyPipe(
       [1, 2, 3],
       maybeSubstituteIterable,

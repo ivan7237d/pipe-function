@@ -13,4 +13,10 @@ it('works', () => {
   teach(decorated2, a, 0);
   expect(decorated2(a)).toEqual(0);
   expect(callback.mock.calls).toMatchInlineSnapshot(`Array []`);
+  teach(decorated2, a, 1);
+  expect(decorated2(a)).toEqual(0);
+  expect(callback.mock.calls).toMatchInlineSnapshot(`Array []`);
+  expect(() => teach(() => 0, 0, 0)).toThrowErrorMatchingInlineSnapshot(
+    `"teach() must be called with a function returned by memoizeWeak() or memoizeStrong()."`,
+  );
 });
