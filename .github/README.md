@@ -161,24 +161,11 @@ How-to:
   ```ts
   applyPipe(
     [1, 2, 3, 2],
-    scanIterable((...[, value]) => (value <= 2 ? value : undefined)),
+    scanIterable((_, value) => (value <= 2 ? value : undefined)),
   );
   ```
 
-  (yields `1`, `2`, see [`scanIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/scanIterable.ts) and _[Reducers](#reducers)_).
-
-- **Also yield the value that broke the condition:**
-
-  ```ts
-  applyPipe(
-    [1, 2, 3, 2],
-    scanIterable((accumulator, value) =>
-      accumulator <= 2 ? value : undefined,
-    ),
-  );
-  ```
-
-  (yields `1`, `2`, `3`).
+  (yields `1`, `2`, see _[Reducers](#reducers)_ and [`scanIterable`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/iterable/scanIterable.ts)).
 
 ## Comparison functions
 
