@@ -1,10 +1,5 @@
 <!-- README for NPM; the one for GitHub is in .github directory. -->
 
-<!-- The first 3 badges below are just to make NPM's scoring algorithm happy. -->
-
-[![npm version](https://img.shields.io/npm/v/antiutils.svg?style=flat&color=brightgreen)](https://www.npmjs.com/package/antiutils)
-[![license](https://img.shields.io/npm/l/antiutils.svg?color=brightgreen)](https://www.npmjs.com/package/antiutils)
-[![downloads](https://img.shields.io/npm/dt/antiutils.svg?color=brightgreen)](https://www.npmjs.com/package/antiutils)
 [![gzip size](https://badgen.net/bundlephobia/minzip/antiutils?color=green)](https://bundlephobia.com/result?p=antiutils)
 [![tree shaking](https://badgen.net/bundlephobia/tree-shaking/antiutils)](https://bundlephobia.com/result?p=antiutils)
 [![types](https://img.shields.io/npm/types/antiutils?color=brightgreen)](https://www.npmjs.com/package/antiutils)
