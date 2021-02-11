@@ -17,8 +17,9 @@ export const setProp = <S, Value>(value: Value) => ({
   set: (present) =>
     set(
       // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-      applyPipe(get(), present ? addToSet(value) : deleteFromSet(value)) as Set<
-        Value
-      >,
+      applyPipe(
+        get(),
+        present ? addToSet(value) : deleteFromSet(value),
+      ) as Set<Value>,
     ),
 });
