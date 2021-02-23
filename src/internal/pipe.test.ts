@@ -1,12 +1,12 @@
-import { applyPipe } from './applyPipe';
+import { pipe } from './pipe';
 
 const addSuffix = (index: number) => (value: string) => `${value}-${index}`;
 
 it('works', () => {
-  expect(applyPipe('base')).toMatchInlineSnapshot(`"base"`);
-  expect(applyPipe('base', addSuffix(1))).toMatchInlineSnapshot(`"base-1"`);
+  expect(pipe('base')).toMatchInlineSnapshot(`"base"`);
+  expect(pipe('base', addSuffix(1))).toMatchInlineSnapshot(`"base-1"`);
   expect(
-    applyPipe(
+    pipe(
       'base',
       addSuffix(1),
       addSuffix(2),

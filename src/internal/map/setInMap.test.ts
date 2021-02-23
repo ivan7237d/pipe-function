@@ -1,10 +1,10 @@
-import { applyPipe } from '../applyPipe';
+import { pipe } from '../pipe';
 import { asContext } from '../types/asContext';
 import { setInMap } from './setInMap';
 
 it('works', () => {
   expect(
-    applyPipe(
+    pipe(
       new Map([
         ['a', 0],
         ['b', 1],
@@ -19,7 +19,7 @@ it('works', () => {
   `);
 
   expect(
-    applyPipe(
+    pipe(
       new Map([
         ['a', 0],
         ['b', 1],
@@ -33,7 +33,7 @@ it('works', () => {
   `);
 
   expect(
-    applyPipe(
+    pipe(
       [
         ['a', 0],
         ['b', 1],
@@ -49,7 +49,7 @@ it('works', () => {
   `);
 
   expect(
-    applyPipe(
+    pipe(
       new Map([['a', 1]]),
       (value) => new Map(value),
       setInMap('b', asContext(undefined)),

@@ -1,10 +1,10 @@
-import { applyPipe } from '../applyPipe';
 import { sortArray } from '../array/sortArray';
+import { pipe } from '../pipe';
 import { booleanCompare } from './booleanCompare';
 
 it('works', () => {
   expect(
-    applyPipe(
+    pipe(
       [
         true,
         false,

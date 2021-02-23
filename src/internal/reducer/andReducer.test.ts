@@ -1,10 +1,10 @@
-import { applyPipe } from '../applyPipe';
 import { reduceIterable } from '../iterable/reduceIterable';
+import { pipe } from '../pipe';
 import { andReducer } from './andReducer';
 
 it('works', () => {
-  expect(applyPipe([true, true], reduceIterable(andReducer))).toEqual(true);
-  expect(applyPipe([true, false], reduceIterable(andReducer))).toEqual(false);
-  expect(applyPipe([false, true], reduceIterable(andReducer))).toEqual(false);
-  expect(applyPipe([false, false], reduceIterable(andReducer))).toEqual(false);
+  expect(pipe([true, true], reduceIterable(andReducer))).toEqual(true);
+  expect(pipe([true, false], reduceIterable(andReducer))).toEqual(false);
+  expect(pipe([false, true], reduceIterable(andReducer))).toEqual(false);
+  expect(pipe([false, false], reduceIterable(andReducer))).toEqual(false);
 });

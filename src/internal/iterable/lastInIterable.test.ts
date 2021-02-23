@@ -1,19 +1,19 @@
-import { applyPipe } from '../applyPipe';
+import { pipe } from '../pipe';
 import { lastInIterable } from './lastInIterable';
 import { mapIterable } from './mapIterable';
 
 it('works', () => {
-  expect(applyPipe([0, 1], lastInIterable)).toEqual(1);
-  expect(applyPipe([], lastInIterable)).toEqual(undefined);
+  expect(pipe([0, 1], lastInIterable)).toEqual(1);
+  expect(pipe([], lastInIterable)).toEqual(undefined);
   expect(
-    applyPipe(
+    pipe(
       [0, 1],
       mapIterable((value) => value),
       lastInIterable,
     ),
   ).toEqual(1);
   expect(
-    applyPipe(
+    pipe(
       [],
       mapIterable((value) => value),
       lastInIterable,

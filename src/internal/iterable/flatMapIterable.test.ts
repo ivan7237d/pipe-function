@@ -1,9 +1,9 @@
-import { applyPipe } from '../applyPipe';
+import { pipe } from '../pipe';
 import { flatMapIterable } from './flatMapIterable';
 
 it('works', () => {
   expect(
-    applyPipe(
+    pipe(
       ['a', 'b'],
       flatMapIterable((value) => [`${value}a`, `${value}b`]),
       (source) => [...source],

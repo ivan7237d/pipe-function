@@ -1,10 +1,10 @@
-import { applyPipe } from '../applyPipe';
 import { sortArray } from '../array/sortArray';
+import { pipe } from '../pipe';
 import { numberCompare } from './numberCompare';
 
 it('works', () => {
   expect(
-    applyPipe(
+    pipe(
       // Include 10 to make sure the values are not sorted as strings.
       [7, 5, 5, 5, 4, 2, 1, 4, 6, 7, 1, 2, 3, 7, 3, 6, 0, 3, 2, 8, 10],
       sortArray(numberCompare),

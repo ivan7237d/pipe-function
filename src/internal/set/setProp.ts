@@ -1,4 +1,4 @@
-import { applyPipe } from '../applyPipe';
+import { pipe } from '../pipe';
 import { View } from '../types/types';
 import { addToSet } from './addToSet';
 import { deleteFromSet } from './deleteFromSet';
@@ -17,7 +17,7 @@ export const setProp = <S, Value>(value: Value) => ({
   set: (present) =>
     set(
       // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-      applyPipe(
+      pipe(
         get(),
         present ? addToSet(value) : deleteFromSet(value),
       ) as Set<Value>,

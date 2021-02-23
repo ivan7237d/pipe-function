@@ -1,8 +1,8 @@
-import { applyPipe } from '../applyPipe';
+import { pipe } from '../pipe';
 import { reverseArray } from './reverseArray';
 
 it('works', () => {
-  expect(applyPipe([0, 1, 2] as const, reverseArray)).toMatchInlineSnapshot(`
+  expect(pipe([0, 1, 2] as const, reverseArray)).toMatchInlineSnapshot(`
     Array [
       2,
       1,

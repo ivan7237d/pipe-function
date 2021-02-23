@@ -10,7 +10,7 @@ TypeScript/JavaScript utilities for those who don't like utilities.
 
 - [Minimal API](#minimal-api)
 
-- [Pipeline operator ponyfill](#pipeline-operator-ponyfill)
+- [`pipe` function](#pipe-function)
 
 - [Non-mutating functions for working with objects, arrays, maps, and sets](#non-mutating-functions-for-working-with-objects-arrays-maps-and-sets)
 
@@ -42,9 +42,9 @@ npm install antiutils --save
 
 Based on the "only one way to do it" principle, this library provides a utility only when something can't be easily and readably accomplished with vanilla JavaScript. For example, we do not provide a function to get an object's property value, so instead of `get('a')` you would write just `value => value.a`.
 
-## Pipeline operator [ponyfill](https://ponyfill.com/)
+## `pipe` function
 
-The library provides a function `applyPipe` which takes between 1 and 12 arguments. `applyPipe(x, a, b)` is equivalent to `b(a(x))`, or using the pipeline operator, `x |> a |> b`. Type inference works well with this function, and if any one of the proposed flavors of the pipeline operator eventually reaches stage 3 and starts to be supported in TypeScript, it would be straightforward to build a codemod converting this function to the operator.
+The library provides a function `pipe` which takes between 1 and 12 arguments. `pipe(x, a, b)` is equivalent to `b(a(x))`, in other words, this function pipes a value through a number of functions in the order that they appear.
 
 > :bulb: TIP
 >
@@ -139,7 +139,7 @@ How-to:
 - **Filter an iterable in a way that the type system understands:**
 
   ```ts
-  applyPipe(
+  pipe(
     [1, undefined],
     // Equivalent to `filterIterable((value) => value !== undefined)`.
     flatMapIterable((value) => (value !== undefined ? [value] : [])),
@@ -152,14 +152,14 @@ How-to:
 
 - **Get a flag indicating if the element is the first element:** `zipIterables(firstIterable(), yourIterable)` (returns an iterable of `[boolean, <element>]`).
 
-- **Count elements in an iterable:** `applyPipe(yourIterable, reduceIterable(countReducer, 0))`.
+- **Count elements in an iterable:** `pipe(yourIterable, reduceIterable(countReducer, 0))`.
 
-- **Find the first element matching a predicate:** `applyPipe(yourIterable, filter(yourPredicate), firstInIterable)`.
+- **Find the first element matching a predicate:** `pipe(yourIterable, filter(yourPredicate), firstInIterable)`.
 
 - **Yield values while a condition holds:**
 
   ```ts
-  applyPipe(
+  pipe(
     [1, 2, 3, 2],
     scanIterable((_, value) => (value <= 2 ? value : undefined)),
   );
@@ -293,7 +293,7 @@ type State = { a: { b: string; c: string } };
  * as action payload.
  **/
 const sampleReducer = (state: State, action: { payload: string }) =>
-  applyPipe(
+  pipe(
     // Returns `View<State, State>`.
     rootView(state),
     // Transforms values into `View<State, { b: string; c: string }>`.
@@ -317,7 +317,7 @@ A similar example, but with property `a` optional:
 type State = { a?: { b: string; c: string } };
 
 const sampleReducer = (state: State, action: { payload: string }) =>
-  applyPipe(
+  pipe(
     rootView(state),
     // Transforms values into `View<State, { b: string; c: string } |
     // undefined>`.
@@ -368,7 +368,7 @@ The library provides the following identity functions that cast the argument to 
 - [`asContext`](https://github.com/ivan7237d/antiutils/blob/master/src/internal/types/asContext.ts): an identity function with signature `<A, B extends A>(value: B) => A` that can be used to infer the type of a value from the context instead of the other way around. As an example, consider the following code that throws if the iterable has more than 1 element:
 
   ```ts
-  applyPipe(
+  pipe(
     <some iterable>,
     reduceIterable(
       asContext(() => {

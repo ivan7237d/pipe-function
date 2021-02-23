@@ -1,29 +1,29 @@
-import { applyPipe } from '../applyPipe';
+import { pipe } from '../pipe';
 import { as } from '../types/as';
 import { asContext } from '../types/asContext';
 import { reduceIterable } from './reduceIterable';
 
 it('works', () => {
   expect(
-    applyPipe(
+    pipe(
       [0, 1],
       reduceIterable((accumulator, value) => `${accumulator}${value}`, 'a'),
     ),
   ).toEqual('a01');
   expect(
-    applyPipe(
+    pipe(
       ['a', 'b'],
       reduceIterable((accumulator, value) => `${accumulator}${value}`),
     ),
   ).toMatchInlineSnapshot(`"ab"`);
   expect(
-    applyPipe(
+    pipe(
       as<string[]>([]),
       reduceIterable((accumulator, value) => `${accumulator}${value}`),
     ),
   ).toMatchInlineSnapshot(`undefined`);
   expect(
-    applyPipe(
+    pipe(
       [0, 1, 2],
       reduceIterable((accumulator, value) =>
         accumulator === 1 ? undefined : value,
@@ -31,12 +31,12 @@ it('works', () => {
     ),
   ).toMatchInlineSnapshot(`1`);
   expect(
-    applyPipe(
+    pipe(
       [0, 1, 2],
       reduceIterable((...[, value]) => value),
     ),
   ).toMatchInlineSnapshot(`2`);
   expect(
-    applyPipe([0, 1, 2], reduceIterable(asContext(() => undefined))),
+    pipe([0, 1, 2], reduceIterable(asContext(() => undefined))),
   ).toMatchInlineSnapshot(`0`);
 });

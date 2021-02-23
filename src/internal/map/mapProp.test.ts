@@ -1,4 +1,4 @@
-import { applyPipe } from '../applyPipe';
+import { pipe } from '../pipe';
 import { rootView } from '../view/rootView';
 import { mapProp } from './mapProp';
 
@@ -7,12 +7,12 @@ it('works for non-readonly maps', () => {
     ['a', new Map([['b', 0]])],
     ['c', new Map([['d', 1]])],
   ]);
-  const { get, set } = applyPipe(rootView(state), mapProp('a'));
+  const { get, set } = pipe(rootView(state), mapProp('a'));
   expect(
-    applyPipe(
+    pipe(
       {
         get: () =>
-          applyPipe(get(), (value) => {
+          pipe(get(), (value) => {
             if (value === undefined) {
               throw undefined;
             }
@@ -39,5 +39,5 @@ it('works for readonly maps', () => {
     ['a', new Map([['b', 0]])],
     ['c', new Map([['d', 1]])],
   ]);
-  applyPipe(rootView(state), mapProp('a'));
+  pipe(rootView(state), mapProp('a'));
 });

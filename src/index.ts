@@ -73,3 +73,4 @@ export type { StateView } from './internal/types/types';
 export type { Lens } from './internal/types/types';
 export { applyPipe } from './internal/applyPipe';
 export { deepEqual } from './internal/deepEqual';
+export { pipe } from './internal/pipe';

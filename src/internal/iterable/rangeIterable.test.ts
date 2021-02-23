@@ -1,12 +1,10 @@
-import { applyPipe } from '../applyPipe';
+import { pipe } from '../pipe';
 import { rangeIterable } from './rangeIterable';
 import { sliceIterable } from './sliceIterable';
 
 it('works', () => {
   expect(
-    applyPipe(rangeIterable(), sliceIterable(undefined, 3), (source) => [
-      ...source,
-    ]),
+    pipe(rangeIterable(), sliceIterable(undefined, 3), (source) => [...source]),
   ).toMatchInlineSnapshot(`
     Array [
       0,
@@ -15,9 +13,9 @@ it('works', () => {
     ]
   `);
   expect(
-    applyPipe(rangeIterable(undefined, 0), (source) => [...source]),
+    pipe(rangeIterable(undefined, 0), (source) => [...source]),
   ).toMatchInlineSnapshot(`Array []`);
-  expect(applyPipe(rangeIterable(undefined, 3), (source) => [...source]))
+  expect(pipe(rangeIterable(undefined, 3), (source) => [...source]))
     .toMatchInlineSnapshot(`
     Array [
       0,
@@ -25,7 +23,7 @@ it('works', () => {
       2,
     ]
   `);
-  expect(applyPipe(rangeIterable(1, 3), (source) => [...source]))
+  expect(pipe(rangeIterable(1, 3), (source) => [...source]))
     .toMatchInlineSnapshot(`
     Array [
       1,
@@ -33,16 +31,16 @@ it('works', () => {
     ]
   `);
   expect(
-    applyPipe(rangeIterable(0, 0), (source) => [...source]),
+    pipe(rangeIterable(0, 0), (source) => [...source]),
   ).toMatchInlineSnapshot(`Array []`);
-  expect(applyPipe(rangeIterable(10, 30, 10), (source) => [...source]))
+  expect(pipe(rangeIterable(10, 30, 10), (source) => [...source]))
     .toMatchInlineSnapshot(`
     Array [
       10,
       20,
     ]
   `);
-  expect(applyPipe(rangeIterable(30, 10, -10), (source) => [...source]))
+  expect(pipe(rangeIterable(30, 10, -10), (source) => [...source]))
     .toMatchInlineSnapshot(`
     Array [
       30,
@@ -50,7 +48,7 @@ it('works', () => {
     ]
   `);
   expect(
-    applyPipe(rangeIterable(0, 0, 0), sliceIterable(undefined, 3), (source) => [
+    pipe(rangeIterable(0, 0, 0), sliceIterable(undefined, 3), (source) => [
       ...source,
     ]),
   ).toMatchInlineSnapshot(`

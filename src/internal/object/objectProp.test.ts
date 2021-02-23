@@ -1,5 +1,5 @@
-import { applyPipe } from '../applyPipe';
 import { isEmptyIterable } from '../iterable/isEmptyIterable';
+import { pipe } from '../pipe';
 import { asView } from '../types/asView';
 import { rootView } from '../view/rootView';
 import { objectKeys } from './objectKeys';
@@ -8,7 +8,7 @@ import { objectProp } from './objectProp';
 it('works with non-optional properties', () => {
   type State = { a: { b: number; c: number }; d: number };
   const state: State = { a: { b: 1, c: 2 }, d: 3 };
-  expect(applyPipe(rootView(state), objectProp('a'), objectProp('b')).set(4))
+  expect(pipe(rootView(state), objectProp('a'), objectProp('b')).set(4))
     .toMatchInlineSnapshot(`
     Object {
       "a": Object {
@@ -20,7 +20,7 @@ it('works with non-optional properties', () => {
   `);
   const symbol = Symbol();
   expect(
-    applyPipe(
+    pipe(
       rootView<{ [symbol]: number }>({ [symbol]: 1 }),
       objectProp(symbol),
     ).set(2),
@@ -34,23 +34,22 @@ it('works with non-optional properties', () => {
 it('works with optional properties', () => {
   type State = { a?: { b?: number; c?: number }; d: number };
   const state: State = { a: { b: 1 }, d: 3 };
-  const { get, set } = applyPipe(rootView(state), objectProp('a'));
+  const { get, set } = pipe(rootView(state), objectProp('a'));
   const aView = asView({
     get: () => get() ?? {},
     set: (value) =>
       set(
-        value === undefined || applyPipe(value, objectKeys, isEmptyIterable)
+        value === undefined || pipe(value, objectKeys, isEmptyIterable)
           ? undefined
           : value,
       ),
   });
-  expect(applyPipe(aView, objectProp('b')).set(undefined))
-    .toMatchInlineSnapshot(`
+  expect(pipe(aView, objectProp('b')).set(undefined)).toMatchInlineSnapshot(`
     Object {
       "d": 3,
     }
   `);
-  expect(applyPipe(aView, objectProp('c')).set(4)).toMatchInlineSnapshot(`
+  expect(pipe(aView, objectProp('c')).set(4)).toMatchInlineSnapshot(`
     Object {
       "a": Object {
         "b": 1,
@@ -59,15 +58,13 @@ it('works with optional properties', () => {
       "d": 3,
     }
   `);
-  expect(applyPipe(aView, objectProp('b')).set(undefined))
-    .toMatchInlineSnapshot(`
+  expect(pipe(aView, objectProp('b')).set(undefined)).toMatchInlineSnapshot(`
     Object {
       "d": 3,
     }
   `);
-  expect(
-    applyPipe(aView, objectProp('b'), ({ get, set }) => set((get() ?? 10) + 1)),
-  ).toMatchInlineSnapshot(`
+  expect(pipe(aView, objectProp('b'), ({ get, set }) => set((get() ?? 10) + 1)))
+    .toMatchInlineSnapshot(`
     Object {
       "a": Object {
         "b": 2,
@@ -79,7 +76,7 @@ it('works with optional properties', () => {
 
 it('works with index signatures', () => {
   expect(
-    applyPipe(
+    pipe(
       rootView<{ [key: string]: number }>({ a: 1, b: 2 }),
       objectProp('a'),
     ).set(undefined),
@@ -89,7 +86,7 @@ it('works with index signatures', () => {
     }
   `);
   expect(
-    applyPipe(
+    pipe(
       rootView<{ [key: string]: number }>({ a: 1, b: 2 }),
       objectProp('a'),
     ).set(3),
@@ -108,7 +105,7 @@ it('works in example 1 from README', () => {
    * A reducer that sets the value of `b` in the state to the payload.
    **/
   const sampleReducer = (state: State, action: { payload: string }) =>
-    applyPipe(
+    pipe(
       // Returns `View<State, State>`.
       rootView(state),
       // Transforms values into `View<State, { b: string; c: string }>`.
@@ -128,7 +125,7 @@ it('works in example 2 from README', () => {
   type State = { a?: { b: string; c: string } };
 
   const sampleReducer = (state: State, action: { payload: string }) =>
-    applyPipe(
+    pipe(
       rootView(state),
       // Transforms values into `View<State, { b: string; c: string } |
       // undefined>`.

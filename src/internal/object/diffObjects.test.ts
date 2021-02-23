@@ -1,10 +1,10 @@
-import { applyPipe } from '../applyPipe';
+import { pipe } from '../pipe';
 import { as } from '../types/as';
 import { diffObjects } from './diffObjects';
 
 it('works without equal function provided', () => {
   expect([
-    ...applyPipe(
+    ...pipe(
       diffObjects(
         as<{ [key: string]: number }>({ a: 0, b: 1, c: 2 }),
         as<{ [key: string]: number }>({ a: 0, b: 3, d: 4 }),
@@ -39,7 +39,7 @@ it('works without equal function provided', () => {
 
 it('works with equal function provided', () => {
   expect([
-    ...applyPipe(
+    ...pipe(
       diffObjects(
         as<{ [key: string]: [number] }>({ a: [0], b: [1], c: [2] }),
         as<{ [key: string]: [number] }>({ a: [0], b: [3], d: [4] }),

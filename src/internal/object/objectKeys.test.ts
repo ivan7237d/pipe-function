@@ -1,15 +1,15 @@
-import { applyPipe } from '../applyPipe';
+import { pipe } from '../pipe';
 import { objectKeys } from './objectKeys';
 
 it('works', () => {
-  expect([...applyPipe({ a: 1, b: 2 }, objectKeys)]).toMatchInlineSnapshot(`
+  expect([...pipe({ a: 1, b: 2 }, objectKeys)]).toMatchInlineSnapshot(`
     Array [
       "a",
       "b",
     ]
   `);
   const symbol = Symbol();
-  const keys = [...applyPipe({ a: 1, [symbol]: 2 }, objectKeys)];
+  const keys = [...pipe({ a: 1, [symbol]: 2 }, objectKeys)];
   expect(keys).toMatchInlineSnapshot(`
     Array [
       "a",

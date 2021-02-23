@@ -1,9 +1,9 @@
-import { applyPipe } from '../applyPipe';
+import { pipe } from '../pipe';
 import { forEachInIterable } from './forEachInIterable';
 
 it('works', () => {
   const array: number[] = [];
-  applyPipe(
+  pipe(
     [0, 1],
     forEachInIterable((value) => {
       array.push(value);

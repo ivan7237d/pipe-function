@@ -1,7 +1,7 @@
-import { applyPipe } from '../applyPipe';
 import { reduceIterable } from '../iterable/reduceIterable';
+import { pipe } from '../pipe';
 import { sumReducer } from './sumReducer';
 
 it('works', () => {
-  expect(applyPipe([1, 2], reduceIterable(sumReducer))).toEqual(3);
+  expect(pipe([1, 2], reduceIterable(sumReducer))).toEqual(3);
 });

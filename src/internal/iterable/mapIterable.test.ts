@@ -1,9 +1,9 @@
-import { applyPipe } from '../applyPipe';
+import { pipe } from '../pipe';
 import { mapIterable } from './mapIterable';
 
 it('works', () => {
   expect(
-    applyPipe(
+    pipe(
       [1, 2],
       mapIterable((value) => value * 2),
       (source) => [...source],

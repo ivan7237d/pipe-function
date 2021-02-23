@@ -1,11 +1,11 @@
-import { applyPipe } from '../applyPipe';
 import { sortArray } from '../array/sortArray';
+import { pipe } from '../pipe';
 import { numberCompare } from './numberCompare';
 import { reverseCompare } from './reverseCompare';
 
 it('works', () => {
   expect(
-    applyPipe(
+    pipe(
       [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
       sortArray(reverseCompare(numberCompare)),
     ),

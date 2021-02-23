@@ -1,9 +1,9 @@
-import { applyPipe } from '../applyPipe';
+import { pipe } from '../pipe';
 import { objectFromEntriesPonyfill } from './objectFromEntries';
 
 it('works', () => {
   expect(
-    applyPipe(
+    pipe(
       objectFromEntriesPonyfill([
         ['a', 0] as const,
         ['b', 1],

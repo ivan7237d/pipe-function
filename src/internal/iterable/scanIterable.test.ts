@@ -1,11 +1,11 @@
-import { applyPipe } from '../applyPipe';
+import { pipe } from '../pipe';
 import { as } from '../types/as';
 import { asContext } from '../types/asContext';
 import { scanIterable } from './scanIterable';
 
 it('works', () => {
   expect(
-    applyPipe(
+    pipe(
       'abc',
       scanIterable((accumulator, element) => accumulator + element, 'd'),
       (source) => [...source],
@@ -18,7 +18,7 @@ it('works', () => {
     ]
   `);
   expect(
-    applyPipe(
+    pipe(
       'abc',
       scanIterable((accumulator, element) => accumulator + element),
       (source) => [...source],
@@ -31,14 +31,14 @@ it('works', () => {
     ]
   `);
   expect(
-    applyPipe(
+    pipe(
       as<string[]>([]),
       scanIterable((accumulator, element) => accumulator + element),
       (source) => [...source],
     ),
   ).toMatchInlineSnapshot(`Array []`);
   expect(
-    applyPipe(
+    pipe(
       'abc',
       scanIterable((accumulator, element) =>
         accumulator.length === 2 ? undefined : accumulator + element,
@@ -52,7 +52,7 @@ it('works', () => {
     ]
   `);
   expect(
-    applyPipe(
+    pipe(
       'abc',
       scanIterable((...[, element]) => element),
       (source) => [...source],
@@ -65,7 +65,7 @@ it('works', () => {
     ]
   `);
   expect(
-    applyPipe('abc', scanIterable(asContext(() => undefined)), (source) => [
+    pipe('abc', scanIterable(asContext(() => undefined)), (source) => [
       ...source,
     ]),
   ).toMatchInlineSnapshot(`

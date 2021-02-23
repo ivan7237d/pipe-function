@@ -1,4 +1,4 @@
-import { applyPipe } from '../applyPipe';
+import { pipe } from '../pipe';
 import { firstIterable } from './firstIterable';
 import { rangeIterable } from './rangeIterable';
 import { sliceIterable } from './sliceIterable';
@@ -6,9 +6,7 @@ import { zipIterables } from './zipIterables';
 
 it('works', () => {
   expect(
-    applyPipe(firstIterable(), sliceIterable(undefined, 3), (source) => [
-      ...source,
-    ]),
+    pipe(firstIterable(), sliceIterable(undefined, 3), (source) => [...source]),
   ).toMatchInlineSnapshot(`
     Array [
       true,
@@ -18,7 +16,7 @@ it('works', () => {
   `);
 
   expect(
-    applyPipe(
+    pipe(
       zipIterables(firstIterable(), rangeIterable(undefined, 3)),
       (source) => [...source],
     ),

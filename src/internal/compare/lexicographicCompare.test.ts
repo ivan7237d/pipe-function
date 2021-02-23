@@ -1,5 +1,5 @@
-import { applyPipe } from '../applyPipe';
 import { sortArray } from '../array/sortArray';
+import { pipe } from '../pipe';
 import { CompareFunction } from '../types/types';
 import { lexicographicCompare } from './lexicographicCompare';
 import { stringCompare } from './stringCompare';
@@ -31,13 +31,13 @@ it('works for 1+ arguments', () => {
   const compareNthLetter = (index: number): CompareFunction<string> => (
     ...values
   ) =>
-    applyPipe(
+    pipe(
       // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       values.map((value) => value[index]) as [string, string],
       (values) => stringCompare(...values),
     );
-  const sortedNatively = applyPipe(randomStrings, sortArray(stringCompare));
-  const sortedByFirstLetter = applyPipe(
+  const sortedNatively = pipe(randomStrings, sortArray(stringCompare));
+  const sortedByFirstLetter = pipe(
     randomStrings,
     sortArray(lexicographicCompare(compareNthLetter(0))),
   );
@@ -65,7 +65,7 @@ it('works for 1+ arguments', () => {
       "cbc",
     ]
   `);
-  const sortedByThreeLetters = applyPipe(
+  const sortedByThreeLetters = pipe(
     randomStrings,
     sortArray(
       lexicographicCompare(
@@ -79,7 +79,7 @@ it('works for 1+ arguments', () => {
 });
 
 it('works for 0 arguments', () => {
-  expect(applyPipe(randomStrings, sortArray(lexicographicCompare()))).toEqual(
+  expect(pipe(randomStrings, sortArray(lexicographicCompare()))).toEqual(
     randomStrings,
   );
 });

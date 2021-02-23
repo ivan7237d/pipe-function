@@ -1,7 +1,7 @@
-import { applyPipe } from '../applyPipe';
 import { reduceIterable } from '../iterable/reduceIterable';
+import { pipe } from '../pipe';
 import { countReducer } from './countReducer';
 
 it('works', () => {
-  expect(applyPipe([1, 2], reduceIterable(countReducer))).toEqual(2);
+  expect(pipe([1, 2], reduceIterable(countReducer))).toEqual(2);
 });
