@@ -44,7 +44,7 @@ Based on the "only one way to do it" principle, this library provides a utility 
 
 ## `pipe` function
 
-The library provides a function `pipe` which takes between 1 and 12 arguments. `pipe(x, a, b)` is equivalent to `b(a(x))`, in other words, this function pipes a value through a number of functions in the order that they appear.
+The library provides a function `pipe` which takes between 1 and 12 arguments. `pipe(x, a, b)` is equivalent to `b(a(x))`, in other words, this function pipes a value through a number of functions in the order that they appear. [This article](https://dev.to/ivan7237d/i-ve-used-the-pipe-function-2-560-times-and-i-can-tell-you-it-s-good-4aal) talks about why this function is useful.
 
 > :bulb: TIP
 >
