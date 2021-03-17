@@ -40,7 +40,7 @@ npm install antiutils --save
 
 ## Minimal API
 
-Based on the "only one way to do it" principle, this library provides a utility only when something can't be easily and readably accomplished with vanilla JavaScript. For example, we do not provide a function to get an object's property value, so instead of `get('a')` you would write just `value => value.a`.
+This library provides a utility only when something can't be easily and readably accomplished with vanilla JavaScript. There are three reasons: first, the code is easier to write and refactor when there is "only one way to do it"; second, we'd all much rather use a universally understood language than a dialect; and third, a large utility library shapes your whole codebase, and we the authors do not want to be telling you how to write your code (let TC39 do it).
 
 ## `pipe` function
 
