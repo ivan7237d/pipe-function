@@ -14,8 +14,6 @@ File names should start in lower case (even if the main exported symbol starts i
 
 - Write acronyms in camel case: `getUrl`, not `getURL`.
 
-- You do not have to duplicate in JSDoc the information already included in the symbol name and its type signature.
-
 ## Submitting a pull request
 
 - Fork the repository and create your branch from `master`.
