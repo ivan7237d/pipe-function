@@ -6,7 +6,7 @@ This project uses [Conventional Commits](https://www.conventionalcommits.org/en/
 
 ## File names
 
-File names should start in lower case (even if the main exported symbol starts in upper case).
+File names should start in lower case (even if the main exported symbol starts in upper case). This is because if later the exported symbol needs to be lowercased/uppercased, there are issues with renaming the file on a case-insensitive file system.
 
 ## JS/TS style rules not covered by ESLint
 
