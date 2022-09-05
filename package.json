@@ -1,6 +1,6 @@
 {
   "name": "library-starter",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "A library starter template",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
