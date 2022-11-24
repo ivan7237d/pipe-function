@@ -2,12 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [3.1.0](https://github.com/ivan7237d/antiutils/compare/v3.0.5...v3.1.0) (2021-02-23)
+## 4.0.0 (2022-11-24)
 
+Trimmed the library a little bit. Memoization utility was moved [here](https://github.com/ivan7237d/monomemo).
+
+## [3.1.0](https://github.com/ivan7237d/antiutils/compare/v3.0.5...v3.1.0) (2021-02-23)
 
 ### Features
 
-* rename applyPipe to pipe (applyPipe still available but deprecated) ([fc03348](https://github.com/ivan7237d/antiutils/commit/fc03348c271a6585b9fa8ff5ea492afe1e20a959))
+- rename applyPipe to pipe (applyPipe still available but deprecated) ([fc03348](https://github.com/ivan7237d/antiutils/commit/fc03348c271a6585b9fa8ff5ea492afe1e20a959))
 
 ### [3.0.3 - 3.0.5](https://github.com/ivan7237d/antiutils/compare/v3.0.2...v3.0.5) (2021-02-06 - 2021-02-11)
 
