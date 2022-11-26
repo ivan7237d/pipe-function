@@ -1,6 +1,6 @@
 {
   "name": "antiutils",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "A minimal set of JS/TS utilities",
   "repository": "https://github.com/ivan7237d/antiutils.git",
   "license": "MIT",
