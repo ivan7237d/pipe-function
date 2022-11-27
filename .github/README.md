@@ -5,11 +5,19 @@ A minimal set of JS/TS utilities.
 ## Installation
 
 ```bash
-$ npm install antiutils
-# or
-$ yarn add antiutils
-# or
-$ pnpm add antiutils
+npm install antiutils
+```
+
+or
+
+```bash
+yarn add antiutils
+```
+
+or
+
+```bash
+pnpm add antiutils
 ```
 
 ## Usage
