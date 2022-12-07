@@ -18,12 +18,12 @@
     "build": "run-p --print-label build:*",
     "build:main": "tsc",
     "build:module": "tsc -p tsconfig.module.json",
-    "test": "run-p --print-label build 'test:!(tsc)'",
+    "test": "run-p --print-label test:*",
     "test:tsc": "tsc --noEmit",
-    "test:lint": "eslint --ignore-path .gitignore .",
-    "test:prettier": "prettier --ignore-path .gitignore --list-different --ignore-unknown '**' '!pnpm-lock.yaml'",
+    "test:lint": "eslint .",
+    "test:prettier": "prettier --list-different --ignore-unknown '**' '!pnpm-lock.yaml'",
     "test:jest": "jest",
-    "watch:jest": "jest --watch"
+    "watch": "jest --watch"
   },
   "devDependencies": {
     "@babel/core": "^7.20.2",
