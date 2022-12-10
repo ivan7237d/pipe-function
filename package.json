@@ -14,8 +14,7 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "prebuild": "rm -rf build",
-    "build": "run-p --print-label build:*",
+    "build": "rm -rf build && run-p --print-label build:*",
     "build:main": "tsc",
     "build:module": "tsc -p tsconfig.module.json",
     "test": "run-p --print-label test:*",
