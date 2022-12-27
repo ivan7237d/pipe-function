@@ -1,14 +1,9 @@
 import assertNever from "./assertNever";
 
 test("", () => {
-  // At least 1 arg required.
-  expect(() =>
-    // @ts-expect-error
-    assertNever()
-  ).toThrowErrorMatchingInlineSnapshot(`"assertNever must never be called."`);
-
   type A = "a1";
 
+  (a: A) => (a === "a1" ? 1 : assertNever());
   (a: A) => (a === "a1" ? 1 : assertNever(a));
 
   type B = "b1";
@@ -24,5 +19,7 @@ test("", () => {
       : // @ts-expect-error
         assertNever(c);
 
-  expect(() => f("c2")).toThrowError();
+  expect(() => f("c2")).toThrowErrorMatchingInlineSnapshot(
+    `"assertNever must never be called."`
+  );
 });

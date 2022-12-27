@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 4.1.0 (2022-12-27)
+
+Allow passing 0 arguments to `assertNever`.
+
 ## 4.0.0 (2022-11-24)
 
 Trimmed the library a little bit. Memoization utility was moved [here](https://github.com/ivan7237d/monomemo).
