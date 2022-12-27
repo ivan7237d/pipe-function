@@ -1,14 +1,20 @@
-import assertNever from "./assertNever";
+import { assertNever } from "./assertNever";
 
 test("", () => {
   type A = "a1";
 
-  (a: A) => (a === "a1" ? 1 : assertNever());
-  (a: A) => (a === "a1" ? 1 : assertNever(a));
+  (a: A) =>
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    a === "a1" ? 1 : assertNever();
+  (a: A) =>
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    a === "a1" ? 1 : assertNever(a);
 
   type B = "b1";
 
-  (a: A, b: B) => (a === "a1" || b === "b1" ? 1 : assertNever(a, b));
+  (a: A, b: B) =>
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    a === "a1" || b === "b1" ? 1 : assertNever(a, b);
 
   type C = "c1" | "c2";
 

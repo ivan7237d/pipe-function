@@ -1,2 +1,2 @@
-export { default as assertNever } from "./assertNever";
-export { default as pipe } from "./pipe";
+export { assertNever } from "./assertNever";
+export { pipe } from "./pipe";

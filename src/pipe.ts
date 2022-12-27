@@ -100,10 +100,8 @@ type Pipe = {
  * If only one argument is provided (`pipe(x)`), this will produce a type error
  * but JS will run fine (and return `x`).
  */
-const pipe: Pipe = (
+export const pipe: Pipe = (
   source: unknown,
   ...project: ((value: unknown) => unknown)[]
 ): unknown =>
   project.reduce((accumulator, element) => element(accumulator), source);
-
-export default pipe;

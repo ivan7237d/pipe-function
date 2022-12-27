@@ -1,4 +1,4 @@
-import pipe from "./pipe";
+import { pipe } from "./pipe";
 
 const addSuffix =
   <Suffix extends string>(suffix: Suffix) =>
