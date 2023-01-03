@@ -53,7 +53,7 @@ const translate = (word: "hello" | "goodbye") =>
 
 This typechecks because at the point where `word` is passed to `assertNever`, it has type `never`, but will no longer typecheck if you add a third option to `"hello" | "goodbye"`.
 
-If you use lint rules `@typescript-eslint/no-unnecessary-condition` and `eslint-comments/no-unused-disable`, you can do this instead (no need to pass an argument to `assertNever` since `eslint-comments/no-unused-disable` will activate if not all options are exhausted):
+If you use lint rules `@typescript-eslint/no-unnecessary-condition` and `eslint-comments/no-unused-disable`, you can do this instead:
 
 ```ts
 const translate = (word: "hello" | "goodbye") =>
@@ -64,6 +64,8 @@ const translate = (word: "hello" | "goodbye") =>
     ? "au revoir"
     : assertNever();
 ```
+
+In this case there is no need to pass an argument to `assertNever` since `eslint-comments/no-unused-disable` will activate if not all options are exhausted.
 
 ---
 
