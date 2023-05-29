@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 4.2.0 (2023-05-29)
+
+Increase the number arguments supported by `pipe` from 12 to 20.
+
 ## 4.1.0 (2022-12-27)
 
 Allow passing 0 arguments to `assertNever`.
