@@ -1,6 +1,6 @@
-# pipe-function
+# `pipe` function
 
-A function to pipe a value through multiple transforms.
+A function to pipe a value through a number of transforms.
 
 ## Installation
 

@@ -1,7 +1,7 @@
 {
   "name": "pipe-function",
-  "version": "0.0.1",
-  "description": "A function to pipe a value through multiple transforms",
+  "version": "1.0.0",
+  "description": "A function to pipe a value through a number of transforms",
   "repository": "https://github.com/ivan7237d/pipe-function.git",
   "license": "MIT",
   "main": "build/main/index.js",
