@@ -1,72 +1,35 @@
-# Antiutils
+# pipe-function
 
-A minimal set of JS/TS utilities.
+A function to pipe a value through multiple transforms.
 
 ## Installation
 
 ```bash
-npm install antiutils
+npm install pipe-function
 ```
 
 or
 
 ```bash
-yarn add antiutils
+yarn add pipe-function
 ```
 
 or
 
 ```bash
-pnpm add antiutils
+pnpm add pipe-function
 ```
 
 ## Usage
 
-The library provides just two functions.
-
-### pipe
-
 ```ts
-import { pipe } from "antiutils";
+import { pipe } from "pipe-function";
 ```
 
 Takes between 2 and 20 arguments. `pipe(x, a, b)` is equivalent to `b(a(x))`, in other words, this function pipes a value through a number of functions in the order that they appear. [This article](https://dev.to/ivan7237d/i-ve-used-the-pipe-function-2-560-times-and-i-can-tell-you-it-s-good-4aal) talks about why this function is useful.
 
 `pipe(x)` will run and return `x`, but will produce a type error.
 
-### assertNever
-
-```ts
-import { assertNever } from "antiutils";
-```
-
-Takes 1+ arguments each of type `never` and throws. This is useful when you need to assert that all options have been exhausted:
-
-```ts
-const translate = (word: "hello" | "goodbye") =>
-  word === "hello"
-    ? "bonjour"
-    : word === "goodbye"
-    ? "au revoir"
-    : assertNever(word);
-```
-
-This typechecks because at the point where `word` is passed to `assertNever`, it has type `never`, but will no longer typecheck if you add a third option to `"hello" | "goodbye"`.
-
-If you use lint rules `@typescript-eslint/no-unnecessary-condition` and `eslint-comments/no-unused-disable`, you can do this instead:
-
-```ts
-const translate = (word: "hello" | "goodbye") =>
-  word === "hello"
-    ? "bonjour"
-    : // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    word === "goodbye"
-    ? "au revoir"
-    : assertNever();
-```
-
-In this case there is no need to pass an argument to `assertNever` since `eslint-comments/no-unused-disable` will activate if not all options are exhausted.
-
 ---
 
-[Contributing guidelines](https://github.com/ivan7237d/antiutils/blob/master/.github/CONTRIBUTING.md)
+[Contributing guidelines](https://github.com/ivan7237d/pipe-function/blob/master/.github/CONTRIBUTING.md)

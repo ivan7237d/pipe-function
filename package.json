@@ -1,8 +1,8 @@
 {
-  "name": "antiutils",
-  "version": "4.2.0",
-  "description": "A minimal set of JS/TS utilities",
-  "repository": "https://github.com/ivan7237d/antiutils.git",
+  "name": "pipe-function",
+  "version": "0.0.1",
+  "description": "A function to pipe a value through multiple transforms",
+  "repository": "https://github.com/ivan7237d/pipe-function.git",
   "license": "MIT",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
