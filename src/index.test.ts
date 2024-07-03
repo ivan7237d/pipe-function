@@ -6,8 +6,11 @@ const addSuffix =
     `${base}-${suffix}`;
 
 test("", () => {
-  // @ts-expect-error
-  expect(pipe("base")).toMatchInlineSnapshot(`"base"`);
+  // $ExpectType "base"
+  const result =
+    // @ts-expect-error
+    pipe("base" as const);
+  expect(result).toMatchInlineSnapshot(`"base"`);
 
   expect(
     // $ExpectType "base-a"
