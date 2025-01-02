@@ -7,9 +7,7 @@ const addSuffix =
 
 test("", () => {
   // $ExpectType "base"
-  const result =
-    // @ts-expect-error
-    pipe("base" as const);
+  const result = pipe("base" as const);
   expect(result).toMatchInlineSnapshot(`"base"`);
 
   expect(

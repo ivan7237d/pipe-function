@@ -1,5 +1,6 @@
 type Pipe = {
-  <T, A = T>(source: T, a: (value: T) => A): A;
+  <T>(source: T): T;
+  <T, A>(source: T, a: (value: T) => A): A;
   <T, A, B>(source: T, a: (value: T) => A, b: (value: A) => B): B;
   <T, A, B, C>(
     source: T,
