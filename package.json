@@ -1,6 +1,6 @@
 {
   "name": "pipe-function",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A function to pipe a value through a number of transforms",
   "repository": "https://github.com/ivan7237d/pipe-function.git",
   "license": "MIT",

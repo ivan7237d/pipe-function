@@ -245,9 +245,6 @@ type Pipe = {
 /**
  * Pipes a value through a number of functions in the order that they appear.
  * Takes between 1 and 20 arguments. `pipe(x, a, b)` is equivalent to `b(a(x))`.
- *
- * If only one argument is provided (`pipe(x)`), this will produce a type error
- * but JS will run fine (and return `x`).
  */
 export const pipe: Pipe = (
   source: unknown,
